@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cerification</title>
 
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="./public/index.css">
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <div class="flex h-full w-full mt-28 justify-center">
-        <img src="../src/assets/srmlogo.png" class="p-15 mr-8 h-4/6 w-4/12">
+        <img src="./src/assets/srmlogo.png" class="p-15 mr-10 h-4/6 w-4/12">
     </div>
     <div class ="flex flex-col  h-full w-full mt-24">
         <div class="flex h-full w-full  justify-center">
