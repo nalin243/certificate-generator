@@ -6,6 +6,12 @@
 
        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
        $dotenv->load();
+
+       $client = new Google\Client;
+       $client->setAuthConfig("client_secret.json");
+       $client->setApplicationName("Certficate-generator");
+       $client->setScopes(['https://www.googleapis.com/auth/forms','https://www.googleapis.com/auth/drive']);
+
      ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
