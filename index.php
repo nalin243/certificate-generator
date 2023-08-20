@@ -17,8 +17,7 @@
         $pname = "";
         $peventname = "";
 
-
-        if(isset($_POST)){
+        if(!count($_POST)==0){
             $number = (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth']));
 
             $results = $mysqli->query("select * from participants where pnumber=$number ");
@@ -28,7 +27,7 @@
                 $peventname = $results[0][3];
             }
             else {
-                $peventname = "No user found";
+                $peventname = "Not found";
             }
 
         }
@@ -96,7 +95,7 @@
                     <input class="input" name="eighth" type="text" inputmode="numeric" maxlength="1" />
                     <input class="input" name="ninth" type="text" inputmode="numeric" maxlength="1" />
                     <input class="input" name="tenth" type="text" inputmode="numeric" maxlength="1" />
-                    <button name="submit" value="submit" class="verify-btn ml-5 hover:scale-90 h-2/6 px-3">Verify</button>
+                    <button name="submit" value="submit" class="verify-btn ml-5 hover:scale-90 px-3">Verify</button>
                 </form>
                 
             </div>
