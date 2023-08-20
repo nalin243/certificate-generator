@@ -20,6 +20,7 @@
 .verify-btn {
     border-radius: 12px;
     background: #034DA1;
+    height: 50px;
 
     color: #FFF;
     font-family: Inter;
@@ -31,16 +32,17 @@
     transition: transform 500ms;
 }
 
-.verify-btn:hover {
-  background-color:  #dee3e9;
-  color: black;
+.verify-btn:active {
+  background-color:  #06346d;
+  color: #FFF;
+  height: 50px;
 
   transform: translateX(20px);  
 }
 
 .input {
   width: 40px;
-  height: 55px;
+  height: 50px;
   border: none;
   background: #00000023;
   margin: 0px 10px;
@@ -60,6 +62,12 @@
 .input:nth-child(1) {
   cursor: pointer;
   pointer-events: all;
+}
+
+.cert-pdf {
+  margin: auto;
+  width: 900px;
+  height: 700px;
 }
 
 input::-webkit-outer-spin-button,
