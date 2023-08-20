@@ -38,6 +38,30 @@
   transform: translateX(20px);  
 }
 
+.input {
+  width: 40px;
+  height: 55px;
+  border: none;
+  background: #00000023;
+  margin: 0px 10px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+  cursor: not-allowed;
+  pointer-events: none;
+  border-radius: 5px;
+}
+
+.input:focus {
+  border-bottom: 3px solid rgb(42, 149, 236);
+  outline: none;
+}
+
+.input:nth-child(1) {
+  cursor: pointer;
+  pointer-events: all;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
