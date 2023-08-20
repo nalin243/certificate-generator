@@ -12,7 +12,26 @@
         define("DBPASSWORD",$_ENV['DB_PASSWORD']);
         define("DBURL",$_ENV['DB_URL']);
 
-       $mysqli = mysqli_connect(DBURL,DBUSER,DBPASSWORD,DBNAME);
+        $mysqli = mysqli_connect(DBURL,DBUSER,DBPASSWORD,DBNAME);
+
+        $pname = "";
+        $peventname = "";
+
+
+        if(isset($_POST)){
+            $number = (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth']));
+
+            $results = $mysqli->query("select * from participants where pnumber=$number ");
+            $results = $results->fetch_all();
+            if(!(count($results) == 0)){
+                $pname = $results[0][1];
+                $peventname = $results[0][3];
+            }
+            else {
+                $peventname = "No user found";
+            }
+
+        }
 
        $client = new Google\Client;
        $client->setAuthConfig("client_secret.json");
@@ -49,8 +68,7 @@
     <link rel="stylesheet" href="./public/index.css">
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script src="https://cdn.tailwindcss.com"></script>    
 </head>
 <body OnLoad="document.phone.first.focus();">
     <div class="flex flex-col h-screen w-full border-4 border-black overflow-auto">
@@ -67,22 +85,22 @@
                 </div>
             </div>
             <div id="inputs" class="inputs flex h-4/6 w-full -mt-18 justify-center">
-                <form id="phone" name="phone">
+                <form id="phone" name="phone" method="POST" action="index.php">
                     <input class="input" name="first" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" type="text" inputmode="numeric" maxlength="1" />
+                    <input class="input" name="second" type="text" inputmode="numeric" maxlength="1" />
+                    <input class="input" name="third" type="text" inputmode="numeric" maxlength="1" />
+                    <input class="input" name="fourth" type="text" inputmode="numeric" maxlength="1" />
+                    <input class="input" name="fifth" type="text" inputmode="numeric" maxlength="1" />
+                    <input class="input" name="sixth" type="text" inputmode="numeric" maxlength="1" />
+                    <input class="input" name="seventh" type="text" inputmode="numeric" maxlength="1" />
+                    <input class="input" name="eighth" type="text" inputmode="numeric" maxlength="1" />
+                    <input class="input" name="ninth" type="text" inputmode="numeric" maxlength="1" />
+                    <input class="input" name="tenth" type="text" inputmode="numeric" maxlength="1" />
+                    <button name="submit" value="submit" class="verify-btn ml-5 hover:scale-90 h-2/6 px-3">Verify</button>
                 </form>
-                <button class="verify-btn ml-5 hover:scale-90 h-2/6 px-3 ">VERIFY</button>
             </div>
             <script>
-                const inputs = document.getElementById("inputs");
+                const inputs = document.getElementById("inputs")
                 const formElement = document.querySelector("#phone")
 
                 inputs.addEventListener("click",(event)=>{
@@ -148,10 +166,10 @@
             </div>
             <div class ="flex flex-col h-full w-full">
                 <div class="flex h-full w-full justify-center">
-                    <h1 class="text-black font-extrabold text-5xl">example name</h1>
+                    <h1 id="pname" class="text-black font-extrabold text-5xl"> <?= $pname ?> </h1>
                 </div>
                 <div class="flex h-full w-full justify-center">
-                    <h1 class="text-black font-bold text-3xl">example certificate name</h1>
+                    <h1 id="peventname" class="text-black font-bold text-3xl"> <?= $peventname ?> </h1>
                 </div>
             </div>
         </div>
