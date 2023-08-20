@@ -7,10 +7,39 @@
        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
        $dotenv->load();
 
+        define("DBNAME",$_ENV['DB_NAME']);
+        define("DBUSER",$_ENV['DB_USER']);
+        define("DBPASSWORD",$_ENV['DB_PASSWORD']);
+        define("DBURL",$_ENV['DB_URL']);
+
+       $mysqli = mysqli_connect(DBURL,DBUSER,DBPASSWORD,DBNAME);
+
        $client = new Google\Client;
        $client->setAuthConfig("client_secret.json");
        $client->setApplicationName("Certficate-generator");
        $client->setScopes(['https://www.googleapis.com/auth/forms','https://www.googleapis.com/auth/drive']);
+
+       $service = new Google\Service\Forms($client);
+
+       $responses = $service->forms_responses->listFormsResponses($_ENV['FORM_ID']);
+       foreach($responses as $response){
+
+            $phoneNo = (int)$response['answers']['703576dd']['textAnswers'][0]['value'];
+            $name = $response['answers']['6d3bbf32']['textAnswers'][0]['value'];
+            $eventName = $response['answers']['0df90c35']['textAnswers'][0]['value'];
+            $date = $response['answers']['4ad65bd6']['textAnswers'][0]['value'];
+
+            $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
+
+            if(count($result->fetch_all())){
+                //already exists so just go to the next response
+                continue;
+            }
+            else {
+                //does not exist so insert into db
+                $mysqli->query("insert into participants values($phoneNo,'$name','$date','$eventName')");
+            }
+        } 
 
      ?>
     <meta charset="UTF-8">
