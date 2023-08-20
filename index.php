@@ -53,20 +53,20 @@
     
 </head>
 <body OnLoad="document.phone.first.focus();">
-    <div class="flex flex-col h-screen w-full border-4 border-black overflow-auto">
-        <div class="flex flex-col h-full w-full border-4 border-black shrink-0">
-            <div class="flex h-full w-full mt-28 justify-center">
-                <img src="./src/assets/srmlogo.png" class="p-15 mr-10 h-4/6 w-3/12">
+    <div class="flex flex-col h-screen min-w-screen overflow-auto">
+        <div class="flex flex-col h-screen w-full shrink-0 ">
+            <div class="flex h-3/6 w-full mt-24">
+                <img src="./src/assets/srmlogo.png" class="p-15 m-auto h-full w-4/12">
             </div>
-            <div class ="flex flex-col  h-full w-full -mt-8">
-                <div class="flex h-full w-full  justify-center">
-                    <h1 class="first-text">SRM Institute of Science and Technology</h1>
+            <div class ="flex flex-col h-3/6 w-full">
+                <div class="flex h-full w-full">
+                    <h1 class="first-text m-auto">SRM Institute of Science and Technology</h1>
                 </div>
-                <div class="flex h-full w-full -mt-24 justify-center">
-                    <h1 class="second-text">Department of Science and Humanities</h1>
+                <div class="flex h-3/6 w-full">
+                    <h1 class="second-text m-auto -mt-4">Department of Science and Humanities</h1>
                 </div>
             </div>
-            <div id="inputs" class="inputs flex h-4/6 w-full -mt-18 justify-center">
+            <div id="inputs" class="inputs flex h-1/6 mt-24 w-full justify-center">
                 <form id="phone" name="phone">
                     <input class="input" name="first" type="text" inputmode="numeric" maxlength="1" />
                     <input class="input" type="text" inputmode="numeric" maxlength="1" />
@@ -79,7 +79,7 @@
                     <input class="input" type="text" inputmode="numeric" maxlength="1" />
                     <input class="input" type="text" inputmode="numeric" maxlength="1" />
                 </form>
-                <button class="verify-btn ml-5 hover:scale-90 h-2/6 px-3 ">VERIFY</button>
+                <button class="verify-btn ml-5 hover:scale-90 px-3 ">VERIFY</button>
             </div>
             <script>
                 const inputs = document.getElementById("inputs");
@@ -143,20 +143,20 @@
                 }
                 });
             </script>
-            <div class="flex h-3/6 -mt-24 w-full justify-center">
-                <h1 class="text-black font-extrabold text-xl">Please Enter your Registered Phone Number.</h1>
+            <div class="flex h-1/6 w-full">
+                <h1 class="text-black font-extrabold m-auto text-xl">Please Enter your Registered Phone Number.</h1>
             </div>
-            <div class ="flex flex-col h-full w-full">
-                <div class="flex h-full w-full justify-center">
-                    <h1 class="text-black font-extrabold text-5xl">example name</h1>
+            <div class ="flex flex-col mt-20 h-full w-full">
+                <div class="flex h-full w-full">
+                    <h1 class="text-black font-extrabold m-auto text-5xl">example name</h1>
                 </div>
-                <div class="flex h-full w-full justify-center">
-                    <h1 class="text-black font-bold text-3xl">example certificate name</h1>
+                <div class="flex h-full w-full">
+                    <h1 class="text-black font-bold m-auto -mt-4 text-3xl">example certificate name</h1>
                 </div>
             </div>
         </div>
-        <div class="flex h-screen border-4 border-black shrink-0">
-
+        <div class="flex h-4/6 min-w-screen shrink-0 ">
+            <iframe class="cert-pdf -mt-12" src="" frameborder="0"></iframe>
         </div>
     </div>
 </body>
