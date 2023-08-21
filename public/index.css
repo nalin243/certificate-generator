@@ -79,3 +79,110 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.cert-img {
+  background-color: rgba(255, 255, 255, 0);
+  display: block;
+  width: fit-content;
+  height: auto; 
+  backface-visibility: hidden;
+
+  transition: transform 500ms;
+
+  animation: fadeIn 2.5s;
+  -webkit-animation: fadeIn 2.5s;
+  -moz-animation: fadeIn 2.5s;
+  -o-animation: fadeIn 2.5s;
+
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-moz-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-webkit-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-o-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.container:hover .cert-img {
+  transform: scale(0.9, 0.9);
+  filter: blur(5px);
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%)
+}
+
+.container:hover .middle {
+  opacity: 1;
+}
+
+.text {
+  background-color: #034DA1;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.form-id {
+  width: 485px;
+  height: 54px;
+  flex-shrink: 0;
+  margin: auto;
+
+  border-radius: 10px;
+  background: #FFF;
+  box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.25);
+}
+
+.faculty-btn {
+  width: 197px;
+  height: 49px;
+  flex-shrink: 0;
+  margin: auto;
+  color: #FFF;
+  font-weight: 500;
+  font-size: 20px;
+
+  border-radius: 10px;
+  background: rgba(3, 77, 161, 0.75);
+}
+
+.cert-drop {
+  width: 828px;
+  height: 651px;
+  flex-shrink: 0;
+
+  border-radius: 15px;
+  background: #FFF;
+  box-shadow: 4px 4px 50px 10px rgba(3, 77, 161, 0.25);
+}
+
+.upload-img {
+  width: 140px;
+  height: 100px;
+  /* flex-shrink: 0; */
+
+
+  
+}
