@@ -21,6 +21,7 @@
     border-radius: 12px;
     background: #034DA1;
     height: 50px;
+    width: 90px;
 
     color: #FFF;
     font-family: Inter;
@@ -44,7 +45,7 @@
   width: 40px;
   height: 50px;
   border: none;
-  background: #00000023;
+  background: #ffffff;
   margin: 0px 10px;
   text-align: center;
   font-size: 30px;
@@ -52,6 +53,7 @@
   cursor: not-allowed;
   pointer-events: none;
   border-radius: 5px;
+  box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.25);
 }
 
 .input:focus {
@@ -85,16 +87,22 @@ input[type=number] {
   display: block;
   width: fit-content;
   height: auto; 
-  backface-visibility: hidden;
+  border-radius: 12px;
 
   transition: transform 500ms;
 
-  animation: fadeIn 2.5s;
-  -webkit-animation: fadeIn 2.5s;
-  -moz-animation: fadeIn 2.5s;
-  -o-animation: fadeIn 2.5s;
-
+  animation: fadeIn 3.0s both;
+  -webkit-animation: fadeIn 3.0s both;
+  -moz-animation: fadeIn 3.0s both;
+  -o-animation: fadeIn 3.0s both;
+  
 }
+
+.container:hover .cert-img {
+  transform: scale(0.9, 0.9);
+  filter: blur(4px);
+}
+
 
 @keyframes fadeIn {
   0% { opacity: 0; }
@@ -116,15 +124,16 @@ input[type=number] {
   100% { opacity: 1; }
 }
 
-.container:hover .cert-img {
-  transform: scale(0.9, 0.9);
-  filter: blur(5px);
+.skill-card:hover {
+  transform: scale(1.5 ,1.5);
+  filter: grayscale(5%) blur(5px);
 }
+
+
 
 .middle {
   transition: .5s ease;
   opacity: 0;
-  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -168,6 +177,11 @@ input[type=number] {
   background: rgba(3, 77, 161, 0.75);
 }
 
+.faculty-btn:hover {
+
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(24, 24, 24, 0.308);
+}
+
 .cert-drop {
   width: 828px;
   height: 651px;
@@ -175,7 +189,7 @@ input[type=number] {
 
   border-radius: 15px;
   background: #FFF;
-  box-shadow: 4px 4px 50px 10px rgba(3, 77, 161, 0.25);
+  box-shadow: 4px 4px 30px 10px rgba(3, 77, 161, 0.25);
 }
 
 .upload-img {
@@ -183,6 +197,84 @@ input[type=number] {
   height: 100px;
   /* flex-shrink: 0; */
 
+}
 
-  
+.page {
+  background-color: #f2f6fc;
+}
+
+.login-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(33, 40, 50, 0.125);
+  border-radius: 0.35rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15);
+}
+
+.card-info {
+  color: rgb(128, 128, 128);
+}
+
+.login {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(33, 40, 50, 0.125);
+  border-radius: 0.45rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15)
+}
+
+.login-top {
+  background-color: #337ab7;
+  border-top-left-radius: 0.45rem;
+  border-top-right-radius: 0.45rem;
+  background-clip: border-box;
+  border: 1px solid rgba(33, 40, 50, 0.125);
+}
+
+.text-field {
+  position: relative;
+  margin: 10px 2.5px 20px 2.5px;
+}
+
+input {
+  display: inline-block;
+  border: thin solid gray;
+  color: #444;
+  background-color: #fafafa;
+  padding: 10px 10px 10px 10px;
+  border-radius: 5px;
+}
+
+input:focus {
+
+      background-color:#fff;
+  }
+
+label {
+  color: #999;
+  position: absolute;
+  pointer-events: none;
+  font-weight: 500;
+  left: 15px;
+  top: 12px;
+  transition: 0.2s;
+}
+
+input:focus ~ label, input:valid ~ label {
+  top: -10px;
+  left: 15px;
+  font-size: small;
+  color: #337ab7;
+  background-color:#fff;
+  padding:0 5px 0 5px;
 }
