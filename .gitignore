@@ -1,5 +1,4 @@
 vendor
 .env 
 composer.json
-composer.lock
 client_secret.json
