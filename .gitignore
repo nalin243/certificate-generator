@@ -1,4 +1,3 @@
 vendor
 .env 
-composer.json
 client_secret.json
