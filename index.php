@@ -17,6 +17,7 @@
         $pname = "";
         $peventname = "";
 
+
         if(!count($_POST)==0){
             $number = (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth']));
 
@@ -70,7 +71,7 @@
     <script src="https://cdn.tailwindcss.com"></script>    
 </head>
 <body OnLoad="document.phone.first.focus();">
-    <div class="flex flex-col h-screen min-w-screen overflow-auto">
+    <div class="flex flex-col h-screen min-w-screen overflow-auto ">
         <div class="flex flex-col h-screen w-full shrink-0 ">
             <div class="flex h-3/6 w-full mt-24">
                 <img src="./src/assets/srmlogo.png" class="p-15 m-auto h-full w-4/12">
@@ -173,8 +174,13 @@
                 </div>
             </div>
         </div>
-        <div class="flex h-4/6 min-w-screen shrink-0 ">
-            <iframe class="cert-pdf -mt-12" src="" frameborder="0"></iframe>
+        <div class="flex h-5/6 min-w-screen shrink-0 ">
+            <div class="flex relative container h-5/6 w-7/12 m-auto my-0">
+                <img src="./src/assets/testcert.png" class="cert-img"/>
+                <div class="middle absolute .inset-0">
+                    <button class="text">Click to Download</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>
