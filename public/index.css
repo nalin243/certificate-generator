@@ -178,11 +178,24 @@ input[type=number] {
   box-shadow: 4px 4px 50px 10px rgba(3, 77, 161, 0.25);
 }
 
+
+/*.imgcontainer img {
+   height:auto;
+   width:fit-content;
+   display:block;
+}
+*/
+
 .upload-img {
-  width: 140px;
-  height: 100px;
-  /* flex-shrink: 0; */
+    height:inherit;
+    width:inherit;
+}
 
+#custom-file-upload {
+    cursor:pointer;
+}   
 
-  
+input[type="file"] {
+    display: none;
+    border:0;
 }
