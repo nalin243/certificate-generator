@@ -253,7 +253,7 @@ input[type="file"] {
   margin: 10px 2.5px 20px 2.5px;
 }
 
-input {
+.login-page input {
   display: inline-block;
   border: thin solid gray;
   color: #444;
@@ -262,12 +262,12 @@ input {
   border-radius: 5px;
 }
 
-input:focus {
+input.login-page-label:focus {
 
       background-color:#fff;
   }
 
-label {
+ label.login-page-label {
   color: #999;
   position: absolute;
   pointer-events: none;
@@ -277,7 +277,7 @@ label {
   transition: 0.2s;
 }
 
-input:focus ~ label, input:valid ~ label {
+input.login-page:focus ~ label, input.login-page:valid ~ label {
   top: -10px;
   left: 15px;
   font-size: small;

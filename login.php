@@ -29,12 +29,12 @@
                     </div>
                     <div class="flex flex-col mt-10 h-full w-full">
                         <div class="flex mx-auto text-field h-2/6 w-10/12">
-                            <input class="m-auto px-3 h-full w-full" type="text" required>
-                            <label class="-mt-1">Login ID</label>
+                            <input class="login-page m-auto px-3 h-full w-full" type="text" required>
+                            <label class="login-page-label -mt-1">Login ID</label>
                         </div>
                         <div class="flex mx-auto text-field h-2/6 w-10/12 ">
-                            <input class=" m-auto px-3 h-full w-full" type="password" required>
-                            <label class="-mt-1">Password</label>
+                            <input class="login-page m-auto px-3 h-full w-full" type="password" required>
+                            <label class="login-page-label -mt-1">Password</label>
                         </div>
                         <div class="flex text-field h-full w-full ">
                             <button name="submit" value="submit" class="faculty-btn hover:scale-90 duration-500 px-3">Login</button>
