@@ -192,14 +192,6 @@ input[type=number] {
   box-shadow: 4px 4px 30px 10px rgba(3, 77, 161, 0.25);
 }
 
-
-/*.imgcontainer img {
-   height:auto;
-   width:fit-content;
-   display:block;
-}
-*/
-
 .upload-img {
     height:inherit;
     width:inherit;
