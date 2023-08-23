@@ -2,17 +2,8 @@
 <html lang="en">
 <head>
     <?php 
-        require 'vendor/autoload.php';
-
-       $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-       $dotenv->load();
-
-        define("DBNAME",$_ENV['DB_NAME']);
-        define("DBUSER",$_ENV['DB_USER']);
-        define("DBPASSWORD",$_ENV['DB_PASSWORD']);
-        define("DBURL",$_ENV['DB_URL']);
-
-        $mysqli = mysqli_connect(DBURL,DBUSER,DBPASSWORD,DBNAME);
+        require 'env_config.php';
+        require 'db_config.php';
 
         $pname = "";
         $peventname = "";
@@ -23,6 +14,7 @@
 
             $results = $mysqli->query("select * from participants where pnumber=$number ");
             $results = $results->fetch_all();
+            var_dump($results);
             if(!(count($results) == 0)){
                 $pname = $results[0][1];
                 $peventname = $results[0][3];
