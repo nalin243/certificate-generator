@@ -14,41 +14,42 @@
 
     <?php
 
-        require 'vendor/autoload.php';
+        require 'session_config.php';
+        require 'env_config.php';
 
-       $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-       $dotenv->load();
+        if($_SESSION['user_username']){
 
-       $message = "";
+            //this means there was a successful login
+            require 'db_config.php';
 
-       define("DBNAME",$_ENV['DB_NAME']);
-       define("DBUSER",$_ENV['DB_USER']);
-       define("DBPASSWORD",$_ENV['DB_PASSWORD']);
-       define("DBURL",$_ENV['DB_URL']);
+           $message = "";
 
-       $mysqli = mysqli_connect(DBURL,DBUSER,DBPASSWORD,DBNAME);
+           $xname = (double)$_POST['xname'];
+           $yname = (double)$_POST['yname'];
+           $xdate = (double)$_POST['xdate'];
+           $ydate = (double)$_POST['ydate'];
+           $xyear = (double)$_POST['xyear'];
+           $yyear = (double)$_POST['yyear'];
+           $formid = $_POST['formid'];
 
-       $xname = (double)$_POST['xname'];
-       $yname = (double)$_POST['yname'];
-       $xdate = (double)$_POST['xdate'];
-       $ydate = (double)$_POST['ydate'];
-       $xyear = (double)$_POST['xyear'];
-       $yyear = (double)$_POST['yyear'];
-       $formid = $_POST['formid'];
+            if(!count($_POST)==0){
 
-        if(!count($_POST)==0){
+                if($_FILES['template']['error']==0 && $_FILES['template']['size']>0){
+                    //meaning that file has been uploaded without error
 
-            if($_FILES['template']['error']==0 && $_FILES['template']['size']>0){
-                //meaning that file has been uploaded without error
+                    $results = $mysqli->query("select * from templates where formId='$formid' ");
+                    $results = $results->fetch_all();
 
-                $results = $mysqli->query("select * from templates where formId='$formid' ");
-                $results = $results->fetch_all();
-
-                if(count($results)==0){//making sure not to accidentally add duplicate entries
-                    $templateFile = addslashes(file_get_contents($_FILES['template']['tmp_name']));
-                    $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear)");
+                    if(count($results)==0){//making sure not to accidentally add duplicate entries
+                        $templateFile = addslashes(file_get_contents($_FILES['template']['tmp_name']));
+                        $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear)");
+                    }
                 }
             }
+        }
+        else {
+            header("Location: ./login_view.php");
+            die();
         }
 
     ?>
@@ -88,8 +89,13 @@
                             <div class="faculty-btn hover:scale-90 px-3 flex justify-center">
                                 <button type="submit" name="submit" value="submit" class="text-center">Submit</button>
                             </div>
-                        </div>
                         </form>
+                            <div class="faculty-btn hover:scale-90 px-3 flex justify-center">
+                                <form method="POST" action="logout.php" class="m-auto">
+                                    <button type="submit" name="submit" value="submit" class="text-center">Log out</button>
+                                </form>
+                            </div>
+                        </div>
                 </div>
                 <div id="imgcontainerunique" class=" flex h-5/6 w-11/12 m-auto p-12">
                     <div class="imgcontainer relative flex flex-col cert-drop h-full w-full">

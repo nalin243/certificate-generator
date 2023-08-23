@@ -253,21 +253,13 @@ input[type="file"] {
   margin: 10px 2.5px 20px 2.5px;
 }
 
-.login-page input {
-  display: inline-block;
-  border: thin solid gray;
-  color: #444;
-  background-color: #fafafa;
-  padding: 10px 10px 10px 10px;
-  border-radius: 5px;
-}
 
 input.login-page-label:focus {
 
       background-color:#fff;
   }
 
- label.login-page-label {
+label.login-page-label {
   color: #999;
   position: absolute;
   pointer-events: none;
