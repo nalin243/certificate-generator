@@ -22,15 +22,15 @@
             //this means there was a successful login
             require 'db_config.php';
 
-           $message = "";
+            $message = "";
 
-           $xname = (double)$_POST['xname'];
-           $yname = (double)$_POST['yname'];
-           $xdate = (double)$_POST['xdate'];
-           $ydate = (double)$_POST['ydate'];
-           $xyear = (double)$_POST['xyear'];
-           $yyear = (double)$_POST['yyear'];
-           $formid = $_POST['formid'];
+            $xname = (double)$_POST['xname'];
+            $yname = (double)$_POST['yname'];
+            $xdate = (double)$_POST['xdate'];
+            $ydate = (double)$_POST['ydate'];
+            $xyear = (double)$_POST['xyear'];
+            $yyear = (double)$_POST['yyear'];
+            $formid = $_POST['formid'];
 
             if(!count($_POST)==0){
 
@@ -41,8 +41,12 @@
                     $results = $results->fetch_all();
 
                     if(count($results)==0){//making sure not to accidentally add duplicate entries
+
+                        $username = $_SESSION['user_username'];
+
                         $templateFile = addslashes(file_get_contents($_FILES['template']['tmp_name']));
                         $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear)");
+                        $mysqli->query("update users set formId='$formid' where username = '$username' ");
                     }
                 }
             }
@@ -54,7 +58,7 @@
 
     ?>
 
-    <div class="flex flex-col h-screen w-screen   ">
+    <div class="flex flex-col  h-screen w-screen   ">
         <div class="flex flex-col page h-full w-full overflow-y-hidden shrink-0  ">
             <div class="flex flex-row h-1/6 w-full ">
                 <div class="flex header h-4/6 w-2/12">
@@ -75,9 +79,9 @@
                     </div>     
                 </div>
             </div>
-            <div class="flex flex-row h-full w-full ">
-                <div class="flex flex-row h-full w-8/12  ">
-                    <div class="flex flex-col h-5/6 w-full  m-auto p-14 mt-10 ">
+            <div class="flex flex-row overflow-y-scroll h-screen w-screen h-full w-full">
+                <div class="flex flex-row h-full w-8/12">
+                    <div class="flex flex-col h-5/6 w-full  m-auto p-14 mt-1">
                         <form id="configform" method="POST" action="config.php" enctype="multipart/form-data">
 
                             <input id="xname" name="xname" type="text" value="" class="hidden">

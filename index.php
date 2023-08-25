@@ -14,7 +14,7 @@
 
             $results = $mysqli->query("select * from participants where pnumber=$number ");
             $results = $results->fetch_all();
-            var_dump($results);
+            
             if(!(count($results) == 0)){
                 $pname = $results[0][1];
                 $peventname = $results[0][3];
@@ -25,32 +25,61 @@
 
         }
 
-       $client = new Google\Client;
-       $client->setAuthConfig("client_secret.json");
-       $client->setApplicationName("Certficate-generator");
-       $client->setScopes(['https://www.googleapis.com/auth/forms','https://www.googleapis.com/auth/drive']);
+           $client = new Google\Client;
+           $client->setAuthConfig("client_secret.json");
+           $client->setApplicationName("Certficate-generator");
+           $client->setScopes(['https://www.googleapis.com/auth/forms','https://www.googleapis.com/auth/drive']);
 
-       $service = new Google\Service\Forms($client);
+           $service = new Google\Service\Forms($client);
 
-       $responses = $service->forms_responses->listFormsResponses($_ENV['FORM_ID']);
-       foreach($responses as $response){
+        $formIds = (($mysqli->query("select formId from users"))->fetch_all());
 
-            $phoneNo = (int)$response['answers']['703576dd']['textAnswers'][0]['value'];
-            $name = $response['answers']['6d3bbf32']['textAnswers'][0]['value'];
-            $eventName = $response['answers']['0df90c35']['textAnswers'][0]['value'];
-            $date = $response['answers']['4ad65bd6']['textAnswers'][0]['value'];
+        foreach($formIds as $formId){
 
-            $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
+            $form = $service->forms->get($formId[0]);   
+            $questionIds = [];
 
-            if(count($result->fetch_all())){
-                //already exists so just go to the next response
-                continue;
+           foreach($form['items'] as $item){
+                if(str_contains(strtolower($item['title']),"name"))
+                    $questionIds["name"] = $item['questionItem']['question']['questionId'];
+                if(str_contains(strtolower($item['title']),"date"))
+                    $questionIds["date"] = $item['questionItem']['question']['questionId'];
+                if(str_contains(strtolower($item['title']),"event"))
+                    $questionIds["eventname"] = $item['questionItem']['question']['questionId'];
+                if(str_contains(strtolower($item['title']),"year"))
+                    $questionIds["year"] = $item['questionItem']['question']['questionId'];
+                if(str_contains(strtolower($item['title']),"semester"))
+                    $questionIds["semester"] = $item['questionItem']['question']['questionId'];
+                if(str_contains(strtolower($item['title']),"number"))
+                    $questionIds["number"] = $item['questionItem']['question']['questionId'];
+           }
+
+           $responses = $service->forms_responses->listFormsResponses($formId[0]);
+           foreach($responses as $response){
+
+                $phoneId = $questionIds['number'];
+                $nameId = $questionIds['name'];
+                $eventNameId = $questionIds['eventname'];
+                $dateId = $questionIds['date'];
+
+                $phoneNo = (int)$response['answers']["$phoneId"]['textAnswers'][0]['value'];
+                $name = $response['answers']["$nameId"]['textAnswers'][0]['value'];
+                $eventName = $response['answers']["$eventNameId"]['textAnswers'][0]['value'];
+                $date = $response['answers']["$dateId"]['textAnswers'][0]['value'];
+
+                $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
+
+                if(count($result->fetch_all())){
+                    //already exists so just go to the next response
+                    continue;
+                }
+                else {
+                    //does not exist so insert into db
+                    $mysqli->query("insert into participants(pnumber,name,date,eventname,formId) values($phoneNo,'$name','$date','$eventName','$formId[0]')");
+                }
             }
-            else {
-                //does not exist so insert into db
-                $mysqli->query("insert into participants values($phoneNo,'$name','$date','$eventName')");
-            }
-        } 
+            $questionIds = [];
+       }
 
      ?>
     <meta charset="UTF-8">
