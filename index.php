@@ -7,6 +7,7 @@
 
         $pname = "";
         $peventname = "";
+        $certImage = "";
 
 
         if(!count($_POST)==0){
@@ -18,6 +19,23 @@
             if(!(count($results) == 0)){
                 $pname = $results[0][1];
                 $peventname = $results[0][3];
+                $date = $results[0][2];
+                $formId = $results[0][4];
+                $template = $mysqli->query("select * from templates where formId='$formId' ");
+                $data = $template->fetch_all();
+
+                $certImage = $data[0][1];
+
+                $img = imagecreatefromstring(base64_decode($certImage));
+                $black = imagecolorexact($img, 0, 0, 0);
+
+                imagettftext($img,110,0,$data[0][2],$data[0][3],$black,'./tothepointregular.ttf',$pname);
+                imagettftext($img,45,0,$data[0][4],$data[0][5],$black,'./tothepointregular.ttf',$date);
+
+                ob_start();
+                imagepng($img);
+                $certImage = base64_encode(ob_get_clean());
+                    
             }
             else {
                 $peventname = "Not found";
@@ -197,7 +215,7 @@
         </div>
         <div class="flex h-5/6 min-w-screen shrink-0 ">
             <div class="flex relative container h-5/6 w-7/12 m-auto my-0">
-                <img src="./src/assets/testcert.png" class="cert-img"/>
+                <img src="data:image/png;base64,<?= $certImage ?>" class="cert-img"/>
                 <div class="middle absolute .inset-0">
                     <button class="text">Click to Download</button>
                 </div>

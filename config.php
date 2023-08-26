@@ -44,7 +44,7 @@
 
                         $username = $_SESSION['user_username'];
 
-                        $templateFile = addslashes(file_get_contents($_FILES['template']['tmp_name']));
+                        $templateFile = base64_encode((file_get_contents($_FILES['template']['tmp_name'])));
                         $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear)");
                         $mysqli->query("update users set formId='$formid' where username = '$username' ");
                     }
