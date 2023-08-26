@@ -2,102 +2,102 @@
 <html lang="en">
 <head>
     <?php 
-        require 'env_config.php';
-        require 'db_config.php';
+    //     require 'env_config.php';
+    //     require 'db_config.php';
 
-        $pname = "";
-        $peventname = "";
-        $certImage = "";
+    //     $pname = "";
+    //     $peventname = "";
+    //     $certImage = "";
 
 
-        if(!count($_POST)==0){
-            $number = (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth']));
+    //     if(!count($_POST)==0){
+    //         $number = (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth']));
 
-            $results = $mysqli->query("select * from participants where pnumber=$number ");
-            $results = $results->fetch_all();
+    //         $results = $mysqli->query("select * from participants where pnumber=$number ");
+    //         $results = $results->fetch_all();
             
-            if(!(count($results) == 0)){
-                $pname = $results[0][1];
-                $peventname = $results[0][3];
-                $date = $results[0][2];
-                $formId = $results[0][4];
-                $template = $mysqli->query("select * from templates where formId='$formId' ");
-                $data = $template->fetch_all();
+    //         if(!(count($results) == 0)){
+    //             $pname = $results[0][1];
+    //             $peventname = $results[0][3];
+    //             $date = $results[0][2];
+    //             $formId = $results[0][4];
+    //             $template = $mysqli->query("select * from templates where formId='$formId' ");
+    //             $data = $template->fetch_all();
 
-                $certImage = $data[0][1];
+    //             $certImage = $data[0][1];
 
-                $img = imagecreatefromstring(base64_decode($certImage));
-                $black = imagecolorexact($img, 0, 0, 0);
+    //             $img = imagecreatefromstring(base64_decode($certImage));
+    //             $black = imagecolorexact($img, 0, 0, 0);
 
-                imagettftext($img,110,0,$data[0][2],$data[0][3],$black,'./tothepointregular.ttf',$pname);
-                imagettftext($img,45,0,$data[0][4],$data[0][5],$black,'./tothepointregular.ttf',$date);
+    //             imagettftext($img,110,0,$data[0][2],$data[0][3],$black,'./tothepointregular.ttf',$pname);
+    //             imagettftext($img,45,0,$data[0][4],$data[0][5],$black,'./tothepointregular.ttf',$date);
 
-                ob_start();
-                imagepng($img);
-                $certImage = base64_encode(ob_get_clean());
+    //             ob_start();
+    //             imagepng($img);
+    //             $certImage = base64_encode(ob_get_clean());
                     
-            }
-            else {
-                $peventname = "Not found";
-            }
+    //         }
+    //         else {
+    //             $peventname = "Not found";
+    //         }
 
-        }
+    //     }
 
-           $client = new Google\Client;
-           $client->setAuthConfig("client_secret.json");
-           $client->setApplicationName("Certficate-generator");
-           $client->setScopes(['https://www.googleapis.com/auth/forms','https://www.googleapis.com/auth/drive']);
+    //        $client = new Google\Client;
+    //        $client->setAuthConfig("client_secret.json");
+    //        $client->setApplicationName("Certficate-generator");
+    //        $client->setScopes(['https://www.googleapis.com/auth/forms','https://www.googleapis.com/auth/drive']);
 
-           $service = new Google\Service\Forms($client);
+    //        $service = new Google\Service\Forms($client);
 
-        $formIds = (($mysqli->query("select formId from users"))->fetch_all());
+    //     $formIds = (($mysqli->query("select formId from users"))->fetch_all());
 
-        foreach($formIds as $formId){
+    //     foreach($formIds as $formId){
 
-            $form = $service->forms->get($formId[0]);   
-            $questionIds = [];
+    //         $form = $service->forms->get($formId[0]);   
+    //         $questionIds = [];
 
-           foreach($form['items'] as $item){
-                if(str_contains(strtolower($item['title']),"name"))
-                    $questionIds["name"] = $item['questionItem']['question']['questionId'];
-                if(str_contains(strtolower($item['title']),"date"))
-                    $questionIds["date"] = $item['questionItem']['question']['questionId'];
-                if(str_contains(strtolower($item['title']),"event"))
-                    $questionIds["eventname"] = $item['questionItem']['question']['questionId'];
-                if(str_contains(strtolower($item['title']),"year"))
-                    $questionIds["year"] = $item['questionItem']['question']['questionId'];
-                if(str_contains(strtolower($item['title']),"semester"))
-                    $questionIds["semester"] = $item['questionItem']['question']['questionId'];
-                if(str_contains(strtolower($item['title']),"number"))
-                    $questionIds["number"] = $item['questionItem']['question']['questionId'];
-           }
+    //        foreach($form['items'] as $item){
+    //             if(str_contains(strtolower($item['title']),"name"))
+    //                 $questionIds["name"] = $item['questionItem']['question']['questionId'];
+    //             if(str_contains(strtolower($item['title']),"date"))
+    //                 $questionIds["date"] = $item['questionItem']['question']['questionId'];
+    //             if(str_contains(strtolower($item['title']),"event"))
+    //                 $questionIds["eventname"] = $item['questionItem']['question']['questionId'];
+    //             if(str_contains(strtolower($item['title']),"year"))
+    //                 $questionIds["year"] = $item['questionItem']['question']['questionId'];
+    //             if(str_contains(strtolower($item['title']),"semester"))
+    //                 $questionIds["semester"] = $item['questionItem']['question']['questionId'];
+    //             if(str_contains(strtolower($item['title']),"number"))
+    //                 $questionIds["number"] = $item['questionItem']['question']['questionId'];
+    //        }
 
-           $responses = $service->forms_responses->listFormsResponses($formId[0]);
-           foreach($responses as $response){
+    //        $responses = $service->forms_responses->listFormsResponses($formId[0]);
+    //        foreach($responses as $response){
 
-                $phoneId = $questionIds['number'];
-                $nameId = $questionIds['name'];
-                $eventNameId = $questionIds['eventname'];
-                $dateId = $questionIds['date'];
+    //             $phoneId = $questionIds['number'];
+    //             $nameId = $questionIds['name'];
+    //             $eventNameId = $questionIds['eventname'];
+    //             $dateId = $questionIds['date'];
 
-                $phoneNo = (int)$response['answers']["$phoneId"]['textAnswers'][0]['value'];
-                $name = $response['answers']["$nameId"]['textAnswers'][0]['value'];
-                $eventName = $response['answers']["$eventNameId"]['textAnswers'][0]['value'];
-                $date = $response['answers']["$dateId"]['textAnswers'][0]['value'];
+    //             $phoneNo = (int)$response['answers']["$phoneId"]['textAnswers'][0]['value'];
+    //             $name = $response['answers']["$nameId"]['textAnswers'][0]['value'];
+    //             $eventName = $response['answers']["$eventNameId"]['textAnswers'][0]['value'];
+    //             $date = $response['answers']["$dateId"]['textAnswers'][0]['value'];
 
-                $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
+    //             $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
 
-                if(count($result->fetch_all())){
-                    //already exists so just go to the next response
-                    continue;
-                }
-                else {
-                    //does not exist so insert into db
-                    $mysqli->query("insert into participants(pnumber,name,date,eventname,formId) values($phoneNo,'$name','$date','$eventName','$formId[0]')");
-                }
-            }
-            $questionIds = [];
-       }
+    //             if(count($result->fetch_all())){
+    //                 //already exists so just go to the next response
+    //                 continue;
+    //             }
+    //             else {
+    //                 //does not exist so insert into db
+    //                 $mysqli->query("insert into participants(pnumber,name,date,eventname,formId) values($phoneNo,'$name','$date','$eventName','$formId[0]')");
+    //             }
+    //         }
+    //         $questionIds = [];
+    //    }
 
      ?>
     <meta charset="UTF-8">
@@ -110,7 +110,7 @@
     <script src="https://cdn.tailwindcss.com"></script>    
 </head>
 <body OnLoad="document.phone.first.focus();">
-    <div class="flex flex-col h-screen min-w-screen overflow-auto ">
+    <div class="flex flex-col page h-screen min-w-screen overflow-auto ">
         <div class="flex flex-col h-screen w-full shrink-0 ">
             <div class="flex h-3/6 w-full mt-24">
                 <img src="./src/assets/srmlogo.png" class="p-15 m-auto h-full w-4/12">
@@ -213,11 +213,19 @@
                 </div>
             </div>
         </div>
-        <div class="flex h-5/6 min-w-screen shrink-0 ">
-            <div class="flex relative container h-5/6 w-7/12 m-auto my-0">
-                <img src="data:image/png;base64,<?= $certImage ?>" class="cert-img"/>
-                <div class="middle absolute .inset-0">
-                    <button class="text">Click to Download</button>
+        <div class="flex h-5/6 min-w-screen justify-center -mt-32 ">
+            <div class="flex h-5/6 w-7/12 overflow-x-scroll shrink-0  ">
+                <div class="flex relative container h-full w-full m-auto shrink-0">
+                    <img src="./src/assets/test1.jpg" class="cert-img h-full w-full"/>
+                    <div class="middle absolute .inset-0">
+                        <button class="text">Click to Download</button>
+                    </div>
+                </div>
+                <div class="flex relative container h-full w-full m-auto shrink-0">
+                    <img src="./src/assets/test1.jpg" class="cert-img h-full w-full"/>
+                    <div class="middle absolute .inset-0">
+                        <button class="text">Click to Download</button>
+                    </div>
                 </div>
             </div>
         </div>
