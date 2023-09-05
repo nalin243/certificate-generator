@@ -21,13 +21,14 @@
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: transparent; 
+  background: black; 
 }
 /* !!!SCROLLBAR CSS!!! */
 
 html{
 scroll-behavior: smooth;
 }
+
 
 .first-text {
     color: #034DA1;
@@ -153,12 +154,6 @@ input[type=number] {
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
-
-.skill-card:hover {
-  transform: scale(1.5 ,1.5);
-  filter: grayscale(5%) blur(5px);
-}
-
 
 
 .middle {
@@ -319,3 +314,85 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
   background-color:#fff;
   padding:0 5px 0 5px;
 }
+
+.numberlaptop {
+  flex-direction:row;
+}
+
+@media (max-width: 768px){
+
+  .numberlaptop {
+    flex-direction:column;
+    margin-top: -3rem;
+  }
+
+  .page{
+    flex-direction: column;
+  }
+
+  .first-text{
+    font-size: 1rem;
+    transition: .2s;
+  }
+
+  .second-text{
+    font-size: 1rem;
+    transition: .2s;
+  }
+
+  .black-text h1{
+    font-size: 0.8rem;
+    transition: .2s;
+  }
+
+  .verify-btn {
+    height: 2rem;
+    width: auto;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .verify-btn:active {
+    height: 2rem;
+    width: auto;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
+
+  .input{
+    width: 1.19em;
+    height: 1.5em;
+    font-size: 20px;
+    margin: 0rem 0.23rem;
+    transition: .2s;
+  }
+
+}
+
+/* @media (max-width: 390px){
+
+  .page{
+    flex-direction: column;
+  }
+
+  .first-text{
+    font-size: 1rem;
+    transition: .2s;
+  }
+
+  .second-text{
+    font-size: 1rem;
+    transition: .2s;
+  }
+
+
+  .input{
+    width: 1.1em;
+    height: 1.5em;
+    font-size: 20px;
+    margin: 0rem 0.1rem;
+    transition: .2s;
+  }
+  
+} */

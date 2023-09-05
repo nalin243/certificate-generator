@@ -2,102 +2,102 @@
 <html lang="en">
 <head>
     <?php 
-    //     require 'env_config.php';
-    //     require 'db_config.php';
+        require 'env_config.php';
+        require 'db_config.php';
 
-    //     $pname = "";
-    //     $peventname = "";
-    //     $certImage = "";
+        $pname = "";
+        $peventname = "";
+        $certImage = "";
 
 
-    //     if(!count($_POST)==0){
-    //         $number = (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth']));
+        if(!count($_POST)==0){
+            $number = (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth']));
 
-    //         $results = $mysqli->query("select * from participants where pnumber=$number ");
-    //         $results = $results->fetch_all();
+            $results = $mysqli->query("select * from participants where pnumber=$number ");
+            $results = $results->fetch_all();
             
-    //         if(!(count($results) == 0)){
-    //             $pname = $results[0][1];
-    //             $peventname = $results[0][3];
-    //             $date = $results[0][2];
-    //             $formId = $results[0][4];
-    //             $template = $mysqli->query("select * from templates where formId='$formId' ");
-    //             $data = $template->fetch_all();
+            if(!(count($results) == 0)){
+                $pname = $results[0][1];
+                $peventname = $results[0][3];
+                $date = $results[0][2];
+                $formId = $results[0][4];
+                $template = $mysqli->query("select * from templates where formId='$formId' ");
+                $data = $template->fetch_all();
 
-    //             $certImage = $data[0][1];
+                $certImage = $data[0][1];
 
-    //             $img = imagecreatefromstring(base64_decode($certImage));
-    //             $black = imagecolorexact($img, 0, 0, 0);
+                $img = imagecreatefromstring(base64_decode($certImage));
+                $black = imagecolorexact($img, 0, 0, 0);
 
-    //             imagettftext($img,110,0,$data[0][2],$data[0][3],$black,'./tothepointregular.ttf',$pname);
-    //             imagettftext($img,45,0,$data[0][4],$data[0][5],$black,'./tothepointregular.ttf',$date);
+                imagettftext($img,110,0,$data[0][2],$data[0][3],$black,'./tothepointregular.ttf',$pname);
+                imagettftext($img,45,0,$data[0][4],$data[0][5],$black,'./tothepointregular.ttf',$date);
 
-    //             ob_start();
-    //             imagepng($img);
-    //             $certImage = base64_encode(ob_get_clean());
+                ob_start();
+                imagepng($img);
+                $certImage = base64_encode(ob_get_clean());
                     
-    //         }
-    //         else {
-    //             $peventname = "Not found";
-    //         }
+            }
+            else {
+                $peventname = "Not found";
+            }
 
-    //     }
+        }
 
-    //        $client = new Google\Client;
-    //        $client->setAuthConfig("client_secret.json");
-    //        $client->setApplicationName("Certficate-generator");
-    //        $client->setScopes(['https://www.googleapis.com/auth/forms','https://www.googleapis.com/auth/drive']);
+           $client = new Google\Client;
+           $client->setAuthConfig("client_secret.json");
+           $client->setApplicationName("Certficate-generator");
+           $client->setScopes(['https://www.googleapis.com/auth/forms','https://www.googleapis.com/auth/drive']);
 
-    //        $service = new Google\Service\Forms($client);
+           $service = new Google\Service\Forms($client);
 
-    //     $formIds = (($mysqli->query("select formId from users"))->fetch_all());
+        $formIds = (($mysqli->query("select formId from users"))->fetch_all());
 
-    //     foreach($formIds as $formId){
+        foreach($formIds as $formId){
 
-    //         $form = $service->forms->get($formId[0]);   
-    //         $questionIds = [];
+            $form = $service->forms->get($formId[0]);   
+            $questionIds = [];
 
-    //        foreach($form['items'] as $item){
-    //             if(str_contains(strtolower($item['title']),"name"))
-    //                 $questionIds["name"] = $item['questionItem']['question']['questionId'];
-    //             if(str_contains(strtolower($item['title']),"date"))
-    //                 $questionIds["date"] = $item['questionItem']['question']['questionId'];
-    //             if(str_contains(strtolower($item['title']),"event"))
-    //                 $questionIds["eventname"] = $item['questionItem']['question']['questionId'];
-    //             if(str_contains(strtolower($item['title']),"year"))
-    //                 $questionIds["year"] = $item['questionItem']['question']['questionId'];
-    //             if(str_contains(strtolower($item['title']),"semester"))
-    //                 $questionIds["semester"] = $item['questionItem']['question']['questionId'];
-    //             if(str_contains(strtolower($item['title']),"number"))
-    //                 $questionIds["number"] = $item['questionItem']['question']['questionId'];
-    //        }
+           foreach($form['items'] as $item){
+                if(str_contains(strtolower($item['title']),"name"))
+                    $questionIds["name"] = $item['questionItem']['question']['questionId'];
+                if(str_contains(strtolower($item['title']),"date"))
+                    $questionIds["date"] = $item['questionItem']['question']['questionId'];
+                if(str_contains(strtolower($item['title']),"event"))
+                    $questionIds["eventname"] = $item['questionItem']['question']['questionId'];
+                if(str_contains(strtolower($item['title']),"year"))
+                    $questionIds["year"] = $item['questionItem']['question']['questionId'];
+                if(str_contains(strtolower($item['title']),"semester"))
+                    $questionIds["semester"] = $item['questionItem']['question']['questionId'];
+                if(str_contains(strtolower($item['title']),"number"))
+                    $questionIds["number"] = $item['questionItem']['question']['questionId'];
+           }
 
-    //        $responses = $service->forms_responses->listFormsResponses($formId[0]);
-    //        foreach($responses as $response){
+           $responses = $service->forms_responses->listFormsResponses($formId[0]);
+           foreach($responses as $response){
 
-    //             $phoneId = $questionIds['number'];
-    //             $nameId = $questionIds['name'];
-    //             $eventNameId = $questionIds['eventname'];
-    //             $dateId = $questionIds['date'];
+                $phoneId = $questionIds['number'];
+                $nameId = $questionIds['name'];
+                $eventNameId = $questionIds['eventname'];
+                $dateId = $questionIds['date'];
 
-    //             $phoneNo = (int)$response['answers']["$phoneId"]['textAnswers'][0]['value'];
-    //             $name = $response['answers']["$nameId"]['textAnswers'][0]['value'];
-    //             $eventName = $response['answers']["$eventNameId"]['textAnswers'][0]['value'];
-    //             $date = $response['answers']["$dateId"]['textAnswers'][0]['value'];
+                $phoneNo = (int)$response['answers']["$phoneId"]['textAnswers'][0]['value'];
+                $name = $response['answers']["$nameId"]['textAnswers'][0]['value'];
+                $eventName = $response['answers']["$eventNameId"]['textAnswers'][0]['value'];
+                $date = $response['answers']["$dateId"]['textAnswers'][0]['value'];
 
-    //             $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
+                $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
 
-    //             if(count($result->fetch_all())){
-    //                 //already exists so just go to the next response
-    //                 continue;
-    //             }
-    //             else {
-    //                 //does not exist so insert into db
-    //                 $mysqli->query("insert into participants(pnumber,name,date,eventname,formId) values($phoneNo,'$name','$date','$eventName','$formId[0]')");
-    //             }
-    //         }
-    //         $questionIds = [];
-    //    }
+                if(count($result->fetch_all())){
+                    //already exists so just go to the next response
+                    continue;
+                }
+                else {
+                    //does not exist so insert into db
+                    $mysqli->query("insert into participants(pnumber,name,date,eventname,formId) values($phoneNo,'$name','$date','$eventName','$formId[0]')");
+                }
+            }
+            $questionIds = [];
+       }
 
      ?>
     <meta charset="UTF-8">
@@ -112,30 +112,44 @@
 <body OnLoad="document.phone.first.focus();">
     <div class="flex flex-col page h-screen min-w-screen overflow-auto ">
         <div class="flex flex-col h-screen w-full shrink-0 ">
-            <div class="flex h-3/6 w-full mt-24">
-                <img src="./src/assets/srmlogo.png" class="p-15 m-auto h-full w-4/12">
+            <div class="flex h-auto w-full mt-14">
+                <img src="./src/assets/srmlogo.png" class=" img p-15 m-auto h-full w-3/12">
             </div>
-            <div class ="flex flex-col h-3/6 w-full">
-                <div class="flex h-full w-full">
-                    <h1 class="first-text m-auto">SRM Institute of Science and Technology</h1>
+            <div class ="flex flex-col h-3/6 w-full mt-10">
+                <div class="flex h-3/6 w-full">
+                    <h1 class="first-text m-auto mt-2">SRM Institute of Science and Technology</h1>
                 </div>
                 <div class="flex h-3/6 w-full">
-                    <h1 class="second-text m-auto -mt-4">Department of Science and Humanities</h1>
+                    <h1 class="second-text m-auto mt-2">Faculty of Science and Humanities,</h1>
+                </div>
+                <div class="flex h-3/6 w-full">
+                    <h1 class="second-text m-auto mt-2">Kattankulathur.</h1>
                 </div>
             </div>
             <div id="inputs" class="inputs flex h-1/6 mt-24 w-full -mt-18 justify-center">
                 <form id="phone" name="phone" method="POST" action="index.php">
-                    <input class="input" name="first" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="second" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="third" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="fourth" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="fifth" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="sixth" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="seventh" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="eighth" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="ninth" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="tenth" type="text" inputmode="numeric" maxlength="1" />
-                    <button name="submit" value="submit" class="verify-btn ml-5 hover:scale-90 px-3">Verify</button>
+                    <div class="flex justify-center numberlaptop">
+                        <div class="flex flex-col">
+                            <div class="flex">
+                                <input class="input" name="first" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="second" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="third" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="fourth" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="fifth" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="sixth" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="seventh" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="eighth" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="ninth" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="tenth" type="text" inputmode="numeric" maxlength="1" />
+                            </div>
+                            <div class="flex justify-center hidden">
+                                <input class="m-auto" type="number" placeholder="OTP"/>
+                            </div>
+                        </div>
+                        <div class="m-auto">
+                            <button name="submit" value="submit" class="verify-btn ml-5 hover:scale-90 px-3">Verify</button>
+                        </div>
+                    </div>
                 </form>
                 
             </div>
@@ -201,15 +215,15 @@
                 }
                 });
             </script>
-            <div class="flex h-1/6 w-full">
+            <div class="flex black-text h-1/6 w-full">
                 <h1 class="text-black font-extrabold m-auto text-xl">Please Enter your Registered Phone Number.</h1>
             </div>
-            <div class ="flex flex-col mt-20 h-full w-full">
-                <div class="flex h-full w-full">
-                    <h1 id="pname" class="text-black font-extrabold m-auto text-5xl"><?= $pname ?> </h1>
+            <div class ="flex flex-col mt-2 h-full w-full">
+                <div class="flex h-2/6 w-full black-text">
+                    <h1 id="pname" class="text-black font-extrabold m-auto mt-10 text-5xl"><?= $pname ?> </h1>
                 </div>
-                <div class="flex h-full w-full">
-                    <h1 id="peventname" class="text-black font-bold m-auto -mt-4 text-3xl"><?= $peventname ?> </h1>
+                <div class="flex h-1/6 w-full black-text">
+                    <h1 id="peventname" class="text-black font-bold m-auto text-3xl"><?= $peventname ?> </h1>
                 </div>
             </div>
         </div>
