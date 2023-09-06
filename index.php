@@ -70,6 +70,8 @@
                     $questionIds["semester"] = $item['questionItem']['question']['questionId'];
                 if(str_contains(strtolower($item['title']),"number"))
                     $questionIds["number"] = $item['questionItem']['question']['questionId'];
+                if(str_contains(strtolower($item['title']),"mail"))
+                    $questionIds["mail"] = $item['questionItem']['question']['questionId'];
            }
 
            $responses = $service->forms_responses->listFormsResponses($formId[0]);
@@ -79,11 +81,15 @@
                 $nameId = $questionIds['name'];
                 $eventNameId = $questionIds['eventname'];
                 $dateId = $questionIds['date'];
+                $mailId = $questionIds['mail'];
 
                 $phoneNo = (int)$response['answers']["$phoneId"]['textAnswers'][0]['value'];
                 $name = $response['answers']["$nameId"]['textAnswers'][0]['value'];
                 $eventName = $response['answers']["$eventNameId"]['textAnswers'][0]['value'];
                 $date = $response['answers']["$dateId"]['textAnswers'][0]['value'];
+                $mail = $response['answers']["$mailId"]['textAnswers'][0]['value'];
+
+
 
                 $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
 
@@ -93,7 +99,7 @@
                 }
                 else {
                     //does not exist so insert into db
-                    $mysqli->query("insert into participants(pnumber,name,date,eventname,formId) values($phoneNo,'$name','$date','$eventName','$formId[0]')");
+                    $mysqli->query("insert into participants(pnumber,name,date,eventname,formId,email) values($phoneNo,'$name','$date','$eventName','$formId[0]','$mail')");
                 }
             }
             $questionIds = [];
@@ -217,7 +223,7 @@
             <div class="flex relative container h-5/6 w-7/12 m-auto my-0">
                 <img src="data:image/png;base64,<?= $certImage ?>" class="cert-img"/>
                 <div class="middle absolute .inset-0">
-                    <button class="text">Click to Download</button>
+                    <a href="data:image/png;base64,<?= $certImage ?>" download="<?= $pname."-certificate" ?>"><button class="text">Click to Download</button></a>
                 </div>
             </div>
         </div>
