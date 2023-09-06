@@ -220,10 +220,10 @@
             </div>
             <div class ="flex flex-col mt-2 h-full w-full">
                 <div class="flex h-2/6 w-full black-text">
-                    <h1 id="pname" class="text-black font-extrabold m-auto mt-10 text-5xl"><?= $pname ?> </h1>
+                    <h1 id="pname" class="text-black font-extrabold m-auto mt-10 text-5xl"><?= $pname ?></h1>
                 </div>
                 <div class="flex h-1/6 w-full black-text">
-                    <h1 id="peventname" class="text-black font-bold m-auto text-3xl"><?= $peventname ?> </h1>
+                    <h1 id="peventname" class="text-black font-bold m-auto text-3xl"><?= $peventname ?></h1>
                 </div>
             </div>
         </div>
@@ -235,12 +235,12 @@
                         <button class="text">Click to Download</button>
                     </div>
                 </div>
-                <div class="flex relative container h-full w-full m-auto shrink-0">
+                <!-- <div class="flex relative container h-full w-full m-auto shrink-0">
                     <img src="./src/assets/test1.jpg" class="cert-img h-full w-full"/>
                     <div class="middle absolute .inset-0">
                         <button class="text">Click to Download</button>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

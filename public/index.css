@@ -319,7 +319,64 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
   flex-direction:row;
 }
 
-@media (max-width: 768px){
+@media screen and (max-width: 876px){
+
+  .numberlaptop {
+    flex-direction:column;
+    margin-top: -3rem;
+  }
+
+  .page{
+    flex-direction: column;
+  }
+
+  .first-text{
+    font-size: 1.3rem;
+    transition: .2s;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .second-text{
+    font-size: 1.3rem;
+    transition: .2s;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .black-text h1{
+    font-size: 1rem;
+    transition: .2s;
+  }
+
+  .verify-btn {
+    height: 2rem;
+    width: auto;
+    font-size: 20px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .verify-btn:active {
+    height: 2rem;
+    width: auto;
+    font-size: 20px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
+
+  .input{
+    width: 1.5em;
+    height: 2em;
+    font-size: 20px;
+    margin: 0rem 0.35rem;
+    transition: .2s;
+  }
+
+}
+
+@media screen and (max-width: 415px){
 
   .numberlaptop {
     flex-direction:column;
@@ -346,15 +403,17 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
   }
 
   .verify-btn {
-    height: 2rem;
+    height: 1.5rem;
     width: auto;
+    font-size: 15px;
     border-radius: 0.5rem;
     margin-top: 1rem;
   }
 
   .verify-btn:active {
-    height: 2rem;
+    height: 1.5rem;
     width: auto;
+    font-size: 15px;
     border-radius: 0.5rem;
     margin-top: 1rem;
   }
@@ -370,29 +429,3 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
 
 }
 
-/* @media (max-width: 390px){
-
-  .page{
-    flex-direction: column;
-  }
-
-  .first-text{
-    font-size: 1rem;
-    transition: .2s;
-  }
-
-  .second-text{
-    font-size: 1rem;
-    transition: .2s;
-  }
-
-
-  .input{
-    width: 1.1em;
-    height: 1.5em;
-    font-size: 20px;
-    margin: 0rem 0.1rem;
-    transition: .2s;
-  }
-  
-} */
