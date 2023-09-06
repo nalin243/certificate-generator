@@ -1,4 +1,35 @@
 
+/* !!!SCROLLBAR CSS!!! */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  border-radius: 50px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 50px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: black; 
+}
+/* !!!SCROLLBAR CSS!!! */
+
+html{
+scroll-behavior: smooth;
+}
+
+
 .first-text {
     color: #034DA1;
     font-family: Inter;
@@ -84,10 +115,9 @@ input[type=number] {
 
 .cert-img {
   background-color: rgba(255, 255, 255, 0);
-  display: block;
-  width: fit-content;
-  height: auto; 
-  border-radius: 12px;
+  border-radius: 20px;
+  margin: auto;
+  padding: 10px;
 
   transition: transform 500ms;
 
@@ -97,6 +127,7 @@ input[type=number] {
   -o-animation: fadeIn 3.0s both;
   
 }
+
 
 .container:hover .cert-img {
   transform: scale(0.9, 0.9);
@@ -123,12 +154,6 @@ input[type=number] {
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
-
-.skill-card:hover {
-  transform: scale(1.5 ,1.5);
-  filter: grayscale(5%) blur(5px);
-}
-
 
 
 .middle {
@@ -289,3 +314,118 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
   background-color:#fff;
   padding:0 5px 0 5px;
 }
+
+.numberlaptop {
+  flex-direction:row;
+}
+
+@media screen and (max-width: 876px){
+
+  .numberlaptop {
+    flex-direction:column;
+    margin-top: -3rem;
+  }
+
+  .page{
+    flex-direction: column;
+  }
+
+  .first-text{
+    font-size: 1.3rem;
+    transition: .2s;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .second-text{
+    font-size: 1.3rem;
+    transition: .2s;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .black-text h1{
+    font-size: 1rem;
+    transition: .2s;
+  }
+
+  .verify-btn {
+    height: 2rem;
+    width: auto;
+    font-size: 20px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .verify-btn:active {
+    height: 2rem;
+    width: auto;
+    font-size: 20px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
+
+  .input{
+    width: 1.5em;
+    height: 2em;
+    font-size: 20px;
+    margin: 0rem 0.35rem;
+    transition: .2s;
+  }
+
+}
+
+@media screen and (max-width: 415px){
+
+  .numberlaptop {
+    flex-direction:column;
+    margin-top: -3rem;
+  }
+
+  .page{
+    flex-direction: column;
+  }
+
+  .first-text{
+    font-size: 1rem;
+    transition: .2s;
+  }
+
+  .second-text{
+    font-size: 1rem;
+    transition: .2s;
+  }
+
+  .black-text h1{
+    font-size: 0.8rem;
+    transition: .2s;
+  }
+
+  .verify-btn {
+    height: 1.5rem;
+    width: auto;
+    font-size: 15px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .verify-btn:active {
+    height: 1.5rem;
+    width: auto;
+    font-size: 15px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
+
+  .input{
+    width: 1.19em;
+    height: 1.5em;
+    font-size: 20px;
+    margin: 0rem 0.23rem;
+    transition: .2s;
+  }
+
+}
+

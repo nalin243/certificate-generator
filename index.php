@@ -116,32 +116,46 @@
     <script src="https://cdn.tailwindcss.com"></script>    
 </head>
 <body OnLoad="document.phone.first.focus();">
-    <div class="flex flex-col h-screen min-w-screen overflow-auto ">
+    <div class="flex flex-col page h-screen min-w-screen overflow-auto ">
         <div class="flex flex-col h-screen w-full shrink-0 ">
-            <div class="flex h-3/6 w-full mt-24">
-                <img src="./src/assets/srmlogo.png" class="p-15 m-auto h-full w-4/12">
+            <div class="flex h-auto w-full mt-14">
+                <img src="./src/assets/srmlogo.png" class=" img p-15 m-auto h-full w-3/12">
             </div>
-            <div class ="flex flex-col h-3/6 w-full">
-                <div class="flex h-full w-full">
-                    <h1 class="first-text m-auto">SRM Institute of Science and Technology</h1>
+            <div class ="flex flex-col h-3/6 w-full mt-10">
+                <div class="flex h-3/6 w-full">
+                    <h1 class="first-text m-auto mt-2">SRM Institute of Science and Technology</h1>
                 </div>
                 <div class="flex h-3/6 w-full">
-                    <h1 class="second-text m-auto -mt-4">Department of Science and Humanities</h1>
+                    <h1 class="second-text m-auto mt-2">Faculty of Science and Humanities,</h1>
+                </div>
+                <div class="flex h-3/6 w-full">
+                    <h1 class="second-text m-auto mt-2">Kattankulathur.</h1>
                 </div>
             </div>
             <div id="inputs" class="inputs flex h-1/6 mt-24 w-full -mt-18 justify-center">
                 <form id="phone" name="phone" method="POST" action="index.php">
-                    <input class="input" name="first" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="second" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="third" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="fourth" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="fifth" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="sixth" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="seventh" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="eighth" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="ninth" type="text" inputmode="numeric" maxlength="1" />
-                    <input class="input" name="tenth" type="text" inputmode="numeric" maxlength="1" />
-                    <button name="submit" value="submit" class="verify-btn ml-5 hover:scale-90 px-3">Verify</button>
+                    <div class="flex justify-center numberlaptop">
+                        <div class="flex flex-col">
+                            <div class="flex">
+                                <input class="input" name="first" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="second" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="third" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="fourth" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="fifth" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="sixth" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="seventh" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="eighth" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="ninth" type="text" inputmode="numeric" maxlength="1" />
+                                <input class="input" name="tenth" type="text" inputmode="numeric" maxlength="1" />
+                            </div>
+                            <div class="flex justify-center hidden">
+                                <input class="m-auto" type="number" placeholder="OTP"/>
+                            </div>
+                        </div>
+                        <div class="m-auto">
+                            <button name="submit" value="submit" class="verify-btn ml-5 hover:scale-90 px-3">Verify</button>
+                        </div>
+                    </div>
                 </form>
                 
             </div>
@@ -207,15 +221,15 @@
                 }
                 });
             </script>
-            <div class="flex h-1/6 w-full">
+            <div class="flex black-text h-1/6 w-full">
                 <h1 class="text-black font-extrabold m-auto text-xl">Please Enter your Registered Phone Number.</h1>
             </div>
-            <div class ="flex flex-col mt-20 h-full w-full">
-                <div class="flex h-full w-full">
-                    <h1 id="pname" class="text-black font-extrabold m-auto text-5xl"><?= $pname ?> </h1>
+            <div class ="flex flex-col mt-2 h-full w-full">
+                <div class="flex h-2/6 w-full black-text">
+                    <h1 id="pname" class="text-black font-extrabold m-auto mt-10 text-5xl"><?= $pname ?></h1>
                 </div>
-                <div class="flex h-full w-full">
-                    <h1 id="peventname" class="text-black font-bold m-auto -mt-4 text-3xl"><?= $peventname ?> </h1>
+                <div class="flex h-1/6 w-full black-text">
+                    <h1 id="peventname" class="text-black font-bold m-auto text-3xl"><?= $peventname ?></h1>
                 </div>
             </div>
         </div>
