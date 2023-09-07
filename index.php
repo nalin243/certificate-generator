@@ -2,44 +2,116 @@
 <html lang="en">
 <head>
     <?php 
+        use PHPMailer\PHPMailer\PHPMailer;
+
         require 'env_config.php';
         require 'db_config.php';
+        require 'session_config.php';
+
+        $MAIL_PASSWORD = $_ENV['MAIL_PASSWORD'];
 
         $pname = "";
         $peventname = "";
         $certImage = "";
 
+        if(count($_POST)!=0){
+                if(! (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth'])) == 0 ){
+                    $_SESSION['number'] = (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth']));
+                }
+        }
 
-        if(!count($_POST)==0){
-            $number = (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth']));
+        if($_SESSION['number']!=""){
 
+            $number = $_SESSION['number'];
             $results = $mysqli->query("select * from participants where pnumber=$number ");
             $results = $results->fetch_all();
-            
-            if(!(count($results) == 0)){
-                $pname = $results[0][1];
-                $peventname = $results[0][3];
-                $date = $results[0][2];
-                $formId = $results[0][4];
-                $template = $mysqli->query("select * from templates where formId='$formId' ");
-                $data = $template->fetch_all();
 
-                $certImage = $data[0][1];
-
-                $img = imagecreatefromstring(base64_decode($certImage));
-                $black = imagecolorexact($img, 0, 0, 0);
-
-                imagettftext($img,110,0,$data[0][2],$data[0][3],$black,'./tothepointregular.ttf',$pname);
-                imagettftext($img,45,0,$data[0][4],$data[0][5],$black,'./tothepointregular.ttf',$date);
-
-                ob_start();
-                imagepng($img);
-                $certImage = base64_encode(ob_get_clean());
-                    
+            if(count($results)==0){
+                $pname = "Not found";
+                session_unset();
+                session_destroy();
             }
             else {
-                $peventname = "Not found";
+
+            //generating otp as this means user is in database
+            if(!isset($_SESSION['generatedOTP'])){
+                $_SESSION['generatedOTP'] = rand(1000,9999);
+
             }
+
+            $participantEmail = $results[0][5];
+            $participantName = $results[0][1];
+
+            $message = "Your OTP for getting participation certificate is ".$_SESSION['generatedOTP'];
+
+            $mail = new PHPMailer(true);
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+
+            $mail->SMTPAuth = true;
+
+            $mail->Username = 'da3798@srmist.edu.in';
+            $mail->Password = "$MAIL_PASSWORD";
+
+            $mail->Port = 465;
+            $mail->SMTPSecure = 'ssl';
+
+            //sending mail to use
+
+            $mail->Subject = 'OTP';
+            $mail->addAddress("$participantEmail", "$participantName"); 
+            $mail->Body = $message;
+
+            $mail->send();
+
+            $mail->smtpClose();
+
+
+            if($_POST['otp']!=""){
+
+                if((int)$_POST['otp']==$_SESSION['generatedOTP']){
+
+                    $number = $_SESSION['number'];
+                    $results = $mysqli->query("select * from participants where pnumber=$number ");
+                    $results = $results->fetch_all();
+            
+                    if(!(count($results) == 0)){
+                        $pname = $results[0][1];
+                        $peventname = $results[0][3];
+                        $date = $results[0][2];
+                        $formId = $results[0][4];
+                        $template = $mysqli->query("select * from templates where formId='$formId' ");
+                        $data = $template->fetch_all();
+
+                        $certImage = $data[0][1];
+
+                        $img = imagecreatefromstring(base64_decode($certImage));
+                        $black = imagecolorexact($img, 0, 0, 0);
+
+                        imagettftext($img,110,0,$data[0][2],$data[0][3],$black,'./tothepointregular.ttf',$pname);
+                        imagettftext($img,45,0,$data[0][4],$data[0][5],$black,'./tothepointregular.ttf',$date);
+
+                        ob_start();
+                        imagepng($img);
+                        $certImage = base64_encode(ob_get_clean());
+
+                        session_unset();
+                        session_destroy();
+                            
+                    }
+                    else {
+                        $pname = "Not found";
+                        session_unset();
+                        session_destroy();
+                    }
+                }
+                else {
+                    $pname = "OTP Invalid";
+                    session_unset();
+                    session_destroy();
+                }
+            }
+        }
 
         }
 
@@ -90,7 +162,6 @@
                 $mail = $response['answers']["$mailId"]['textAnswers'][0]['value'];
 
 
-
                 $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
 
                 if(count($result->fetch_all())){
@@ -136,7 +207,7 @@
                 <form id="phone" name="phone" method="POST" action="index.php">
                     <div class="flex justify-center numberlaptop">
                         <div class="flex flex-col">
-                            <div class="flex">
+                            <div id="number-container" class="flex">
                                 <input class="input" name="first" type="text" inputmode="numeric" maxlength="1" />
                                 <input class="input" name="second" type="text" inputmode="numeric" maxlength="1" />
                                 <input class="input" name="third" type="text" inputmode="numeric" maxlength="1" />
@@ -148,12 +219,13 @@
                                 <input class="input" name="ninth" type="text" inputmode="numeric" maxlength="1" />
                                 <input class="input" name="tenth" type="text" inputmode="numeric" maxlength="1" />
                             </div>
-                            <div class="flex justify-center hidden">
-                                <input class="m-auto" type="number" placeholder="OTP"/>
+                            <div id="otp-container" class="flex justify-center hidden">
+                                <input name="otp" class="input m-auto w-full" type="text" placeholder="OTP"/>
                             </div>
                         </div>
                         <div class="m-auto">
-                            <button name="submit" value="submit" class="verify-btn ml-5 hover:scale-90 px-3">Verify</button>
+                            <button name="submit" value="submit" class="otp-btn ml-5 hover:scale-90 px-3">Send OTP</button>
+                            <button name="submit" value="submit" class="hidden verify-btn ml-5 hover:scale-90 px-3">Verify</button>
                         </div>
                     </div>
                 </form>
@@ -162,6 +234,20 @@
             <script>
                 const inputs = document.getElementById("inputs")
                 const formElement = document.querySelector("#phone")
+
+                const numberCont = document.getElementById("number-container")
+                const otpCont = document.getElementById("otp-container")
+
+                if( "<?= $_SESSION['number'] ?>" != "" ){
+
+                    document.querySelector(".otp-btn").classList.add("hidden")
+                    document.querySelector(".verify-btn").classList.remove("hidden")
+
+                    if(otpCont.classList.contains("hidden")) {                        
+                        numberCont.classList.add("hidden")
+                        otpCont.classList.remove("hidden")
+                    }
+                }
 
                 inputs.addEventListener("click",(event)=>{
                     for(var i=0;i<event.target.length;i++){
@@ -221,15 +307,15 @@
                 }
                 });
             </script>
-            <div class="flex black-text h-1/6 w-full">
+          <!--   <div class="flex black-text h-1/6 w-full">
                 <h1 class="text-black font-extrabold m-auto text-xl">Please Enter your Registered Phone Number.</h1>
-            </div>
+            </div> -->
             <div class ="flex flex-col mt-2 h-full w-full">
                 <div class="flex h-2/6 w-full black-text">
-                    <h1 id="pname" class="text-black font-extrabold m-auto mt-10 text-5xl"><?= $pname ?></h1>
+                    <h1 id="pname" class="text-black font-extrabold m-auto text-5xl"><?= $pname ?></h1>
                 </div>
                 <div class="flex h-1/6 w-full black-text">
-                    <h1 id="peventname" class="text-black font-bold m-auto text-3xl"><?= $peventname ?></h1>
+                    <h1 id="peventname" class="text-black font-bold m-auto mt-10 text-3xl"><?= $peventname ?></h1>
                 </div>
             </div>
         </div>

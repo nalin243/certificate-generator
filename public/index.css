@@ -64,7 +64,31 @@ scroll-behavior: smooth;
     transition: transform 500ms;
 }
 
+.otp-btn {
+    border-radius: 12px;
+    background: #034DA1;
+    height: 50px;
+    width: 120px;
+
+    color: #FFF;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+
+    transition: transform 500ms;
+}
+
 .verify-btn:active {
+  background-color:  #06346d;
+  color: #FFF;
+  height: 50px;
+
+  transform: translateX(20px);  
+}
+
+.otp-btn:active {
   background-color:  #06346d;
   color: #FFF;
   height: 50px;
@@ -81,8 +105,6 @@ scroll-behavior: smooth;
   text-align: center;
   font-size: 30px;
   font-weight: 500;
-  cursor: not-allowed;
-  pointer-events: none;
   border-radius: 5px;
   box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.25);
 }
@@ -92,18 +114,18 @@ scroll-behavior: smooth;
   outline: none;
 }
 
-.input:nth-child(1) {
+/*.input:nth-child(1) {
   cursor: pointer;
   pointer-events: all;
 }
-
+*/
 .cert-pdf {
   margin: auto;
   width: 900px;
   height: 700px;
 }
 
-input::-webkit-outer-spin-button,
+/*input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
@@ -111,7 +133,7 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
-}
+}*/
 
 .cert-img {
   background-color: rgba(255, 255, 255, 0);
@@ -365,6 +387,22 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
     margin-top: 1rem;
   }
 
+    .otp-btn {
+    height: 1.5rem;
+    width: auto;
+    font-size: 15px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .otp-btn:active {
+    height: 1.5rem;
+    width: auto;
+    font-size: 15px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
 
   .input{
     width: 1.5em;
@@ -410,7 +448,23 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
     margin-top: 1rem;
   }
 
-  .verify-btn:active {
+    .verify-btn:active {
+    height: 1.5rem;
+    width: auto;
+    font-size: 12px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .otp-btn {
+    height: 1.5rem;
+    width: auto;
+    font-size: 15px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .otp-btn:active {
     height: 1.5rem;
     width: auto;
     font-size: 15px;
