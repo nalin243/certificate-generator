@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
     <?php 
-        use PHPMailer\PHPMailer\PHPMailer;
-
+        
         require 'env_config.php';
         require 'db_config.php';
-        require 'session_config.php';
-
-        $MAIL_PASSWORD = $_ENV['MAIL_PASSWORD'];
+        require 'mail_config.php';
+        
+        session_start();
 
         $pname = "";
         $peventname = "";
         $certImage = "";
+        $imgData = "";
 
         if(count($_POST)!=0){
                 if(! (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth'])) == 0 ){
@@ -27,7 +27,7 @@
             $results = $results->fetch_all();
 
             if(count($results)==0){
-                $pname = "Not found";
+                $pname = "Mobile number not found";
                 session_unset();
                 session_destroy();
             }
@@ -44,25 +44,15 @@
 
             $message = "Your OTP for getting participation certificate is ".$_SESSION['generatedOTP'];
 
-            $mail = new PHPMailer(true);
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-
-            $mail->SMTPAuth = true;
-
-            $mail->Username = 'da3798@srmist.edu.in';
-            $mail->Password = "$MAIL_PASSWORD";
-
-            $mail->Port = 465;
-            $mail->SMTPSecure = 'ssl';
-
             //sending mail to use
 
             $mail->Subject = 'OTP';
+            $mail->setFrom('da3798@srmist.edu.in', 'Live Wires');
             $mail->addAddress("$participantEmail", "$participantName"); 
             $mail->Body = $message;
 
-            $mail->send();
+            if(!$_SESSION['mailStatus'])
+                $_SESSION['mailStatus'] = $mail->send();
 
             $mail->smtpClose();
 
@@ -88,19 +78,20 @@
                         $img = imagecreatefromstring(base64_decode($certImage));
                         $black = imagecolorexact($img, 0, 0, 0);
 
-                        imagettftext($img,110,0,$data[0][2],$data[0][3],$black,'./tothepointregular.ttf',$pname);
-                        imagettftext($img,45,0,$data[0][4],$data[0][5],$black,'./tothepointregular.ttf',$date);
+                        imagettftext($img,100,0,$data[0][2],$data[0][3],$black,'./shortbaby.ttf',$pname);
+                        imagettftext($img,40,0,$data[0][4],$data[0][5],$black,'./shortbaby.ttf',$date);
 
                         ob_start();
                         imagepng($img);
-                        $certImage = base64_encode(ob_get_clean());
+                        $imgData = base64_encode(ob_get_clean());
+                        $certImage = "<img src='data:image/png;base64,$imgData' class='cert-img'/>";
 
                         session_unset();
                         session_destroy();
                             
                     }
                     else {
-                        $pname = "Not found";
+                        $pname = "Mobile number not found";
                         session_unset();
                         session_destroy();
                     }
@@ -187,8 +178,8 @@
     <script src="https://cdn.tailwindcss.com"></script>    
 </head>
 <body OnLoad="document.phone.first.focus();">
-    <div class="flex flex-col page h-screen min-w-screen overflow-auto ">
-        <div class="flex flex-col h-screen w-full shrink-0 ">
+    <div class="flex flex-col page h-screen min-w-screen overflow-auto">
+        <div id="main-container" class="flex flex-col">
             <div class="flex h-auto w-full mt-14">
                 <img src="./src/assets/srmlogo.png" class=" img p-15 m-auto h-full w-3/12">
             </div>
@@ -203,10 +194,10 @@
                     <h1 class="second-text m-auto mt-2">Kattankulathur.</h1>
                 </div>
             </div>
-            <div id="inputs" class="inputs flex h-1/6 mt-24 w-full -mt-18 justify-center">
+            <div id="inputs" class="inputs flex h-1/6  w-full justify-center">
                 <form id="phone" name="phone" method="POST" action="index.php">
                     <div class="flex justify-center numberlaptop">
-                        <div class="flex flex-col">
+                        <div class="flex flex-col justify-center text-center">
                             <div id="number-container" class="flex">
                                 <input class="input" name="first" type="text" inputmode="numeric" maxlength="1" />
                                 <input class="input" name="second" type="text" inputmode="numeric" maxlength="1" />
@@ -231,21 +222,51 @@
                 </form>
                 
             </div>
-            <script>
+          <!--   <div class="flex black-text h-1/6 w-full">
+                <h1 class="text-black font-extrabold m-auto text-xl">Please Enter your Registered Phone Number.</h1>
+            </div> -->
+             <div class="flex text-center justify-center">
+                <h1 id="otp-message" class="text-black font-extrabold m-auto text-md mt-4 hidden">Check your registered email for OTP</h1>
+            </div>
+            <div class ="flex flex-col mt-2 h-full w-full">
+         <!--     <div class="flex h-2/6 w-full black-text">
+                    <h1 id="pname" class="text-black font-extrabold m-auto mt-5"><?= $pname ?></h1>
+                </div>
+                <div class="flex h-1/6 w-full black-text">
+                    <h1 id="peventname" class="text-black font-bold m-auto mt-10"><?= $peventname ?></h1>
+                </div> -->
+            </div>
+        </div>
+        <div id="img-container-parent" class="flex h-5/6 min-w-screen shrink-0 ">
+            <div id="img-container" class="flex relative container m-auto my-0">
+                <?= $certImage ?>
+                <div class="middle absolute .inset-0">
+                    <a href="data:image/png;base64,<?= $imgData ?>" download="<?= $pname."-certificate" ?>"><button class="text">Click to Download</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
                 const inputs = document.getElementById("inputs")
                 const formElement = document.querySelector("#phone")
 
                 const numberCont = document.getElementById("number-container")
                 const otpCont = document.getElementById("otp-container")
 
+                if( "<?= $certImage ?>" != ""){
+                    document.getElementById("img-container").scrollIntoView()
+                }
+
                 if( "<?= $_SESSION['number'] ?>" != "" ){
 
                     document.querySelector(".otp-btn").classList.add("hidden")
                     document.querySelector(".verify-btn").classList.remove("hidden")
+                    document.getElementById("otp-message").classList.add("hidden")
 
                     if(otpCont.classList.contains("hidden")) {                        
                         numberCont.classList.add("hidden")
                         otpCont.classList.remove("hidden")
+                        document.getElementById("otp-message").classList.remove("hidden")
                     }
                 }
 
@@ -307,26 +328,5 @@
                 }
                 });
             </script>
-          <!--   <div class="flex black-text h-1/6 w-full">
-                <h1 class="text-black font-extrabold m-auto text-xl">Please Enter your Registered Phone Number.</h1>
-            </div> -->
-            <div class ="flex flex-col mt-2 h-full w-full">
-                <div class="flex h-2/6 w-full black-text">
-                    <h1 id="pname" class="text-black font-extrabold m-auto text-5xl"><?= $pname ?></h1>
-                </div>
-                <div class="flex h-1/6 w-full black-text">
-                    <h1 id="peventname" class="text-black font-bold m-auto mt-10 text-3xl"><?= $peventname ?></h1>
-                </div>
-            </div>
-        </div>
-        <div class="flex h-5/6 min-w-screen shrink-0 ">
-            <div class="flex relative container h-5/6 w-7/12 m-auto my-0">
-                <img src="data:image/png;base64,<?= $certImage ?>" class="cert-img"/>
-                <div class="middle absolute .inset-0">
-                    <a href="data:image/png;base64,<?= $certImage ?>" download="<?= $pname."-certificate" ?>"><button class="text">Click to Download</button></a>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>

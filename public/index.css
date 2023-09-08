@@ -341,7 +341,31 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
   flex-direction:row;
 }
 
-@media screen and (max-width: 876px){
+ #pname {
+    font-size:3rem;
+  }
+
+  #peventname {
+    font-size:1.375rem;
+  }
+
+  #img-container {
+    height:83.333333%;
+    width:58.333333%;
+  }
+
+  #main-container {
+    flex-shrink:0;
+    height:80%;
+    width:100%;
+  }
+
+   #inputs{
+    margin-top:6.5rem;
+  }
+
+
+@media screen and (max-width: 800px){
 
   .numberlaptop {
     flex-direction:column;
@@ -353,14 +377,14 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
   }
 
   .first-text{
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     transition: .2s;
     align-items: center;
     justify-content: center;
   }
 
   .second-text{
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     transition: .2s;
     align-items: center;
     justify-content: center;
@@ -405,16 +429,38 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
 
 
   .input{
-    width: 1.5em;
-    height: 2em;
+    width: 1.3em;
+    height: 1.7em;
     font-size: 20px;
-    margin: 0rem 0.35rem;
+    margin: 1rem 0.35rem;
     transition: .2s;
   }
 
+  #pname {
+    font-size:2rem;
+  }
+
+  #peventname {
+    font-size:1.375rem;
+  }
+
+  #img-container {
+    flex-shrink:1;
+    height:38.333333%;
+    width:88.333333%;
+    margin-top:7rem;
+  }
+
+  #main-container{
+    height:59%;
+  }
+
+  #inputs{
+    margin-top:7rem;
+  }
 }
 
-@media screen and (max-width: 415px){
+@media screen and (max-width: 400px){
 
   .numberlaptop {
     flex-direction:column;
@@ -424,17 +470,19 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
   .page{
     flex-direction: column;
   }
-
   .first-text{
-    font-size: 1rem;
+    font-size: 0.9rem;
     transition: .2s;
+    align-items: center;
+    justify-content: center;
   }
 
   .second-text{
-    font-size: 1rem;
+    font-size: 0.9rem;
     transition: .2s;
+    align-items: center;
+    justify-content: center;
   }
-
   .black-text h1{
     font-size: 0.8rem;
     transition: .2s;
@@ -481,5 +529,27 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
     transition: .2s;
   }
 
+  #pname {
+    font-size:3rem;
+  }
+
+  #peventname {
+    font-size:1.375rem;
+  }
+
+  #img-container {
+    flex-shrink:1;
+    height:38.333333%;
+    width:88.333333%;
+    margin-top:7rem;
+  }
+
+  #main-container{
+    height:59%;
+  }
+
+   #inputs{
+    margin-top:7rem;
+  }
 }
 
