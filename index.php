@@ -237,7 +237,7 @@
                 </div> -->
             </div>
         </div>
-        <div id="img-container-parent" class="flex h-5/6 min-w-screen shrink-0 ">
+        <div id="img-container-parent" class="flex h-5/6 min-w-screen shrink-0 hidden">
             <div id="img-container" class="flex relative container m-auto my-0">
                 <?= $certImage ?>
                 <div class="middle absolute .inset-0">
@@ -254,7 +254,9 @@
                 const otpCont = document.getElementById("otp-container")
 
                 if( "<?= $certImage ?>" != ""){
-                    document.getElementById("img-container").scrollIntoView()
+                    document.getElementById("img-container-parent").classList.remove("hidden")
+                    document.querySelector(".cert-img").scrollIntoView()
+
                 }
 
                 if( "<?= $_SESSION['number'] ?>" != "" ){
