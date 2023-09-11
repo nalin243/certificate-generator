@@ -53,7 +53,7 @@ foreach($_SESSION as $sessionVar=>$value){
             </div>
             <div class ="flex flex-col mt-2 h-full w-full">
             <div class="flex h-2/6 w-full justify-center text-center">
-                    <h1 id="pname" class="text-black  m-auto text-red-800 font-bold mt-20"><?= $error_message ?></h1>
+                    <h1 id="error-message" class="text-black  m-auto text-red-800 font-bold mt-20"><?= $error_message ?></h1>
                 </div>
             </div>
         </div>

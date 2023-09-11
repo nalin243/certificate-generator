@@ -261,7 +261,7 @@
                 <h1 id="otp-message" class="text-black font-extrabold m-auto text-md mt-4 hidden">Check your registered email for OTP</h1>
             </div>
             <div class ="flex flex-col mt-2 h-full w-full">
-            <div class="flex h-2/6 w-full black-text">
+            <div class="flex h-2/6 w-full black-text text-center">
                     <h1 id="error-message" class="text-red-800 font-bold m-auto mt-5"> <?= $error_message ?> </h1>
                 </div>
             </div>

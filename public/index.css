@@ -341,8 +341,8 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
   flex-direction:row;
 }
 
- # {
-    font-size:3rem;
+ #error-message {
+    font-size:2rem;
   }
 
   #peventname {
@@ -437,7 +437,7 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
   }
 
   #error-message {
-    font-size:2rem;
+    font-size:1rem;
   }
 
   #peventname {
@@ -530,7 +530,7 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
   }
 
   #error-message {
-    font-size:3rem;
+    font-size:1rem;
   }
 
   #peventname {
