@@ -12,7 +12,10 @@ if(isset($_SESSION['errors']['template_error'])){
     $error_message = $_SESSION['errors']['form_error'];
 }else if(isset($_SESSION['errors']['email_error'])){
     $error_message = $_SESSION['errors']['email_error'];
+}else if(isset($_SESSION['errors']['participant_error'])){
+    $error_message = $_SESSION['errors']['participant_error'];
 }
+
 
 foreach($_SESSION as $sessionVar=>$value){
     if($sessionVar!=="errors")
