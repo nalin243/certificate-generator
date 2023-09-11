@@ -10,9 +10,16 @@
         session_start();
 
         $pname = "";
+        $error_message = "";
         $peventname = "";
         $certImage = "";
         $imgData = "";
+
+        if( count( ($mysqli->query("select * from templates"))->fetch_all() ) == 0  ){ //checking if templates exist or not
+            $_SESSION['errors']['template_error'] = "Whoops! &nbsp; No templates found! &nbsp; :( ";
+            header("Location: ./error_view.php");
+        }
+
 
         if(count($_POST)!=0){
                 if(! (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth'])) == 0 ){
@@ -27,7 +34,7 @@
             $results = $results->fetch_all();
 
             if(count($results)==0){
-                $pname = "Mobile number not found";
+                $error_message = "Mobile number not found";
                 session_unset();
                 session_destroy();
             }
@@ -36,7 +43,6 @@
             //generating otp as this means user is in database
             if(!isset($_SESSION['generatedOTP'])){
                 $_SESSION['generatedOTP'] = rand(1000,9999);
-
             }
 
             $participantEmail = $results[0][5];
@@ -48,11 +54,23 @@
 
             $mail->Subject = 'OTP';
             $mail->setFrom('da3798@srmist.edu.in', 'Live Wires');
-            $mail->addAddress("$participantEmail", "$participantName"); 
-            $mail->Body = $message;
 
-            if(!$_SESSION['mailStatus'])
-                $_SESSION['mailStatus'] = $mail->send();
+            try{
+                $mail->addAddress("$participantEmail", "$participantName"); 
+                $mail->Body = $message;
+
+                if(!$_SESSION['mailStatus']){
+                    if($error_message !== "OTP Invalid")
+                        $_SESSION['mailStatus'] = $mail->send();
+                }
+
+              } catch(Exception $e){
+                if(gettype(strpos($e->getMessage(),"Invalid address"))==="integer"){
+
+                    $_SESSION['errors']['email_error'] = "Whoops! &nbsp; Invalid email address provided. &nbsp; :(  Contact Mayank Mehra!";
+                    header("Location: ./error_view.php");
+                }
+            }
 
             $mail->smtpClose();
 
@@ -91,13 +109,13 @@
                             
                     }
                     else {
-                        $pname = "Mobile number not found";
+                        $error_message = "Mobile number not found";
                         session_unset();
                         session_destroy();
                     }
                 }
                 else {
-                    $pname = "OTP Invalid";
+                    $error_message = "OTP Invalid";
                     session_unset();
                     session_destroy();
                 }
@@ -106,65 +124,73 @@
 
         }
 
-           $client = new Google\Client;
-           $client->setAuthConfig("client_secret.json");
-           $client->setApplicationName("Certficate-generator");
-           $client->setScopes(['https://www.googleapis.com/auth/forms','https://www.googleapis.com/auth/drive']);
-
-           $service = new Google\Service\Forms($client);
+        $client = new Google\Client;
+        $client->setAuthConfig("client_secret.json");
+        $client->setApplicationName("Certficate-generator");
+        $client->setScopes(['https://www.googleapis.com/auth/forms','https://www.googleapis.com/auth/drive']);
+        $service = new Google\Service\Forms($client);
 
         $formIds = (($mysqli->query("select formId from users"))->fetch_all());
 
         foreach($formIds as $formId){
 
-            $form = $service->forms->get($formId[0]);   
-            $questionIds = [];
-
-           foreach($form['items'] as $item){
-                if(str_contains(strtolower($item['title']),"name"))
-                    $questionIds["name"] = $item['questionItem']['question']['questionId'];
-                if(str_contains(strtolower($item['title']),"date"))
-                    $questionIds["date"] = $item['questionItem']['question']['questionId'];
-                if(str_contains(strtolower($item['title']),"event"))
-                    $questionIds["eventname"] = $item['questionItem']['question']['questionId'];
-                if(str_contains(strtolower($item['title']),"year"))
-                    $questionIds["year"] = $item['questionItem']['question']['questionId'];
-                if(str_contains(strtolower($item['title']),"semester"))
-                    $questionIds["semester"] = $item['questionItem']['question']['questionId'];
-                if(str_contains(strtolower($item['title']),"number"))
-                    $questionIds["number"] = $item['questionItem']['question']['questionId'];
-                if(str_contains(strtolower($item['title']),"mail"))
-                    $questionIds["mail"] = $item['questionItem']['question']['questionId'];
-           }
-
-           $responses = $service->forms_responses->listFormsResponses($formId[0]);
-           foreach($responses as $response){
-
-                $phoneId = $questionIds['number'];
-                $nameId = $questionIds['name'];
-                $eventNameId = $questionIds['eventname'];
-                $dateId = $questionIds['date'];
-                $mailId = $questionIds['mail'];
-
-                $phoneNo = (int)$response['answers']["$phoneId"]['textAnswers'][0]['value'];
-                $name = $response['answers']["$nameId"]['textAnswers'][0]['value'];
-                $eventName = $response['answers']["$eventNameId"]['textAnswers'][0]['value'];
-                $date = $response['answers']["$dateId"]['textAnswers'][0]['value'];
-                $mail = $response['answers']["$mailId"]['textAnswers'][0]['value'];
+            try{
+                $form = $service->forms->get($formId[0]); 
+                $questionIds = [];
 
 
-                $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
+               foreach($form['items'] as $item){
+                    if(str_contains(strtolower($item['title']),"name"))
+                        $questionIds["name"] = $item['questionItem']['question']['questionId'];
+                    if(str_contains(strtolower($item['title']),"date"))
+                        $questionIds["date"] = $item['questionItem']['question']['questionId'];
+                    if(str_contains(strtolower($item['title']),"event"))
+                        $questionIds["eventname"] = $item['questionItem']['question']['questionId'];
+                    if(str_contains(strtolower($item['title']),"year"))
+                        $questionIds["year"] = $item['questionItem']['question']['questionId'];
+                    if(str_contains(strtolower($item['title']),"semester"))
+                        $questionIds["semester"] = $item['questionItem']['question']['questionId'];
+                    if(str_contains(strtolower($item['title']),"number"))
+                        $questionIds["number"] = $item['questionItem']['question']['questionId'];
+                    if(str_contains(strtolower($item['title']),"mail"))
+                        $questionIds["mail"] = $item['questionItem']['question']['questionId'];
+               }
 
-                if(count($result->fetch_all())){
-                    //already exists so just go to the next response
-                    continue;
+               $responses = $service->forms_responses->listFormsResponses($formId[0]);
+               foreach($responses as $response){
+
+                    $phoneId = $questionIds['number'];
+                    $nameId = $questionIds['name'];
+                    $eventNameId = $questionIds['eventname'];
+                    $dateId = $questionIds['date'];
+                    $mailId = $questionIds['mail'];
+
+                    $phoneNo = (int)$response['answers']["$phoneId"]['textAnswers'][0]['value'];
+                    $name = $response['answers']["$nameId"]['textAnswers'][0]['value'];
+                    $eventName = $response['answers']["$eventNameId"]['textAnswers'][0]['value'];
+                    $date = $response['answers']["$dateId"]['textAnswers'][0]['value'];
+                    $mail = $response['answers']["$mailId"]['textAnswers'][0]['value'];
+
+
+                    $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
+
+                    if(count($result->fetch_all())){
+                        //already exists so just go to the next response
+                        continue;
+                    }
+                    else {
+                        //does not exist so insert into db
+                        $mysqli->query("insert into participants(pnumber,name,date,eventname,formId,email) values($phoneNo,'$name','$date','$eventName','$formId[0]','$mail')");
+                    }
                 }
-                else {
-                    //does not exist so insert into db
-                    $mysqli->query("insert into participants(pnumber,name,date,eventname,formId,email) values($phoneNo,'$name','$date','$eventName','$formId[0]','$mail')");
+                $questionIds = [];
+
+            }catch(Exception $e){
+                if(gettype(strpos($e->getMessage(),"Requested entity was not found"))==="integer"){
+                    $_SESSION['errors']['form_error'] = "Whoops! &nbsp; Incorrect Form ID! &nbsp; :(";
+                    header("Location: ./error_view.php");
                 }
             }
-            $questionIds = [];
        }
 
      ?>
@@ -222,19 +248,16 @@
                 </form>
                 
             </div>
-          <!--   <div class="flex black-text h-1/6 w-full">
-                <h1 class="text-black font-extrabold m-auto text-xl">Please Enter your Registered Phone Number.</h1>
-            </div> -->
+            <div class="flex black-text h-1/6 w-full">
+                <h1 id="enter-message" class="text-black font-extrabold m-auto text-xl mt-3">Please Enter your Registered Phone Number.</h1>
+            </div>
              <div class="flex text-center justify-center">
                 <h1 id="otp-message" class="text-black font-extrabold m-auto text-md mt-4 hidden">Check your registered email for OTP</h1>
             </div>
             <div class ="flex flex-col mt-2 h-full w-full">
-         <!--     <div class="flex h-2/6 w-full black-text">
-                    <h1 id="pname" class="text-black font-extrabold m-auto mt-5"><?= $pname ?></h1>
+            <div class="flex h-2/6 w-full black-text">
+                    <h1 id="error-message" class="text-red-800 font-bold m-auto mt-5"> <?= $error_message ?> </h1>
                 </div>
-                <div class="flex h-1/6 w-full black-text">
-                    <h1 id="peventname" class="text-black font-bold m-auto mt-10"><?= $peventname ?></h1>
-                </div> -->
             </div>
         </div>
         <div id="img-container-parent" class="flex h-5/6 min-w-screen shrink-0 hidden">
@@ -257,6 +280,10 @@
                     document.getElementById("img-container-parent").classList.remove("hidden")
                     document.querySelector(".cert-img").scrollIntoView()
 
+                }
+
+                if("<?= $_SESSION['generatedOTP'] ?>" != ""){
+                    document.querySelector("#enter-message").classList.add("hidden")
                 }
 
                 if( "<?= $_SESSION['number'] ?>" != "" ){

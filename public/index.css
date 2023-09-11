@@ -341,7 +341,7 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
   flex-direction:row;
 }
 
- #pname {
+ # {
     font-size:3rem;
   }
 
@@ -436,7 +436,7 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
     transition: .2s;
   }
 
-  #pname {
+  #error-message {
     font-size:2rem;
   }
 
@@ -529,7 +529,7 @@ input.login-page:focus ~ label, input.login-page:valid ~ label {
     transition: .2s;
   }
 
-  #pname {
+  #error-message {
     font-size:3rem;
   }
 
