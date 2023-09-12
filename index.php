@@ -22,9 +22,13 @@
 
 
         if(count($_POST)!=0){
-                if(! (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth'])) == 0 ){
-                    $_SESSION['number'] = (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth']));
-                }
+            $unsanitizedNumber = (int) (strval($_POST['first']).strval($_POST['second']).strval($_POST['third']).strval($_POST['fourth']).strval($_POST['fifth']).strval($_POST['sixth']).strval($_POST['seventh']).strval($_POST['eighth']).strval($_POST['ninth']).strval($_POST['tenth'])) ;
+            $cleanNumber = filter_var($unsanitizedNumber,FILTER_SANITIZE_NUMBER_INT);//sanitizing
+            $cleanNumber = filter_var($cleanNumber,FILTER_VALIDATE_INT);//validating
+
+            if($cleanNumber ){
+                $_SESSION['number'] = $cleanNumber;
+            }
         }
 
         if($_SESSION['number']!=""){
@@ -83,10 +87,10 @@
                     $results = $results->fetch_all();
             
                     if(!(count($results) == 0)){
-                        $pname = $results[0][1];
-                        $peventname = $results[0][3];
+                        $pname = htmlspecialchars($results[0][1]);
+                        $peventname = htmlspecialchars($results[0][3]);
                         $date = $results[0][2];
-                        $formId = $results[0][4];
+                        $formId = htmlspecialchars($results[0][4]);
                         $template = $mysqli->query("select * from templates where formId='$formId' ");
                         $data = $template->fetch_all();
 
