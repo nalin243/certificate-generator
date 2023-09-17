@@ -203,9 +203,9 @@
     <title>Cerification</title>
 
     <link rel="stylesheet" href="./public/index.css">
+    <link rel="stylesheet" href="./public/tailwind.css">
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
-
-    <script src="https://cdn.tailwindcss.com"></script>    
+  
 </head>
 <body OnLoad="document.phone.first.focus();">
     <div class="flex flex-col page h-screen min-w-screen overflow-auto">

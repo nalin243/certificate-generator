@@ -17,8 +17,7 @@
     <title>Sign In</title>
 
     <link rel="stylesheet" href="./public/index.css">
-
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./public/tailwind.css">
 
 </head>
 <body>

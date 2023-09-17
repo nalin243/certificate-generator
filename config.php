@@ -7,8 +7,8 @@
 
     <link rel="stylesheet" href="./public/index.css">
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
-
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./public/tailwind.css">
+    
 </head>
 <body>
 
