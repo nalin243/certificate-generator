@@ -37,101 +37,95 @@
             $results = $mysqli->query("select * from participants where pnumber=$number ");
             $results = $results->fetch_all();
 
-            if(count($results)==0){
-                $error_message = "Mobile number not found";
-                session_unset();
-                session_destroy();
-            }
-            else {
-            //generating otp as this means user is in database
-            if(!isset($_SESSION['generatedOTP'])){
-                $_SESSION['generatedOTP'] = rand(1000,9999);
-            }
+            if(is_null($_SESSION['errors']['number_not_found'])){
 
-            $participantEmail = $results[0][5];
-            $participantName = $results[0][1];
+                // //generating otp as this means user is in database
+                if(!isset($_SESSION['generatedOTP']))
+                    $_SESSION['generatedOTP'] = rand(1000,9999);
 
-            $message = "Your OTP for getting participation certificate is ".$_SESSION['generatedOTP'];
+                $participantEmail = $results[0][5];
+                $participantName = $results[0][1];
 
-            //sending mail to use
+                $message = "Your OTP for getting participation certificate is ".$_SESSION['generatedOTP'];
 
-            $mail->Subject = 'OTP';
-            $mail->setFrom('da3798@srmist.edu.in', 'Live Wires');
+                //sending mail to use
 
-            try{
-                $mail->addAddress("$participantEmail", "$participantName"); 
-                $mail->Body = $message;
+                $mail->Subject = 'OTP';
+                $mail->setFrom('da3798@srmist.edu.in', 'Live Wires');
 
-                if(!$_SESSION['mailStatus']){
-                    if($error_message !== "OTP Invalid")
-                        $_SESSION['mailStatus'] = $mail->send();
+                try{
+                    $mail->addAddress("$participantEmail", "$participantName"); 
+                    $mail->Body = $message;
+
+                    if(!$_SESSION['mailStatus']){
+                        if($error_message !== "OTP Invalid")
+                            $_SESSION['mailStatus'] = $mail->send();
+                    }
+
+                  } catch(Exception $e){
+                    if(gettype(strpos($e->getMessage(),"Invalid address"))==="integer"){
+
+                        $_SESSION['errors']['email_error'] = "Whoops! &nbsp; Invalid email address provided. &nbsp; :(  Contact Mayank Mehra!";
+                        header("Location: ./error_view.php");
+                    }
                 }
 
-              } catch(Exception $e){
-                if(gettype(strpos($e->getMessage(),"Invalid address"))==="integer"){
-
-                    $_SESSION['errors']['email_error'] = "Whoops! &nbsp; Invalid email address provided. &nbsp; :(  Contact Mayank Mehra!";
-                    header("Location: ./error_view.php");
-                }
-            }
-
-            $mail->smtpClose();
+                $mail->smtpClose();
 
 
-            if($_POST['otp']!=""){
+                if($_POST['otp']!=""){
 
-                if((int)$_POST['otp']==$_SESSION['generatedOTP']){
+                    if((int)$_POST['otp']==$_SESSION['generatedOTP']){
 
-                    $number = $_SESSION['number'];
-                    $results = $mysqli->query("select * from participants where pnumber=$number ");
-                    $results = $results->fetch_all();
-            
-                    if(!(count($results) == 0)){
-                        $pname = htmlspecialchars($results[0][1]);
-                        $peventname = htmlspecialchars($results[0][3]);
-                        $date = $results[0][2];
-                        $formId = htmlspecialchars($results[0][4]);
-                        $template = $mysqli->query("select * from templates where formId='$formId' ");
-                        $data = $template->fetch_all();
+                        $number = $_SESSION['number'];
+                        $results = $mysqli->query("select * from participants where pnumber=$number ");
+                        $results = $results->fetch_all();
+                
+                        if(!(count($results) == 0)){
+                            $pname = htmlspecialchars($results[0][1]);
+                            $peventname = htmlspecialchars($results[0][3]);
+                            $date = $results[0][2];
+                            $formId = htmlspecialchars($results[0][4]);
+                            $template = $mysqli->query("select * from templates where formId='$formId' ");
+                            $data = $template->fetch_all();
 
-                        $user = (($mysqli->query("select username from users where formId='$formId' "))->fetch_all())[0][0];
+                            $user = (($mysqli->query("select username from users where formId='$formId' "))->fetch_all())[0][0];
 
-                        if(count($data)==0){
-                            $_SESSION['errors']['participant_error'] = "Whoops! No template found for $pname using formid $formId that belongs to $user";
-                            header("Location: ./error_view.php");
+                            if(count($data)==0){
+                                $_SESSION['errors']['participant_error'] = "Whoops! No template found for $pname using formid $formId that belongs to $user";
+                                header("Location: ./error_view.php");
+                            }
+
+                            $certImage = $data[0][1];
+
+                            $img = imagecreatefromstring(base64_decode($certImage));
+                            $black = imagecolorexact($img, 0, 0, 0);
+
+                            imagettftext($img,100,0,$data[0][2],$data[0][3],$black,'./shortbaby.ttf',$pname);
+                            imagettftext($img,40,0,$data[0][4],$data[0][5],$black,'./shortbaby.ttf',$date);
+
+                            ob_start();
+                            imagepng($img);
+                            $imgData = base64_encode(ob_get_clean());
+                            $certImage = "<img src='data:image/png;base64,$imgData' class='cert-img'/>";
+
+                            session_unset();
+                            session_destroy();
+                                
                         }
-
-                        $certImage = $data[0][1];
-
-                        $img = imagecreatefromstring(base64_decode($certImage));
-                        $black = imagecolorexact($img, 0, 0, 0);
-
-                        imagettftext($img,100,0,$data[0][2],$data[0][3],$black,'./shortbaby.ttf',$pname);
-                        imagettftext($img,40,0,$data[0][4],$data[0][5],$black,'./shortbaby.ttf',$date);
-
-                        ob_start();
-                        imagepng($img);
-                        $imgData = base64_encode(ob_get_clean());
-                        $certImage = "<img src='data:image/png;base64,$imgData' class='cert-img'/>";
-
-                        session_unset();
-                        session_destroy();
-                            
+                        else {
+                            $error_message = "Mobile number not found";
+                            session_unset();
+                            session_destroy();
+                        }
                     }
                     else {
-                        $error_message = "Mobile number not found";
+                        $error_message = "OTP Invalid";
                         session_unset();
                         session_destroy();
                     }
                 }
-                else {
-                    $error_message = "OTP Invalid";
-                    session_unset();
-                    session_destroy();
-                }
             }
-        }
-
         }
 
         $client = new Google\Client;
@@ -335,7 +329,37 @@
                     
                         
                 })
-                inputs.addEventListener("input", function (e) {
+                inputs.addEventListener("input",(e)=>{
+
+                const number = [...document.querySelector("#number-container").children].reduce((number,child)=>{
+                    return number+child.value
+                },"")
+                if(number.length==10){
+
+                    const httpRequest = new XMLHttpRequest()
+
+                    httpRequest.onreadystatechange = ()=>{
+                        if(httpRequest.readyState===4 && httpRequest.status==200){
+                            if(httpRequest.responseText != "Ok"){
+                                document.querySelector("#error-message").innerText = httpRequest.responseText
+                                <?php $_SESSION['errors']['number_not_found'] = true; ?>
+                                <?php $certImage = ""; ?>
+                            }
+                            else{
+                                <?php $_SESSION['errors']['number_not_found'] = null; ?>
+                            }
+                        }
+                    }
+
+
+                    httpRequest.open("GET",`verify_number.php?number=${number}`,true)
+                    httpRequest.send()
+                }
+                document.querySelector("#error-message").innerText = ""
+                document.querySelector("#img-container-parent").classList.add("hidden")
+
+
+
                 const target = e.target;
                 const val = target.value;
                 
