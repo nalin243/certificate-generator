@@ -5,6 +5,7 @@
     require "env_config.php";
 
     $MAIL_PASSWORD = $_ENV['MAIL_PASSWORD'];
+    $MAIL_ADDRESS = $_ENV['MAIL_ADDRESS'];
 
     $mail = new PHPMailer(true);
     $mail->isSMTP();
@@ -12,7 +13,7 @@
 
     $mail->SMTPAuth = true;
 
-    $mail->Username = 'da3798@srmist.edu.in';
+    $mail->Username = "$MAIL_ADDRESS";
     $mail->Password = "$MAIL_PASSWORD";
 
     $mail->Port = 465;

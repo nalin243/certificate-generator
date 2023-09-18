@@ -51,7 +51,7 @@
                 //sending mail to use
 
                 $mail->Subject = 'OTP';
-                $mail->setFrom('da3798@srmist.edu.in', 'Live Wires');
+                $mail->setFrom('certgenbot1@gmail.com', 'Live Wires');
 
                 try{
                     $mail->addAddress("$participantEmail", "$participantName"); 
