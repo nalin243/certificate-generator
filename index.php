@@ -86,6 +86,7 @@
                             $peventname = htmlspecialchars($results[0][3]);
                             $date = $results[0][2];
                             $formId = htmlspecialchars($results[0][4]);
+                            $class = $results[0][6];
                             $template = $mysqli->query("select * from templates where formId='$formId' ");
                             $data = $template->fetch_all();
 
@@ -101,8 +102,9 @@
                             $img = imagecreatefromstring(base64_decode($certImage));
                             $black = imagecolorexact($img, 0, 0, 0);
 
-                            imagettftext($img,100,0,$data[0][2],$data[0][3],$black,'./shortbaby.ttf',$pname);
-                            imagettftext($img,40,0,$data[0][4],$data[0][5],$black,'./shortbaby.ttf',$date);
+                            imagettftext($img,70,0,$data[0][2],$data[0][3],$black,'./fonts/OpenSans-Regular.ttf',$pname);
+                            imagettftext($img,40,0,$data[0][4],$data[0][5],$black,'./fonts/OpenSans-Regular.ttf',$date);
+                            imagettftext($img,40,0,$data[0][6],$data[0][7],$black,'./fonts/OpenSans-Regular.ttf',$class);
 
                             ob_start();
                             imagepng($img);
@@ -150,10 +152,8 @@
                         $questionIds["date"] = $item['questionItem']['question']['questionId'];
                     if(str_contains(strtolower($item['title']),"event"))
                         $questionIds["eventname"] = $item['questionItem']['question']['questionId'];
-                    if(str_contains(strtolower($item['title']),"year"))
-                        $questionIds["year"] = $item['questionItem']['question']['questionId'];
-                    if(str_contains(strtolower($item['title']),"semester"))
-                        $questionIds["semester"] = $item['questionItem']['question']['questionId'];
+                    if(str_contains(strtolower($item['title']),"class"))
+                        $questionIds["class"] = $item['questionItem']['question']['questionId'];
                     if(str_contains(strtolower($item['title']),"number"))
                         $questionIds["number"] = $item['questionItem']['question']['questionId'];
                     if(str_contains(strtolower($item['title']),"mail"))
@@ -168,13 +168,14 @@
                     $eventNameId = $questionIds['eventname'];
                     $dateId = $questionIds['date'];
                     $mailId = $questionIds['mail'];
+                    $classId = $questionIds['class'];
 
                     $phoneNo = (int)$response['answers']["$phoneId"]['textAnswers'][0]['value'];
                     $name = $response['answers']["$nameId"]['textAnswers'][0]['value'];
                     $eventName = $response['answers']["$eventNameId"]['textAnswers'][0]['value'];
                     $date = $response['answers']["$dateId"]['textAnswers'][0]['value'];
                     $mail = $response['answers']["$mailId"]['textAnswers'][0]['value'];
-
+                    $class = $response['answers']["$classId"]['textAnswers'][0]['value'];
 
                     $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
 
@@ -184,7 +185,7 @@
                     }
                     else {
                         //does not exist so insert into db
-                        $mysqli->query("insert into participants(pnumber,name,date,eventname,formId,email) values($phoneNo,'$name','$date','$eventName','$formId[0]','$mail')");
+                        $mysqli->query("insert into participants(pnumber,name,date,eventname,formId,email,class) values($phoneNo,'$name','$date','$eventName','$formId[0]','$mail','$class')");
                     }
                 }
                 $questionIds = [];
