@@ -14,11 +14,11 @@
     foreach($formIds as $formId){
 
         try{
-            $form = $service->forms->get($formId[0]); 
+            $form = $service->forms->get($formId[0]);
             $questionIds = [];
 
-
             foreach($form['items'] as $item){
+
                 if(str_contains(strtolower($item['title']),"name"))
                     $questionIds["name"] = $item['questionItem']['question']['questionId'];
                 if(str_contains(strtolower($item['title']),"date"))
@@ -47,7 +47,13 @@
                 $name = $response['answers']["$nameId"]['textAnswers'][0]['value'];
                 $eventName = $response['answers']["$eventNameId"]['textAnswers'][0]['value'];
                 $date = $response['answers']["$dateId"]['textAnswers'][0]['value'];
-                $mail = $response['answers']["$mailId"]['textAnswers'][0]['value'];
+
+                $mail = "";
+                if(!is_null($response->getRespondentEmail()))
+                    $mail = $response->getRespondentEmail();
+                else
+                    $mail = $response['answers']["$mailId"]['textAnswers'][0]['value'];
+
                 $class = $response['answers']["$classId"]['textAnswers'][0]['value'];
 
                 $result = $mysqli->query("select * from participants where pnumber=$phoneNo");
