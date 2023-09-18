@@ -10,7 +10,7 @@
     if(count($results)==0){
         session_unset();
         session_destroy();
-        echo "Mobile number not found";
+        echo "Mobile number not found ☹️";
     }
     else
     	echo "Ok";

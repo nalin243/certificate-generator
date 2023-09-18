@@ -16,7 +16,7 @@
         $imgData = "";
 
         if( count( ($mysqli->query("select * from templates"))->fetch_all() ) == 0  ){ //checking if templates exist or not
-            $_SESSION['errors']['template_error'] = "Whoops! &nbsp; No templates found! &nbsp; :( ";
+            $_SESSION['errors']['template_error'] = "Whoops! &nbsp; No templates found! &nbsp; ☹️ ";
             header("Location: ./error_view.php");
         }
 
@@ -65,7 +65,7 @@
                   } catch(Exception $e){
                     if(gettype(strpos($e->getMessage(),"Invalid address"))==="integer"){
 
-                        $_SESSION['errors']['email_error'] = "Whoops! &nbsp; Invalid email address provided. :( &nbsp;  Contact Mayank Mehra!";
+                        $_SESSION['errors']['email_error'] = "Whoops! &nbsp; Invalid email address provided. ☹️ &nbsp;  Contact Mayank Mehra!";
                         header("Location: ./error_view.php");
                     }
                 }
@@ -93,7 +93,7 @@
                             $user = (($mysqli->query("select username from users where formId='$formId' "))->fetch_all())[0][0];
 
                             if(count($data)==0){
-                                $_SESSION['errors']['participant_error'] = "Whoops! No template found for $pname using formid $formId that belongs to $user";
+                                $_SESSION['errors']['participant_error'] = "Whoops! ☹️ No template found for $pname using formid $formId that belongs to $user";
                                 header("Location: ./error_view.php");
                             }
 
@@ -192,7 +192,7 @@
 
             }catch(Exception $e){
                 if(gettype(strpos($e->getMessage(),"Requested entity was not found"))==="integer"){
-                    $_SESSION['errors']['form_error'] = "Whoops! &nbsp; Incorrect Form ID! &nbsp; :(";
+                    $_SESSION['errors']['form_error'] = "Whoops! ☹️ &nbsp; Incorrect Form ID! &nbsp; :(";
                     header("Location: ./error_view.php");
                 }
             }
