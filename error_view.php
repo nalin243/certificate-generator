@@ -16,7 +16,6 @@ if(isset($_SESSION['errors']['template_error'])){
     $error_message = $_SESSION['errors']['participant_error'];
 }
 
-
 foreach($_SESSION as $sessionVar=>$value){
     if($sessionVar!=="errors")
         unset($_SESSION["$sessionVar"]);
@@ -34,7 +33,7 @@ foreach($_SESSION as $sessionVar=>$value){
 
     <script src="https://cdn.tailwindcss.com"></script>    
 </head>
-<body OnLoad="document.phone.first.focus();">
+<body>
     <div class="flex flex-col page h-screen min-w-screen overflow-auto">
         <div id="main-container" class="flex flex-col">
             <div class="flex h-auto w-full mt-14">

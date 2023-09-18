@@ -65,7 +65,7 @@
                   } catch(Exception $e){
                     if(gettype(strpos($e->getMessage(),"Invalid address"))==="integer"){
 
-                        $_SESSION['errors']['email_error'] = "Whoops! &nbsp; Invalid email address provided. &nbsp; :(  Contact Mayank Mehra!";
+                        $_SESSION['errors']['email_error'] = "Whoops! &nbsp; Invalid email address provided. :( &nbsp;  Contact Mayank Mehra!";
                         header("Location: ./error_view.php");
                     }
                 }
@@ -246,7 +246,7 @@
                             </div>
                         </div>
                         <div class="m-auto">
-                            <button name="submit" value="submit" class="otp-btn ml-5 hover:scale-90 px-3">Send OTP</button>
+                            <button name="submit" value="submit" class="hidden otp-btn ml-5 hover:scale-90 px-3">Send OTP</button>
                             <button name="submit" value="submit" class="hidden verify-btn ml-5 hover:scale-90 px-3">Verify</button>
                         </div>
                     </div>
@@ -343,10 +343,13 @@
                         if(httpRequest.readyState===4 && httpRequest.status==200){
                             if(httpRequest.responseText != "Ok"){
                                 document.querySelector("#error-message").innerText = httpRequest.responseText
+                                if(!document.querySelector(".otp-btn").classList.contains("hidden"))
+                                    document.querySelector(".otp-btn").classList.add("hidden")
                                 <?php $_SESSION['errors']['number_not_found'] = true; ?>
                                 <?php $certImage = ""; ?>
                             }
                             else{
+                                document.querySelector(".otp-btn").classList.remove("hidden");
                                 <?php $_SESSION['errors']['number_not_found'] = null; ?>
                             }
                         }
@@ -355,6 +358,9 @@
 
                     httpRequest.open("GET",`verify_number.php?number=${number}`,true)
                     httpRequest.send()
+                } else {
+                    if(!document.querySelector(".otp-btn").classList.contains("hidden"))
+                        document.querySelector(".otp-btn").classList.add("hidden")
                 }
                 document.querySelector("#error-message").innerText = ""
                 document.querySelector("#img-container-parent").classList.add("hidden")
