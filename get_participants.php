@@ -34,6 +34,26 @@
                 }
 
             $responses = $service->forms_responses->listFormsResponses($formId[0]);
+
+            $result = $mysqli->query("select * from participants");
+            $result = $result->fetch_all();
+
+            $dbParticipantList = $result;
+
+            foreach($dbParticipantList as $dbParticipant){
+                $exists = false;
+                foreach($response as $responses){
+                    if($dbParticipant[0]==$response['answers']["$phoneId"]['textAnswers'][0]['value']){
+                        $exists = true;
+                        break;
+                    }
+                }
+                if($exists==false){
+                    $mysqli->query("delete from participants where pnumber='$dbParticipant[0]' ");
+                }
+                
+            }
+
             foreach($responses as $response){
 
                 $phoneId = $questionIds['number'];
@@ -67,6 +87,9 @@
                     $mysqli->query("insert into participants(pnumber,name,date,eventname,formId,email,class) values($phoneNo,'$name','$date','$eventName','$formId[0]','$mail','$class')");
                     }
                 }
+
+
+
                 $questionIds = [];
 
             }catch(Exception $e){
