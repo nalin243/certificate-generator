@@ -102,9 +102,9 @@
                             $img = imagecreatefromstring(base64_decode($certImage));
                             $black = imagecolorexact($img, 0, 0, 0);
 
-                            imagettftext($img,70,0,$data[0][2],$data[0][3],$black,'./fonts/OpenSans-Regular.ttf',$pname);
-                            imagettftext($img,40,0,$data[0][4],$data[0][5],$black,'./fonts/OpenSans-Regular.ttf',$date);
-                            imagettftext($img,40,0,$data[0][6],$data[0][7],$black,'./fonts/OpenSans-Regular.ttf',$class);
+                            imagettftext($img,60,0,$data[0][2],$data[0][3],$black,'./fonts/certasans.ttf',$pname);
+                            imagettftext($img,40,0,$data[0][4],$data[0][5],$black,'./fonts/certasans.ttf',$date);
+                            imagettftext($img,30,0,$data[0][6],$data[0][7],$black,'./fonts/certasans.ttf',$class);
 
                             ob_start();
                             imagepng($img);
