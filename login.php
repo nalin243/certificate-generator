@@ -21,12 +21,15 @@
 			die();
 		}
 		else {
-			//password is wrong error code
-			
+			//incorrect password error code
+			$_SESSION['errors']['wrong_password'] = true; 
+			header("Location: ./login_view.php");
+			die();			
 		}
 	}
 	else{
 		//user does not exist error code
+		$_SESSION['errors']['user_does_not_exist'] = true; 
 		header("Location: ./login_view.php");
 		die();
 	}

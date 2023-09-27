@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="./public/index.css">
     <link rel="stylesheet" href="./public/tailwind.css">
 
+      <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 <body>
     <div class="flex page h-screen w-screen">
@@ -33,7 +35,7 @@
                 </div>
             </div>
             <div class="flex flex-col h-full w-full">
-                <div class="flex flex-col login h-4/6 w-9/12 m-auto ">
+                <div class="flex flex-col login h-4/6 w-9/12 m-auto">
                     <div class="flex login-top h-1/6 w-full">
                         <h1 class="m-auto text-md text-white font-bold">Faculty Log-In</h1>
                     </div>
@@ -52,7 +54,10 @@
                                 <button name="submit" value="submit" class="faculty-btn hover:scale-90 duration-500 px-3">Login</button>
                             </div>
                         </form>
-
+                        <p class="text-center text-red-600 "><?php echo $_SESSION['errors']['wrong_password'] ? 'Incorrect Password' : '';
+                                                                   echo $_SESSION['errors']['user_does_not_exist'] ? 'User not found' : '';
+                                                                   $_SESSION['errors']['user_does_not_exist'] = false;
+                                                                   $_SESSION['errors']['wrong_password'] = false; ?></p>
                     </div>
 
                 </div>
