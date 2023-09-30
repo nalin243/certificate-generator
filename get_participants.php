@@ -2,6 +2,9 @@
     session_start();
     
     require 'db_config.php';
+    require 'env_config.php';
+
+    define("DEV_MODE",$_ENV['DEV_MODE']);
 
     $client = new Google\Client;
     $client->setAuthConfig("client_secret.json");
@@ -35,23 +38,25 @@
 
             $responses = $service->forms_responses->listFormsResponses($formId[0]);
 
-            $result = $mysqli->query("select * from participants");
-            $result = $result->fetch_all();
+            if(DEV_MODE!="true"){
+                $result = $mysqli->query("select * from participants");
+                $result = $result->fetch_all();
 
-            $dbParticipantList = $result;
+                $dbParticipantList = $result;
 
-            foreach($dbParticipantList as $dbParticipant){
-                $exists = false;
-                foreach($response as $responses){
-                    if($dbParticipant[0]==$response['answers']["$phoneId"]['textAnswers'][0]['value']){
-                        $exists = true;
-                        break;
+                foreach($dbParticipantList as $dbParticipant){
+                    $exists = false;
+                    foreach($response as $responses){
+                        if($dbParticipant[0]==$response['answers']["$phoneId"]['textAnswers'][0]['value']){
+                            $exists = true;
+                            break;
+                        }
                     }
+                    if($exists==false){
+                        $mysqli->query("delete from participants where pnumber='$dbParticipant[0]' ");
+                    }
+                    
                 }
-                if($exists==false){
-                    $mysqli->query("delete from participants where pnumber='$dbParticipant[0]' ");
-                }
-                
             }
 
             foreach($responses as $response){
