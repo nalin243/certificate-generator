@@ -200,7 +200,7 @@ input[type=number] {
   font-weight: 500;
 }
 
-.form-id {
+.config-input {
   width: 485px;
   height: 54px;
   flex-shrink: 0;
@@ -209,6 +209,13 @@ input[type=number] {
   border-radius: 10px;
   background: #FFF;
   box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.25);
+}
+
+input[type=color]::-webkit-color-swatch,::-moz-color-swatch{
+  background-color:red;
+  border-radius:100%;
+  border:none;
+  width:2em;
 }
 
 .faculty-btn {

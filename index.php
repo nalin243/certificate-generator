@@ -102,7 +102,26 @@
                             $img = imagecreatefromstring(base64_decode($certImage));
                             $black = imagecolorexact($img, 0, 0, 0);
 
-                            imagettftext($img,60,0,$data[0][2],$data[0][3],$black,'./fonts/certasans.ttf',$pname);
+                            $text_bound = imageftbbox(60, 0, "./fonts/certasans.ttf", $pname);
+
+                            $lower_left_x =  $text_bound[0]; 
+                            $lower_left_y =  $text_bound[1];
+                            $lower_right_x = $text_bound[2];
+                            $lower_right_y = $text_bound[3];
+                            $upper_right_x = $text_bound[4];
+                            $upper_right_y = $text_bound[5];
+                            $upper_left_x =  $text_bound[6];
+                            $upper_left_y =  $text_bound[7];
+
+                            $text_width =  $lower_right_x - $lower_left_x;
+                            $text_height = $lower_right_y - $upper_right_y;
+
+                            $textOffsetx = $data[0][2] - ($text_width/2);
+                            $textOffsety = $data[0][3];
+
+                            imagettftext($img,60,0,$textOffsetx,$textOffsety,$black,'./fonts/certasans.ttf',$pname);
+
+
                             imagettftext($img,40,0,$data[0][4],$data[0][5],$black,'./fonts/certasans.ttf',$date);
                             imagettftext($img,30,0,$data[0][6],$data[0][7],$black,'./fonts/certasans.ttf',$class);
 
