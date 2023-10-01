@@ -35,22 +35,6 @@
             $xevent = (double)$_POST['xevent'];
             $yevent = (double)$_POST['yevent'];
 
-            $nameFont = $_POST['nameFont'];
-            $nameFontSize = (double)$_POST['nameFontSize'];
-            $nameColor = $_POST['nameColor'];
-
-            $dateFont = $_POST['dateFont'];
-            $dateFontSize = (double)$_POST['dateFontSize'];
-            $dateColor = $_POST['dateColor'];
-
-            $yearFont = $_POST['yearFont'];
-            $yearFontSize = (double)$_POST['yearFontSize'];
-            $yearColor = $_POST['yearColor'];
-
-            $eventFont = $_POST['eventFont'];
-            $eventFontSize = (double)$_POST['eventFontSize'];
-            $eventColor = $_POST['eventColor'];
-
             $newimgheight = $_POST['newimgheight'];
             $newimgwidth = $_POST['newimgwidth'];
 
@@ -79,7 +63,7 @@
                         imagepng($img);
                         $templateFile = base64_encode(ob_get_clean());
 
-                        $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear,xevent,yevent,namefont,namefontsize,namecolor,datefont,datefontsize,datecolor,yearfont,yearfontsize,yearcolor,eventfont,eventfontsize,eventcolor) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear,$xevent,$yevent,'$nameFont',$nameFontSize,'$nameColor','$dateFont',$dateFontSize,'$dateColor','$yearFont',$yearFontSize,'$yearColor','$eventFont',$eventFontSize,'$eventColor')");
+                        $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear)");
                         $mysqli->query("update users set formId='$formid' where username = '$username' ");
                     }
                 }
@@ -93,15 +77,15 @@
     ?>
 
     <div class="flex flex-col  h-screen w-screen   ">
-        <div class="flex flex-col page h-full w-full overflow-y-hidden shrink-0">
-            <div class="flex flex-row h-1/6 w-full ">
-                <div class="flex header h-4/6 w-2/12">
-                    <img src="./src/assets/srmist.png" class="h-5/6 w-full scale-75 mr-auto mb-auto mt-auto ">
+        <div class="flex flex-col page h-full w-full overflow-y-hidden shrink-0 ">
+            <div class="flex flex-row h-0.5/6 w-full   ">
+                <div class="flex header h-5/6 w-2/12">
+                    <img src="./src/assets/srmist.png" class="h-full w-full scale-75 mr-auto mb-auto mt-auto ">
                 </div>
-                <div class="flex header h-4/6 w-full">
+                <div class="flex header h-5/6 w-full">
                     <h1 class="header-text mr-auto mb-auto mt-auto ml-10">Certificate Configuration Dashboard,  Faculty of Science & Humanities. </h1>
                 </div>
-                <div class="flex header h-4/6 w-1/12">
+                <div class="flex header h-5/6 w-1/12">
                     <div class="px-3 flex m-auto">
                         <form method="POST" action="logout.php" class="m-auto">
                             
@@ -113,9 +97,61 @@
                     </div>     
                 </div>
             </div>
-            <div class="flex flex-row overflow-y-scroll h-screen w-screen h-full w-full">
-                <div class="flex flex-row h-full w-8/12">
-                    <div class="flex flex-col h-5/6 w-full  m-auto p-14 mt-1">
+            <div class="flex flex-row h-screen w-screen h-full w-full">
+            
+                <div class="flex flex-col h-full w-full  ">
+                    <div class="flex flex-row h-0.5/6 w-11/12 m-auto  ">
+                        <div class="flex flex-col h-full w-1/12 justify-center   ">
+                            <div class="flex h-full w-full  ">
+                                <img class="h-2/6 w-4/12 mt-10 m-auto" src="src/assets/dropper.png" />
+                            </div>
+                            <div class="flex justify-center h-10 w-15 rounded-md ">
+                                <input id="color" name="color" class="live h-3/6 w-6/12 mb-5 bg-transparent m-auto" type="color"/>
+                            </div>
+                        </div>
+                        <div class="flex flex-col h-full w-1/12 justify-center ml-10   ">
+                            <div class="flex h-full w-full  ">
+                                <img class="h-2/6 w-5/12 mt-10" src="src/assets/font.png" />
+                            </div>
+                            <div class="flex justify-center h-10 w-15 rounded-md ">
+                                <input value="30" id="fontsize" name="fontsize" class="live mb-5 bg-transparent m-auto w-11/12" type="number"/>
+                            </div>
+                        </div>
+                        <div class="flex flex-col h-full w-2/12 justify-center ml-10   ">
+                            <div class="flex h-full w-full ">
+                                <h1 class="font-bold text-sm  mt-10">FONT STYLE</h1>
+                            </div>
+                            <div class="flex  h-full w-full rounded-md ">
+                                <select id="font" name="font" class="live w-11/12 h-5/6 bg-transparent">
+                                <option value="certasans.ttf">Certa Sans</option>
+                                <option value="shortbaby.ttf">Short Baby</option>
+                                <option value="OpenSans-Regular.ttf">Open Sans Regular</option>
+                                <option value="OpenSans-Bold.ttf">Open Sans Bold</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex h-full w-10/12 justify-center   ">
+                            
+                        </div>
+                        <div class="flex h-full w-1/12 justify-center   ">
+                            <div class="flex justify-center h-full w-full rounded-md">
+                                <img class="h-1/6 w-4/12 m-auto" src="src/assets/reset.png" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="imgcontainerunique" class=" flex flex-col h-full w-full p-12  ">
+                        <div class="imgcontainer relative flex flex-col cert-drop h-full -mt-10 w-full ">
+                                <img id="preview" src="" class="z-10 upload-img m-auto hidden" />
+                                <canvas class="z-20 absolute inset-0  " id="test" ></canvas>
+                                <label id="custom-file-upload" class="m-auto text-2xl text-gray-400 font-bold">
+                                    <input name="template" form="configform" id="custom-file-input" type="file" accept="image/png"/>
+                                        Upload File
+                                </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-row h-full w-8/12 ">
+                    <div class="flex flex-col h-5/6 w-full  m-auto p-14 mt-10 ">
                         <form class="h-full" id="configform" method="POST" action="config.php" enctype="multipart/form-data">
 
                             <input id="xname" name="xname" type="text" value="" class="live hidden">
@@ -129,109 +165,95 @@
                             <input id="newimgheight" name="newimgheight" type="text" value=""  class="live hidden">
                             <input id="newimgwidth" name="newimgwidth" type="text" value=""  class="live hidden">
 
-                            <input id="nameFont" name="nameFont" type="text" value=""  class="live hidden">
-                            <input id="nameFontSize" name="nameFontSize" type="text" value=""  class="live hidden">
-                            <input id="nameColor" name="nameColor" type="text" value=""  class="live hidden">
+                            <div class="flex flex-col h-full w-full   ">
 
-                            <input id="dateFont" name="dateFont" type="text" value=""  class="live hidden">
-                            <input id="dateFontSize" name="dateFontSize" type="text" value=""  class="live hidden">
-                            <input id="dateColor" name="dateColor" type="text" value=""  class="live hidden">
-
-                            <input id="yearFont" name="yearFont" type="text" value=""  class="live hidden">
-                            <input id="yearFontSize" name="yearFontSize" type="text" value=""  class="live hidden">
-                            <input id="yearColor" name="yearColor" type="text" value=""  class="live hidden">
-
-                            <input id="eventFont" name="eventFont" type="text" value=""  class="live hidden">
-                            <input id="eventFontSize" name="eventFontSize" type="text" value=""  class="live hidden">
-                            <input id="eventColor" name="eventColor" type="text" value=""  class="live hidden">
-
-
-
-                            <div class=" h-full">
-
-                                <div class="border-2 border-green-900 h-1/2">
-                                    <div class="flex h-2/6 w-full justify-center  ">
-                                        <input type="text" class="config-input p-4 pl-4 rounded-lg placeholder-gray-400" placeholder="Enter the form id" name="formid"/>
+                                <div class="flex flex-col h-full w-full ">
+                                    <div class="flex h-full w-full justify-center ">
+                                        <input type="text" class="config-input p-4 pl-4 rounded-lg placeholder-gray-400 w-11/12" placeholder="Enter the form id" name="formid"/>
                                     </div>
 
-                                    <div class="flex h-2/6 w-full justify-center  ">
-                                        <input id="eventname" type="text" class="live config-input mt-4 p-4 pl-4 rounded-lg placeholder-gray-400" placeholder="Enter the event name" name="eventname"/>
-                                    </div>
-
-                                    <div class="flex h-2/6 w-full justify-center  ">
-                                        <input id="datestring" type="text" class="live config-input mt-4 p-4 pl-4 rounded-lg placeholder-gray-400" placeholder="Enter the event date" name="datestring"/>
-                                    </div>
-
-                                </div>
-
-                                <div class="flex-col h-1/2 border-yellow-900 border-2">
-
-                                    <div class="flex border-black border-2 h-1/2">
-
-                                     <div class="flex h-2/6 w-full justify-start ml-10 mt-10  ">
-                                        <label class="font-bold">Choose Color: </label>
-                                        <div class="flex justify-center h-10 w-12 rounded-md -mt-2 rounded-md">
-                                            <input id="color" name="color" class="live bg-transparent m-auto" type="color"/>
+                                    <div class="flex flex-row h-full w-full ">
+                                        <div class="flex h-full w-full justify-center  ">
+                                            <input id="eventname" type="text" class="live config-input w-10/12 mr-4 p-4 pl-4 rounded-lg placeholder-gray-400" placeholder="Enter the event name" name="eventname"/>
                                         </div>
-                                    </div>
 
-                                    <div class="flex h-2/6 w-full justify-start mt-10  ">
-                                        <label class="font-bold -ml-14">Choose Font: </label>
-                                        <div class="flex justify-center h-10 w-12 rounded-md -mt-2 rounded-md">
-                                            <select id="font" name="font" class="live bg-transparent m-auto ml-36">
-                                              <option value="certasans.ttf">Certa Sans</option>
-                                              <option value="shortbaby.ttf">Short Baby</option>
-                                              <option value="OpenSans-Regular.ttf">Open Sans Regular</option>
-                                              <option value="OpenSans-Bold.ttf">Open Sans Bold</option>
-                                            </select>
+                                        <div class="flex h-full w-full justify-center   ">
+                                            <input id="datestring" type="text" class="live config-input w-10/12 ml-4 p-4 pl-4 rounded-lg placeholder-gray-400" placeholder="Enter the event date" name="datestring"/>
                                         </div>
                                     </div>
 
                                 </div>
 
-                                <div class="flex border-black border-2 h-1/2">
-                                    <div class="flex h-2/6 w-full justify-start ml-10 mt-10  ">
-                                        <label class="font-bold mr-5">Choose Font Size: </label>
-                                        <div class="flex justify-center h-10 w-12 rounded-md -mt-2 rounded-md">
-                                            <input value="30" id="fontsize" name="fontsize" class="live bg-transparent m-auto w-11/12" type="number"/>
+                                <div class="flex flex-col h-full w-full  ">
+
+                                    <div class="flex flex-row h-full w-full  ">
+                                        <div class="flex h-full w-full  ">
+                                            <div name="name" id="name" class="flex flex-row h-3/6 w-8/12 m-auto ">
+                                                <div class="flex h-full w-4/12  m-auto ">
+                                                    <img class="h-4/6 w-full m-auto cursor-pointer" src="src/assets/student.png" />
+                                                </div>
+                                                <div class="flex h-full w-full m-auto ">
+
+                                                    <h1 class="font-bold cursor-pointer text-lg m-auto">Student Name</h1>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="flex h-full w-full  ">
+                                            <div name="date" id="date" class="flex h-3/6 w-8/12 m-auto ">
+                                                <div class="flex h-full w-4/12 m-auto ">
+                                                    <img class="h-4/6 w-full m-auto cursor-pointer" src="src/assets/class.png" />
+                                                </div>
+                                                <div class="flex h-full w-full m-auto ">
+
+                                                    <h1 class="font-bold text-lg m-auto cursor-pointer">Class</h1>
+
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+
+                                    <div class="flex flex-row h-full w-full  ">
+                                        <div class="flex h-full w-full  ">
+                                            <div name="year" id="year" class="flex h-3/6 w-8/12 m-auto ">
+                                                <div class="flex h-full w-4/12 m-auto ">
+                                                    <img class="h-4/6 w-full m-auto cursor-pointer" src="src/assets/ename.png" />
+                                                </div>
+                                                <div class="flex h-full w-full m-auto ">
+
+                                                    <h1 class="font-bold text-lg m-auto cursor-pointer">Event Name</h1>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="flex h-full w-full  ">
+                                            <div name="event" id="event" class="flex h-3/6 w-8/12 m-auto ">
+                                                <div class="flex h-full w-4/12 m-auto ">
+                                                    <img class="h-4/6 w-full m-auto cursor-pointer" src="src/assets/edate.png" />
+                                                </div>
+                                                <div class="flex h-full w-full m-auto ">
+
+                                                    <h1 class="font-bold text-lg m-auto cursor-pointer">Event Date</h1>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
 
                                 
-                                <div class="flex h-1/6 w-full   ">
+                                <div class="flex h-1/6 w-full    ">
                                     <div class="faculty-btn hover:scale-90 duration-500 px-3 flex justify-center">
                                         <button type="submit" name="submit" value="submit" class="text-center">Submit</button>
                                     </div>
                                 </div>
-                        </div>
+                            </div>
                         </form>
-                    </div>
-                </div>
-                <div id="imgcontainerunique" class=" flex flex-col h-full w-full p-12  ">
-                    <div class="imgcontainer relative flex flex-col cert-drop h-full w-full -mt-10 mb-5 ">
-                            <img id="preview" src="" class="z-10 upload-img m-auto hidden" />
-                            <canvas class="z-20 absolute inset-0 border-2 border-black" id="test" ></canvas>
-                            <label id="custom-file-upload" class="m-auto text-2xl text-gray-400 font-bold">
-                                <input name="template" form="configform" id="custom-file-input" type="file" accept="image/png"/>
-                                    Upload File
-                            </label>
-                    </div>
-                    <div class="flex flex-row h-full w-full ">
-                        <div class="flex h-full w-full ">
-                            <div name="name" id="name"  class="cursor-pointer faculty-btn text-center py-2 hover:scale-90 px-3">Name</div>
-                        </div>
-                        <div class="flex h-full w-full " >
-                            <div name="date" id="date" class="cursor-pointer faculty-btn text-center py-2 hover:scale-90 px-3">Date</div>
-                        </div>
-                        <div class="flex h-full w-full ">
-                            <div name="year" id="year" class="cursor-pointer faculty-btn text-center py-2 hover:scale-90 px-3">Class</div>
-                        </div>
-                        <div class="flex h-full w-full ">
-                            <div name="event" id="event" class="cursor-pointer faculty-btn text-center py-2 hover:scale-90 px-3">Event</div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -539,26 +561,6 @@
         let imgFile = ""
         let liveImg = ""
 
-        let nameFont = ""
-        let nameColor = ""
-        let nameFontSize = ""
-
-        let dateFont = ""
-        let dateColor = ""
-        let dateFontSize = ""
-
-        let yearFont = ""
-        let yearColor = ""
-        let yearFontSize = ""
-
-        let eventFont = ""
-        let eventColor = ""
-        let eventFontSize = ""
-
-        let color = ""
-        let font = ""
-        let fontsize = ""
-
         const xnameElement =  document.getElementById("xname")
         const ynameElement = document.getElementById("yname")
 
@@ -570,22 +572,6 @@
 
         const xeventElement =  document.getElementById("xevent")
         const yeventElement = document.getElementById("yevent")
-
-        const nameFontElement = document.getElementById("nameFont")
-        const nameFontSizeElement = document.getElementById("nameFontSize")
-        const nameColorElement = document.getElementById("nameColor")
-
-        const dateFontElement = document.getElementById("dateFont")
-        const dateFontSizeElement = document.getElementById("dateFontSize")
-        const dateColorElement = document.getElementById("dateColor")
-
-        const yearFontElement = document.getElementById("yearFont")
-        const yearFontSizeElement = document.getElementById("yearFontSize")
-        const yearColorElement = document.getElementById("yearColor")
-
-        const eventFontElement = document.getElementById("eventFont")
-        const eventFontSizeElement = document.getElementById("eventFontSize")
-        const eventColorElement = document.getElementById("eventColor")
 
         let rectcenterx = 0
         let rectcentery = 0
@@ -617,19 +603,9 @@
 
             const eventname = document.querySelector("#eventname").value
             const date = document.querySelector("#datestring").value
-
-            color = document.querySelector("#color").value
-            font = document.querySelector("#font").selectedOptions[0].value
-            fontsize = document.querySelector("#fontsize").value
-
-            if(nameClicked)
-                update_name_font_data()
-            if(dateClicked)
-                update_date_font_data()
-            if(eventClicked)
-                update_event_font_data()
-            if(yearClicked)
-                update_year_font_data()
+            const color = document.querySelector("#color").value
+            const font = document.querySelector("#font").selectedOptions[0].value
+            const fontsize = document.querySelector("#fontsize").value
 
             const httpRequest = new XMLHttpRequest()
 
@@ -652,22 +628,9 @@
             formData.append("yyear",yyear)
             formData.append("eventname",eventname)
             formData.append("date",date)
-
-            formData.append("nameFont",nameFont)
-            formData.append("nameFontSize",nameFontSize)
-            formData.append("nameColor",nameColor)
-
-            formData.append("dateFont",dateFont)
-            formData.append("dateFontSize",dateFontSize)
-            formData.append("dateColor",dateColor)
-
-            formData.append("yearFont",yearFont)
-            formData.append("yearFontSize",yearFontSize)
-            formData.append("yearColor",yearColor)
-
-            formData.append("eventFont",eventFont)
-            formData.append("eventFontSize",eventFontSize)
-            formData.append("eventColor",eventColor)
+            formData.append("font",font)
+            formData.append("color",color)
+            formData.append("fontsize",fontsize)
 
             formData.append("imgHeight",canvas.height)
             formData.append("imgWidth",canvas.width)
@@ -688,46 +651,6 @@
                 element.addEventListener(event,liveCallback)
             })
         })
-
-        function update_name_font_data(){
-            nameFont = font
-            nameColor = color
-            nameFontSize = fontsize
-
-            nameFontElement.value = font 
-            nameFontSizeElement.value = fontsize
-            nameColor.value = color.split("#")[1]
-        }
-
-        function update_event_font_data(){
-            eventFont = font
-            eventColor = color
-            eventFontSize = fontsize
-
-            eventFontElement.value = font 
-            eventFontSizeElement.value = fontsize
-            eventColor.value = color.split("#")[1]
-        }
-
-        function update_date_font_data(){
-            dateFont = font
-            dateColor = color
-            dateFontSize = fontsize
-
-            dateFontElement.value = font 
-            dateFontSizeElement.value = fontsize
-            dateColor.value = color.split("#")[1]
-        }
-
-        function update_year_font_data(){
-            yearFont = font
-            yearColor = color
-            yearFontSize = fontsize
-
-            yearFontElement.value = font 
-            yearFontSizeElement.value = fontsize
-            yearColor.value = color.split("#")[1]
-        }
 
         function update_name_coords(){
             rectcenterx = ((rect.left+rect.width/2))
