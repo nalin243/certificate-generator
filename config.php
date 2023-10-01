@@ -35,6 +35,22 @@
             $xevent = (double)$_POST['xevent'];
             $yevent = (double)$_POST['yevent'];
 
+            $nameFont = $_POST['nameFont'];
+            $nameFontSize = (double)$_POST['nameFontSize'];
+            $nameColor = $_POST['nameColor'];
+
+            $dateFont = $_POST['dateFont'];
+            $dateFontSize = (double)$_POST['dateFontSize'];
+            $dateColor = $_POST['dateColor'];
+
+            $yearFont = $_POST['yearFont'];
+            $yearFontSize = (double)$_POST['yearFontSize'];
+            $yearColor = $_POST['yearColor'];
+
+            $eventFont = $_POST['eventFont'];
+            $eventFontSize = (double)$_POST['eventFontSize'];
+            $eventColor = $_POST['eventColor'];
+
             $newimgheight = $_POST['newimgheight'];
             $newimgwidth = $_POST['newimgwidth'];
 
@@ -63,7 +79,7 @@
                         imagepng($img);
                         $templateFile = base64_encode(ob_get_clean());
 
-                        $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear)");
+                        $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear,xevent,yevent,namefont,namefontsize,namecolor,datefont,datefontsize,datecolor,yearfont,yearfontsize,yearcolor,eventfont,eventfontsize,eventcolor) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear,$xevent,$yevent,'$nameFont',$nameFontSize,'$nameColor','$dateFont',$dateFontSize,'$dateColor','$yearFont',$yearFontSize,'$yearColor','$eventFont',$eventFontSize,'$eventColor')");
                         $mysqli->query("update users set formId='$formid' where username = '$username' ");
                     }
                 }
@@ -112,6 +128,24 @@
                             <input id="yevent" name="yevent" type="text" value=""  class="live hidden">
                             <input id="newimgheight" name="newimgheight" type="text" value=""  class="live hidden">
                             <input id="newimgwidth" name="newimgwidth" type="text" value=""  class="live hidden">
+
+                            <input id="nameFont" name="nameFont" type="text" value=""  class="live hidden">
+                            <input id="nameFontSize" name="nameFontSize" type="text" value=""  class="live hidden">
+                            <input id="nameColor" name="nameColor" type="text" value=""  class="live hidden">
+
+                            <input id="dateFont" name="dateFont" type="text" value=""  class="live hidden">
+                            <input id="dateFontSize" name="dateFontSize" type="text" value=""  class="live hidden">
+                            <input id="dateColor" name="dateColor" type="text" value=""  class="live hidden">
+
+                            <input id="yearFont" name="yearFont" type="text" value=""  class="live hidden">
+                            <input id="yearFontSize" name="yearFontSize" type="text" value=""  class="live hidden">
+                            <input id="yearColor" name="yearColor" type="text" value=""  class="live hidden">
+
+                            <input id="eventFont" name="eventFont" type="text" value=""  class="live hidden">
+                            <input id="eventFontSize" name="eventFontSize" type="text" value=""  class="live hidden">
+                            <input id="eventColor" name="eventColor" type="text" value=""  class="live hidden">
+
+
 
                             <div class=" h-full">
 
@@ -537,6 +571,22 @@
         const xeventElement =  document.getElementById("xevent")
         const yeventElement = document.getElementById("yevent")
 
+        const nameFontElement = document.getElementById("nameFont")
+        const nameFontSizeElement = document.getElementById("nameFontSize")
+        const nameColorElement = document.getElementById("nameColor")
+
+        const dateFontElement = document.getElementById("dateFont")
+        const dateFontSizeElement = document.getElementById("dateFontSize")
+        const dateColorElement = document.getElementById("dateColor")
+
+        const yearFontElement = document.getElementById("yearFont")
+        const yearFontSizeElement = document.getElementById("yearFontSize")
+        const yearColorElement = document.getElementById("yearColor")
+
+        const eventFontElement = document.getElementById("eventFont")
+        const eventFontSizeElement = document.getElementById("eventFontSize")
+        const eventColorElement = document.getElementById("eventColor")
+
         let rectcenterx = 0
         let rectcentery = 0
 
@@ -643,24 +693,40 @@
             nameFont = font
             nameColor = color
             nameFontSize = fontsize
+
+            nameFontElement.value = font 
+            nameFontSizeElement.value = fontsize
+            nameColor.value = color.split("#")[1]
         }
 
         function update_event_font_data(){
             eventFont = font
             eventColor = color
             eventFontSize = fontsize
+
+            eventFontElement.value = font 
+            eventFontSizeElement.value = fontsize
+            eventColor.value = color.split("#")[1]
         }
 
         function update_date_font_data(){
             dateFont = font
             dateColor = color
             dateFontSize = fontsize
+
+            dateFontElement.value = font 
+            dateFontSizeElement.value = fontsize
+            dateColor.value = color.split("#")[1]
         }
 
         function update_year_font_data(){
             yearFont = font
             yearColor = color
             yearFontSize = fontsize
+
+            yearFontElement.value = font 
+            yearFontSizeElement.value = fontsize
+            yearColor.value = color.split("#")[1]
         }
 
         function update_name_coords(){
