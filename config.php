@@ -505,6 +505,26 @@
         let imgFile = ""
         let liveImg = ""
 
+        let nameFont = ""
+        let nameColor = ""
+        let nameFontSize = ""
+
+        let dateFont = ""
+        let dateColor = ""
+        let dateFontSize = ""
+
+        let yearFont = ""
+        let yearColor = ""
+        let yearFontSize = ""
+
+        let eventFont = ""
+        let eventColor = ""
+        let eventFontSize = ""
+
+        let color = ""
+        let font = ""
+        let fontsize = ""
+
         const xnameElement =  document.getElementById("xname")
         const ynameElement = document.getElementById("yname")
 
@@ -547,9 +567,19 @@
 
             const eventname = document.querySelector("#eventname").value
             const date = document.querySelector("#datestring").value
-            const color = document.querySelector("#color").value
-            const font = document.querySelector("#font").selectedOptions[0].value
-            const fontsize = document.querySelector("#fontsize").value
+
+            color = document.querySelector("#color").value
+            font = document.querySelector("#font").selectedOptions[0].value
+            fontsize = document.querySelector("#fontsize").value
+
+            if(nameClicked)
+                update_name_font_data()
+            if(dateClicked)
+                update_date_font_data()
+            if(eventClicked)
+                update_event_font_data()
+            if(yearClicked)
+                update_year_font_data()
 
             const httpRequest = new XMLHttpRequest()
 
@@ -572,9 +602,22 @@
             formData.append("yyear",yyear)
             formData.append("eventname",eventname)
             formData.append("date",date)
-            formData.append("font",font)
-            formData.append("color",color)
-            formData.append("fontsize",fontsize)
+
+            formData.append("nameFont",nameFont)
+            formData.append("nameFontSize",nameFontSize)
+            formData.append("nameColor",nameColor)
+
+            formData.append("dateFont",dateFont)
+            formData.append("dateFontSize",dateFontSize)
+            formData.append("dateColor",dateColor)
+
+            formData.append("yearFont",yearFont)
+            formData.append("yearFontSize",yearFontSize)
+            formData.append("yearColor",yearColor)
+
+            formData.append("eventFont",eventFont)
+            formData.append("eventFontSize",eventFontSize)
+            formData.append("eventColor",eventColor)
 
             formData.append("imgHeight",canvas.height)
             formData.append("imgWidth",canvas.width)
@@ -595,6 +638,30 @@
                 element.addEventListener(event,liveCallback)
             })
         })
+
+        function update_name_font_data(){
+            nameFont = font
+            nameColor = color
+            nameFontSize = fontsize
+        }
+
+        function update_event_font_data(){
+            eventFont = font
+            eventColor = color
+            eventFontSize = fontsize
+        }
+
+        function update_date_font_data(){
+            dateFont = font
+            dateColor = color
+            dateFontSize = fontsize
+        }
+
+        function update_year_font_data(){
+            yearFont = font
+            yearColor = color
+            yearFontSize = fontsize
+        }
 
         function update_name_coords(){
             rectcenterx = ((rect.left+rect.width/2))

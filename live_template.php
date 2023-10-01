@@ -59,9 +59,22 @@
 	$yyear = (double)$_POST['yyear'];
 	$eventname = $_POST['eventname'];
 	$date = $_POST['date'];
-	$font = $_POST['font'];
-	$hexcolor = $_POST['color'];
-	$fontsize = $_POST['fontsize'];
+
+	$nameFont = $_POST['nameFont'];
+	$nameFontSize = (double)$_POST['nameFontSize'];
+	$nameColor = $_POST['nameColor'];
+
+	$dateFont = $_POST['dateFont'];
+	$dateFontSize = (double)$_POST['dateFontSize'];
+	$dateColor = $_POST['dateColor'];
+
+	$yearFont = $_POST['yearFont'];
+	$yearFontSize = (double)$_POST['yearFontSize'];
+	$yearColor = $_POST['yearColor'];
+
+	$eventFont = $_POST['eventFont'];
+	$eventFontSize = (double)$_POST['eventFontSize'];
+	$eventColor = $_POST['eventColor'];
 
 	$imgWidth = $_POST['imgWidth'];
 	$imgHeight = $_POST['imgHeight'];
@@ -73,10 +86,10 @@
 			$img = imagecreatefromstring($imgstring);
 			$img = imagescale($img,$imgWidth,$imgHeight);
 
-			displayText($img,"John Doe",$fontsize,"./fonts/$font",$xname,$yname,$hexcolor);
-			displayText($img,"III Preview",$fontsize,"./fonts/$font",$xyear,$yyear,$hexcolor);
-			displayText($img,$date ? $date : "12-12-12" ,$fontsize,"./fonts/$font",$xdate,$ydate,$hexcolor);
-			displayText($img,$eventname ? $eventname : "Preview Event Name",$fontsize,"./fonts/$font",$xevent,$yevent,$hexcolor);
+			displayText($img,"John Doe",$nameFontSize,"./fonts/$nameFont",$xname,$yname,$nameColor);
+			displayText($img,"III Preview",$yearFontSize,"./fonts/$yearFont",$xyear,$yyear,$yearColor);
+			displayText($img,$date ? $date : "12-12-12" ,$dateFontSize,"./fonts/$dateFont",$xdate,$ydate,$dateColor);
+			displayText($img,$eventname ? $eventname : "Preview Event Name",$eventFontSize,"./fonts/$eventFont",$xevent,$yevent,$eventColor);
 
 		    ob_start();
 		    imagepng($img);
