@@ -313,8 +313,7 @@
         var h_th_right = document.getElementById('thb_right')
         var h_th_bottom = document.getElementById('thb_bottom')
 
-        var handleRadius = 10
-
+        var handleRadius = 15
         var dragTL = dragBL = dragTR = dragBR = dragMTop = dragMBottom = dragRMid = dragLMid = false;
         var dragWholeRect = false;
 
@@ -355,7 +354,7 @@
 
         function drawHandles() {
           // drawCircle(rect.left, rect.top, handleRadius);
-          drawCircle(rect.left+rect.width/2,rect.top,handleRadius);//middle top
+          // drawCircle(rect.left+rect.width/2,rect.top,handleRadius);//middle top
           // drawCircle(rect.left + rect.width, rect.top, handleRadius);
           // drawCircle(rect.left + rect.width, rect.top + rect.height, handleRadius);
 
@@ -365,7 +364,7 @@
           drawCircle(rect.left+rect.width, rect.top + rect.height/2, handleRadius);//right mid
 
 
-          drawCircle(rect.left+rect.width/2, rect.top + rect.height, handleRadius);
+          // drawCircle(rect.left+rect.width/2, rect.top + rect.height, handleRadius);//bottom middle
 
         }
 
@@ -375,7 +374,7 @@
           var ctx = canvas.getContext("2d");
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           ctx.beginPath();
-          ctx.lineWidth = "6";
+          ctx.lineWidth = "3";
           ctx.fillStyle = "rgba(199, 87, 231, 0.09)";
           ctx.strokeStyle = "#000000";
           ctx.rect(rect.left, rect.top, rect.width, rect.height);
@@ -397,7 +396,7 @@
         }
 
         function checkCloseEnough(p1, p2) {
-          return Math.abs(p1 - p2) < handleRadius;
+          return Math.abs(p1 - p2) <= handleRadius*5;
         }
 
         function getMousePos(canvas, evt) {
@@ -426,18 +425,19 @@
               startX = mouseX;
               startY = mouseY;
           }
-          //middle top
-          else if(checkCloseEnough(mouseX, rect.left+ (rect.width/2)) && checkCloseEnough(mouseY, rect.top)){
-            dragMTop = true;
-          }
-          //middle bottom
-           else if(checkCloseEnough(mouseX, rect.left + (rect.width/2)) && checkCloseEnough(mouseY, rect.top + rect.height)){
-            dragMBottom = true;
-          }
+          // //middle top
+          // else if(checkCloseEnough(mouseX, rect.left+ (rect.width/2)) && checkCloseEnough(mouseY, rect.top)){
+          //   dragMTop = true;
+          // }
+          // //middle bottom
+          //  else if(checkCloseEnough(mouseX, rect.left + (rect.width/2)) && checkCloseEnough(mouseY, rect.top + rect.height)){
+          //   dragMBottom = true;
+          // }
           // left mid
           else if(checkCloseEnough(mouseX, rect.left) && checkCloseEnough(mouseY, rect.top + rect.height/2)){
             dragLMid = true;
           }
+          //right mid
           else if(checkCloseEnough(mouseX, rect.left+rect.width) && checkCloseEnough(mouseY, rect.top + rect.height/2)){
             dragRMid = true;
           }
@@ -454,19 +454,24 @@
         function mouseMove(e) {    
 
         //if mouse is moving then check which button has been clicked
-        if(nameClicked)
+        if(nameClicked){
             update_name_coords()
-        if(dateClicked)
+        }
+        if(dateClicked){
             update_date_coords()
-        if(eventClicked)
+        }
+        if(eventClicked){
             update_event_coords()
-        if(yearClicked)
+        }
+        if(yearClicked){
             update_year_coords()
+        }
 
 
           var pos = getMousePos(this,e);
           mouseX = pos.x;
           mouseY = pos.y;
+
           if (dragWholeRect) {
               e.preventDefault();
               e.stopPropagation();
@@ -482,22 +487,22 @@
               startY = mouseY;
           }
 
-          else if (dragMTop){
-                e.preventDefault();
-                e.stopPropagation();
+          // else if (dragMTop){
+          //       e.preventDefault();
+          //       e.stopPropagation();
 
-                var newSide = Math.abs(rect.height + rect.top - mouseY);
+          //       var newSide = Math.abs(rect.height + rect.top - mouseY);
            
-                rect.top = rect.height + rect.top - newSide;
-                rect.height = newSide;
-          }
-          else if (dragMBottom){
-                e.preventDefault();
-                e.stopPropagation();
-                var newSide = Math.abs(rect.top - mouseY);
+          //       rect.top = rect.height + rect.top - newSide;
+          //       rect.height = newSide;
+          // }
+          // else if (dragMBottom){
+          //       e.preventDefault();
+          //       e.stopPropagation();
+          //       var newSide = Math.abs(rect.top - mouseY);
 
-                rect.height = newSide;
-          }
+          //       rect.height = newSide;
+          // }
           else if (dragRMid){
                 e.preventDefault();
                 e.stopPropagation();
@@ -551,10 +556,11 @@
           var ratio_w = canvas.width / effective_image_width;
           var ratio_h = canvas.height / effective_image_height;
           //BORDER OF SIZE 6!
-          rect.height = (th_height*ratio_h-300)
-          rect.width = (th_width*ratio_w-300)
+          rect.height = (th_height*ratio_h-450)
+          rect.width = (th_width*ratio_w-250)
           rect.top = th_top*ratio_h+10
           rect.left = th_left*ratio_w+10
+          
         }
 
         function init(){
@@ -592,6 +598,10 @@
         let yevent = 0
         let imgFile = ""
         let liveImg = ""
+
+        // let nameUpdated = dateUpdated = yearUpdated = eventUpdated = false
+
+        // let nameRect = dateRect = yearRect = eventRect = false
 
         let nameFont = ""
         let nameColor = ""
@@ -736,7 +746,7 @@
 
             nameFontElement.value = font 
             nameFontSizeElement.value = fontsize
-            nameColor.value = color.split("#")[1]
+            nameColorElement.value = color
         }
 
         function update_event_font_data(){
@@ -746,7 +756,7 @@
 
             eventFontElement.value = font 
             eventFontSizeElement.value = fontsize
-            eventColor.value = color.split("#")[1]
+            eventColorElement.value = color
         }
 
         function update_date_font_data(){
@@ -756,7 +766,7 @@
 
             dateFontElement.value = font 
             dateFontSizeElement.value = fontsize
-            dateColor.value = color.split("#")[1]
+            dateColorElement.value = color
         }
 
         function update_year_font_data(){
@@ -766,24 +776,30 @@
 
             yearFontElement.value = font 
             yearFontSizeElement.value = fontsize
-            yearColor.value = color.split("#")[1]
+            yearColorElement.value = color
         }
 
 
         function update_name_coords(){
+            nameUpdated = true
             rectcenterx = ((rect.left+rect.width/2))
             rectcentery = (((rect.top+(rect.top+rect.height))/2))
 
             xnameElement.value = rectcenterx 
             ynameElement.value = rectcentery
+
+            nameRect = rect
         }
 
         function update_date_coords(){
+            dateUpdated = true
             rectcenterx = ((rect.left+rect.width/2))
             rectcentery = (((rect.top+(rect.top+rect.height))/2))
 
             xdateElement.value = rectcenterx 
             ydateElement.value = rectcentery
+
+            dateRect = rect
         }
 
         function update_year_coords(){
@@ -792,6 +808,8 @@
 
             xyearElement.value = rectcenterx 
             yyearElement.value = rectcentery
+
+            yearRect = rect
         }
 
         function update_event_coords(){
@@ -800,6 +818,8 @@
 
             xeventElement.value = rectcenterx 
             yeventElement.value = rectcentery
+
+            eventRect = rect
         }
 
         document.getElementById("custom-file-input").addEventListener("change",(event)=>{
