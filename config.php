@@ -151,7 +151,7 @@
                         </div>
                         <div class="flex h-full w-1/12 mt-3 ml-5 justify-end">
                             <div class="flex justify-end h-full w-full rounded-md">
-                                <img class="h-1/6 w-3/12 m-auto" src="src/assets/reset.png" />
+                                <img id="reset" class="h-1/6 w-3/12 m-auto cursor-pointer" src="src/assets/reset.png" />
                             </div>
                         </div>
                     </div>
@@ -201,7 +201,7 @@
 
                                 <div class="flex flex-col h-full w-full ">
                                     <div class="flex h-full w-full justify-center ">
-                                        <input type="text" class="config-input p-4 pl-4 rounded-lg placeholder-gray-400 w-11/12" placeholder="Enter the form id" name="formid"/>
+                                        <input id="formid" type="text" class="config-input p-4 pl-4 rounded-lg placeholder-gray-400 w-11/12" placeholder="Enter the form id" name="formid"/>
                                     </div>
 
                                     <div class="flex flex-row h-full w-full ">
@@ -648,18 +648,6 @@
 
         const liveCallback = function(event){
 
-            document.getElementById("name").classList.remove("bg-blue-900")
-            document.getElementById("name").classList.remove("scale-90")
-
-            document.getElementById("year").classList.remove("bg-blue-900")
-            document.getElementById("year").classList.remove("scale-90")
-
-            document.getElementById("date").classList.remove("bg-blue-900")
-            document.getElementById("date").classList.remove("scale-90")
-
-            document.getElementById("event").classList.remove("bg-blue-900")
-            document.getElementById("event").classList.remove("scale-90")
-
             let xname = xnameElement.value
             let yname = ynameElement.value
             let xdate = xdateElement.value
@@ -875,6 +863,31 @@
             init()//initializing the canvas
             document.getElementById("event").classList.add("bg-blue-900")
             document.getElementById("event").classList.add("scale-90")
+        })
+
+        document.getElementById("reset").addEventListener("click",(event)=>{
+            //restets everthing without reloading the page
+            xnameElement.value = ""
+            ynameElement.value = ""
+            xdateElement.value = ""
+            ydateElement.value = ""
+            xyearElement.value = ""
+            yyearElement.value = ""
+            xeventElement.value = ""
+            yeventElement.value = ""
+
+            document.querySelector("#eventname").value = ""
+            document.querySelector("#datestring").value = ""
+            document.querySelector("#color").value = "#000000"
+            document.querySelector("#font").selectedIndex = 0
+            document.querySelector("#fontsize").value = "30"
+            document.querySelector("#formid").value = ""
+
+            document.getElementById("preview").src = ""
+            document.getElementById("preview").classList.add("hidden")
+            document.getElementById("custom-file-upload").classList.remove("hidden")
+
+            initCanvas()
         })
 
     </script>
