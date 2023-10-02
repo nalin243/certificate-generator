@@ -9,6 +9,52 @@
         
         session_start();
 
+        function getTextWidth($textstring,$fontsize,$fontname){
+            //returns text width and height to calculate offset
+            $text_bound = imageftbbox($fontsize, 0, $fontname, $textstring);
+
+            $lower_left_x =  $text_bound[0]; 
+            $lower_left_y =  $text_bound[1];
+            $lower_right_x = $text_bound[2];
+            $lower_right_y = $text_bound[3];
+            $upper_right_x = $text_bound[4];
+            $upper_right_y = $text_bound[5];
+            $upper_left_x =  $text_bound[6];
+            $upper_left_y =  $text_bound[7];
+
+            $text_width =  $lower_right_x - $lower_left_x;
+            $text_height = $lower_right_y - $upper_right_y;
+
+            return $text_width;
+        }
+
+        function getOffset($xcoordinate,$ycoordinate,$text_width){
+            //calculates offset so text can be centered
+            $textOffsetx = $xcoordinate - ($text_width/2);
+            $textOffsety = $ycoordinate;
+
+            return array($textOffsetx,$textOffsety);
+        }
+
+        function getRGBColor($img,$hexcolor){
+            //takes in gd object image and hex color and returns rgb color that can be used in imagettftext
+            list($r, $g, $b) = sscanf($hexcolor, "#%02x%02x%02x");
+            $color = imagecolorexact($img, $r, $g, $b);
+
+            return $color;
+        }
+
+        function displayText($img,$textstring,$fontsize,$fontname,$xcoordinate,$ycoordinate,$hexcolor){
+            //takes in the gd image object and other parameters and displays text 
+            $text_width = getTextWidth($textstring,$fontsize,$fontname,$xcoordinate,$ycoordinate);
+            list($xoffset,$yoffset) = getOffset($xcoordinate,$ycoordinate,$text_width);
+                
+            $color = getRGBColor($img,$hexcolor);
+
+            imagettftext($img,$fontsize,0,$xoffset,$yoffset,$color,$fontname,$textstring);
+        }
+
+
         $pname = "";
         $error_message = "";
         $peventname = "";
@@ -83,12 +129,10 @@
                 
                         if(!(count($results) == 0)){
                             $pname = htmlspecialchars($results[0][1]);
-                            $peventname = htmlspecialchars($results[0][3]);
-                            $date = $results[0][2];
                             $formId = htmlspecialchars($results[0][4]);
                             $class = $results[0][6];
                             $template = $mysqli->query("select * from templates where formId='$formId' ");
-                            $data = $template->fetch_all();
+                            $data = ($template->fetch_all())[0];
 
                             $user = (($mysqli->query("select username from users where formId='$formId' "))->fetch_all())[0][0];
 
@@ -97,33 +141,42 @@
                                 header("Location: ./error_view.php");
                             }
 
-                            $certImage = $data[0][1];
+                            $certImage = $data[1];
+
+                            $xname =  $data[2];
+                            $yname =  $data[3];
+                            $xdate =  $data[4];
+                            $ydate =  $data[5];
+                            $xyear =  $data[6];
+                            $yyear =  $data[7];
+                            $xevent =  $data[8];
+                            $yevent =  $data[9];
+
+                            $nameFont =  $data[10];
+                            $nameFontSize =  $data[11];
+                            $nameColor =  $data[12];
+
+                            $dateFont =  $data[13];
+                            $dateFontSize =  $data[14];
+                            $dateColor =  $data[15];
+
+                            $yearFont =  $data[16];
+                            $yearFontSize =  $data[17];
+                            $yearColor =  $data[18];
+
+                            $eventFont =  $data[19];
+                            $eventFontSize =  $data[20];
+                            $eventColor =  $data[21];
+
+                            $date =  $data[22];
+                            $eventname =  $data[23];
 
                             $img = imagecreatefromstring(base64_decode($certImage));
-                            $black = imagecolorexact($img, 0, 0, 0);
-
-                            $text_bound = imageftbbox(60, 0, "./fonts/certasans.ttf", $pname);
-
-                            $lower_left_x =  $text_bound[0]; 
-                            $lower_left_y =  $text_bound[1];
-                            $lower_right_x = $text_bound[2];
-                            $lower_right_y = $text_bound[3];
-                            $upper_right_x = $text_bound[4];
-                            $upper_right_y = $text_bound[5];
-                            $upper_left_x =  $text_bound[6];
-                            $upper_left_y =  $text_bound[7];
-
-                            $text_width =  $lower_right_x - $lower_left_x;
-                            $text_height = $lower_right_y - $upper_right_y;
-
-                            $textOffsetx = $data[0][2] - ($text_width/2);
-                            $textOffsety = $data[0][3];
-
-                            imagettftext($img,60,0,$textOffsetx,$textOffsety,$black,'./fonts/certasans.ttf',$pname);
-
-
-                            imagettftext($img,40,0,$data[0][4],$data[0][5],$black,'./fonts/certasans.ttf',$date);
-                            imagettftext($img,30,0,$data[0][6],$data[0][7],$black,'./fonts/certasans.ttf',$class);
+                            
+                            displayText($img,$pname,$nameFontSize,"./fonts/$nameFont",$xname,$yname,$nameColor);
+                            displayText($img,$class,$yearFontSize,"./fonts/$yearFont",$xyear,$yyear,$yearColor);
+                            displayText($img,$date ? $date : "Error" ,$dateFontSize,"./fonts/$dateFont",$xdate,$ydate,$dateColor);
+                            displayText($img,$eventname ? $eventname : "Error",$eventFontSize,"./fonts/$eventFont",$xevent,$yevent,$eventColor);
 
                             ob_start();
                             imagepng($img);

@@ -35,12 +35,28 @@
             $xevent = (double)$_POST['xevent'];
             $yevent = (double)$_POST['yevent'];
 
+            $nameFont = $_POST['nameFont'];
+            $nameFontSize = (double)$_POST['nameFontSize'];
+            $nameColor = $_POST['nameColor'];
+
+            $dateFont = $_POST['dateFont'];
+            $dateFontSize = (double)$_POST['dateFontSize'];
+            $dateColor = $_POST['dateColor'];
+
+            $yearFont = $_POST['yearFont'];
+            $yearFontSize = (double)$_POST['yearFontSize'];
+            $yearColor = $_POST['yearColor'];
+
+            $eventFont = $_POST['eventFont'];
+            $eventFontSize = (double)$_POST['eventFontSize'];
+            $eventColor = $_POST['eventColor'];
+
             $newimgheight = $_POST['newimgheight'];
             $newimgwidth = $_POST['newimgwidth'];
 
             $formid = $_POST['formid'];
             $eventname = $_POST['eventname'];
-            $date = $_POST['date'];
+            $date = $_POST['datestring'];
 
             if(!count($_POST)==0){
 
@@ -63,7 +79,7 @@
                         imagepng($img);
                         $templateFile = base64_encode(ob_get_clean());
 
-                        $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear)");
+                        $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear,xevent,yevent,namefont,namefontsize,namecolor,datefont,datefontsize,datecolor,yearfont,yearfontsize,yearcolor,eventfont,eventfontsize,eventcolor,date,eventname) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear,$xevent,$yevent,'$nameFont',$nameFontSize,'$nameColor','$dateFont',$dateFontSize,'$dateColor','$yearFont',$yearFontSize,'$yearColor','$eventFont',$eventFontSize,'$eventColor','$date','$eventname')");
                         $mysqli->query("update users set formId='$formid' where username = '$username' ");
                     }
                 }
@@ -77,7 +93,7 @@
     ?>
 
     <div class="flex flex-col  h-screen w-screen   ">
-        <div class="flex flex-col page h-full w-full overflow-y-hidden shrink-0 ">
+        <div class="flex flex-col page h-full w-full overflow-y-scroll shrink-0 ">
             <div class="flex flex-row h-0.5/6 w-full   ">
                 <div class="flex header h-5/6 w-2/12">
                     <img src="./src/assets/srmist.png" class="h-full w-full scale-75 mr-auto mb-auto mt-auto ">
@@ -99,9 +115,9 @@
             </div>
             <div class="flex flex-row h-screen w-screen h-full w-full">
             
-                <div class="flex flex-col h-full w-full  ">
-                    <div class="flex flex-row h-0.5/6 w-11/12 m-auto  ">
-                        <div class="flex flex-col h-full w-1/12 justify-center   ">
+                <div class="flex flex-col h-full w-full">
+                    <div class="flex flex-row  h-0.5/6 w-11/12 m-auto">
+                        <div class="flex flex-col h-full w-1/12 justify-center ml-8  ">
                             <div class="flex h-full w-full  ">
                                 <img class="h-2/6 w-4/12 mt-10 m-auto" src="src/assets/dropper.png" />
                             </div>
@@ -130,16 +146,16 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="flex h-full w-10/12 justify-center   ">
+                        <div class="flex h-full w-5/12 -mr-6 justify-center   ">
                             
                         </div>
-                        <div class="flex h-full w-1/12 justify-center   ">
-                            <div class="flex justify-center h-full w-full rounded-md">
-                                <img class="h-1/6 w-4/12 m-auto" src="src/assets/reset.png" />
+                        <div class="flex h-full w-1/12 mt-3 ml-5 justify-end">
+                            <div class="flex justify-end h-full w-full rounded-md">
+                                <img class="h-1/6 w-3/12 m-auto" src="src/assets/reset.png" />
                             </div>
                         </div>
                     </div>
-                    <div id="imgcontainerunique" class=" flex flex-col h-full w-full p-12  ">
+                    <div id="imgcontainerunique" class="ml-6 flex flex-col h-5/6 w-11/12 pt-10 px-10">
                         <div class="imgcontainer relative flex flex-col cert-drop h-full -mt-10 w-full ">
                                 <img id="preview" src="" class="z-10 upload-img m-auto hidden" />
                                 <canvas class="z-20 absolute inset-0  " id="test" ></canvas>
@@ -164,6 +180,22 @@
                             <input id="yevent" name="yevent" type="text" value=""  class="live hidden">
                             <input id="newimgheight" name="newimgheight" type="text" value=""  class="live hidden">
                             <input id="newimgwidth" name="newimgwidth" type="text" value=""  class="live hidden">
+
+                            <input id="nameFont" name="nameFont" type="text" value=""  class="live hidden">
+                            <input id="nameFontSize" name="nameFontSize" type="text" value=""  class="live hidden">
+                            <input id="nameColor" name="nameColor" type="text" value=""  class="live hidden">
+
+                            <input id="dateFont" name="dateFont" type="text" value=""  class="live hidden">
+                            <input id="dateFontSize" name="dateFontSize" type="text" value=""  class="live hidden">
+                            <input id="dateColor" name="dateColor" type="text" value=""  class="live hidden">
+
+                            <input id="yearFont" name="yearFont" type="text" value=""  class="live hidden">
+                            <input id="yearFontSize" name="yearFontSize" type="text" value=""  class="live hidden">
+                            <input id="yearColor" name="yearColor" type="text" value=""  class="live hidden">
+
+                            <input id="eventFont" name="eventFont" type="text" value=""  class="live hidden">
+                            <input id="eventFontSize" name="eventFontSize" type="text" value=""  class="live hidden">
+                            <input id="eventColor" name="eventColor" type="text" value=""  class="live hidden">
 
                             <div class="flex flex-col h-full w-full   ">
 
@@ -201,7 +233,7 @@
 
                                         </div>
                                         <div class="flex h-full w-full  ">
-                                            <div name="date" id="date" class="flex h-3/6 w-8/12 m-auto ">
+                                            <div name="year" id="year" class="flex h-3/6 w-8/12 m-auto ">
                                                 <div class="flex h-full w-4/12 m-auto ">
                                                     <img class="h-4/6 w-full m-auto cursor-pointer" src="src/assets/class.png" />
                                                 </div>
@@ -217,7 +249,7 @@
 
                                     <div class="flex flex-row h-full w-full  ">
                                         <div class="flex h-full w-full  ">
-                                            <div name="year" id="year" class="flex h-3/6 w-8/12 m-auto ">
+                                            <div name="event" id="event" class="flex h-3/6 w-8/12 m-auto ">
                                                 <div class="flex h-full w-4/12 m-auto ">
                                                     <img class="h-4/6 w-full m-auto cursor-pointer" src="src/assets/ename.png" />
                                                 </div>
@@ -230,7 +262,7 @@
                                             </div>
                                         </div>
                                         <div class="flex h-full w-full  ">
-                                            <div name="event" id="event" class="flex h-3/6 w-8/12 m-auto ">
+                                            <div name="date" id="date" class="flex h-3/6 w-8/12 m-auto ">
                                                 <div class="flex h-full w-4/12 m-auto ">
                                                     <img class="h-4/6 w-full m-auto cursor-pointer" src="src/assets/edate.png" />
                                                 </div>
@@ -561,6 +593,26 @@
         let imgFile = ""
         let liveImg = ""
 
+        let nameFont = ""
+        let nameColor = ""
+        let nameFontSize = ""
+
+        let dateFont = ""
+        let dateColor = ""
+        let dateFontSize = ""
+
+        let yearFont = ""
+        let yearColor = ""
+        let yearFontSize = ""
+
+        let eventFont = ""
+        let eventColor = ""
+        let eventFontSize = ""
+
+        let color = ""
+        let font = ""
+        let fontsize = ""
+
         const xnameElement =  document.getElementById("xname")
         const ynameElement = document.getElementById("yname")
 
@@ -572,6 +624,22 @@
 
         const xeventElement =  document.getElementById("xevent")
         const yeventElement = document.getElementById("yevent")
+
+        const nameFontElement = document.getElementById("nameFont")
+        const nameFontSizeElement = document.getElementById("nameFontSize")
+        const nameColorElement = document.getElementById("nameColor")
+
+        const dateFontElement = document.getElementById("dateFont")
+        const dateFontSizeElement = document.getElementById("dateFontSize")
+        const dateColorElement = document.getElementById("dateColor")
+
+        const yearFontElement = document.getElementById("yearFont")
+        const yearFontSizeElement = document.getElementById("yearFontSize")
+        const yearColorElement = document.getElementById("yearColor")
+
+        const eventFontElement = document.getElementById("eventFont")
+        const eventFontSizeElement = document.getElementById("eventFontSize")
+        const eventColorElement = document.getElementById("eventColor")
 
         let rectcenterx = 0
         let rectcentery = 0
@@ -603,9 +671,18 @@
 
             const eventname = document.querySelector("#eventname").value
             const date = document.querySelector("#datestring").value
-            const color = document.querySelector("#color").value
-            const font = document.querySelector("#font").selectedOptions[0].value
-            const fontsize = document.querySelector("#fontsize").value
+            color = document.querySelector("#color").value
+            font = document.querySelector("#font").selectedOptions[0].value
+            fontsize = document.querySelector("#fontsize").value
+
+            if(nameClicked)
+                update_name_font_data()
+            if(dateClicked)
+                update_date_font_data()
+            if(eventClicked)
+                update_event_font_data()
+            if(yearClicked)
+                update_year_font_data()
 
             const httpRequest = new XMLHttpRequest()
 
@@ -628,9 +705,21 @@
             formData.append("yyear",yyear)
             formData.append("eventname",eventname)
             formData.append("date",date)
-            formData.append("font",font)
-            formData.append("color",color)
-            formData.append("fontsize",fontsize)
+            formData.append("nameFont",nameFont)
+            formData.append("nameFontSize",nameFontSize)
+            formData.append("nameColor",nameColor)
+
+            formData.append("dateFont",dateFont)
+            formData.append("dateFontSize",dateFontSize)
+            formData.append("dateColor",dateColor)
+
+            formData.append("yearFont",yearFont)
+            formData.append("yearFontSize",yearFontSize)
+            formData.append("yearColor",yearColor)
+
+            formData.append("eventFont",eventFont)
+            formData.append("eventFontSize",eventFontSize)
+            formData.append("eventColor",eventColor)
 
             formData.append("imgHeight",canvas.height)
             formData.append("imgWidth",canvas.width)
@@ -651,6 +740,47 @@
                 element.addEventListener(event,liveCallback)
             })
         })
+
+        function update_name_font_data(){
+            nameFont = font
+            nameColor = color
+            nameFontSize = fontsize
+
+            nameFontElement.value = font 
+            nameFontSizeElement.value = fontsize
+            nameColor.value = color.split("#")[1]
+        }
+
+        function update_event_font_data(){
+            eventFont = font
+            eventColor = color
+            eventFontSize = fontsize
+
+            eventFontElement.value = font 
+            eventFontSizeElement.value = fontsize
+            eventColor.value = color.split("#")[1]
+        }
+
+        function update_date_font_data(){
+            dateFont = font
+            dateColor = color
+            dateFontSize = fontsize
+
+            dateFontElement.value = font 
+            dateFontSizeElement.value = fontsize
+            dateColor.value = color.split("#")[1]
+        }
+
+        function update_year_font_data(){
+            yearFont = font
+            yearColor = color
+            yearFontSize = fontsize
+
+            yearFontElement.value = font 
+            yearFontSizeElement.value = fontsize
+            yearColor.value = color.split("#")[1]
+        }
+
 
         function update_name_coords(){
             rectcenterx = ((rect.left+rect.width/2))
