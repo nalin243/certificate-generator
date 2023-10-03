@@ -51,7 +51,7 @@
                                 <label class="login-page-label -mt-1">Password</label>
                             </div>
                             <div class="flex text-field h-full w-full ">
-                                <button name="submit" value="submit" class="faculty-btn hover:scale-90 duration-500 px-3">Login</button>
+                                <button name="submit" value="submit" class="faculty-btn hover:scale-90 active:translate-y-3 duration-500 px-3">Login</button>
                             </div>
                         </form>
                         <p class="text-center text-red-600 "><?php echo $_SESSION['errors']['wrong_password'] ? 'Incorrect Password' : '';

@@ -106,7 +106,7 @@
                         <form method="POST" action="logout.php" class="m-auto">
                             
                             <button type="submit" name="submit" value="submit" class="text-center font-bold text-lg ">
-                                <img class="h-5/6 w-3/12 m-auto" src="src/assets/logout.png" />
+                                <img class="h-5/6 w-3/12 m-auto active:translate-y-1 " src="src/assets/logout.png" />
                                 Logout
                             </button>
                         </form>
@@ -151,7 +151,7 @@
                         </div>
                         <div class="flex h-full w-1/12 mt-3 ml-5 justify-end">
                             <div class="flex justify-end h-full w-full rounded-md">
-                                <img id="reset" class="h-1/6 w-3/12 m-auto cursor-pointer" src="src/assets/reset.png" />
+                                <img id="reset" class="h-1/6 w-3/12 m-auto cursor-pointer active:translate-y-1" src="src/assets/reset.png" />
                             </div>
                         </div>
                     </div>
@@ -220,7 +220,7 @@
 
                                     <div class="flex flex-row h-full w-full  ">
                                         <div class="flex h-full w-full  ">
-                                            <div name="name" id="name" class="flex flex-row h-3/6 w-8/12 m-auto ">
+                                            <div name="name" id="name" class="flex flex-row h-3/6 w-8/12 active:translate-y-1  m-auto ">
                                                 <div class="flex h-full w-4/12  m-auto ">
                                                     <img class="h-4/6 w-full m-auto cursor-pointer" src="src/assets/student.png" />
                                                 </div>
@@ -233,7 +233,7 @@
 
                                         </div>
                                         <div class="flex h-full w-full  ">
-                                            <div name="year" id="year" class="flex h-3/6 w-8/12 m-auto ">
+                                            <div name="year" id="year" class="flex h-3/6 w-8/12 active:translate-y-1  m-auto ">
                                                 <div class="flex h-full w-4/12 m-auto ">
                                                     <img class="h-4/6 w-full m-auto cursor-pointer" src="src/assets/class.png" />
                                                 </div>
@@ -249,7 +249,7 @@
 
                                     <div class="flex flex-row h-full w-full  ">
                                         <div class="flex h-full w-full  ">
-                                            <div name="event" id="event" class="flex h-3/6 w-8/12 m-auto ">
+                                            <div name="event" id="event" class="flex h-3/6 w-8/12 active:translate-y-1  m-auto ">
                                                 <div class="flex h-full w-4/12 m-auto ">
                                                     <img class="h-4/6 w-full m-auto cursor-pointer" src="src/assets/ename.png" />
                                                 </div>
@@ -262,7 +262,7 @@
                                             </div>
                                         </div>
                                         <div class="flex h-full w-full  ">
-                                            <div name="date" id="date" class="flex h-3/6 w-8/12 m-auto ">
+                                            <div name="date" id="date" class="flex active:translate-y-1 h-3/6 w-8/12 m-auto ">
                                                 <div class="flex h-full w-4/12 m-auto ">
                                                     <img class="h-4/6 w-full m-auto cursor-pointer" src="src/assets/edate.png" />
                                                 </div>
@@ -280,7 +280,7 @@
 
                                 
                                 <div class="flex h-1/6 w-full    ">
-                                    <div class="faculty-btn hover:scale-90 duration-500 px-3 flex justify-center">
+                                    <div class="faculty-btn hover:scale-90 active:translate-y-3 duration-500 px-3 flex justify-center">
                                         <button type="submit" name="submit" value="submit" class="text-center">Submit</button>
                                     </div>
                                 </div>
