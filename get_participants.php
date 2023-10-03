@@ -12,7 +12,7 @@
     $client->setScopes(['https://www.googleapis.com/auth/forms','https://www.googleapis.com/auth/drive']);
     $service = new Google\Service\Forms($client);
 
-    $formIds = (($mysqli->query("select formId from users"))->fetch_all());
+    $formIds = (($mysqli->query("select formId from templates"))->fetch_all());
 
     foreach($formIds as $formId){
 
