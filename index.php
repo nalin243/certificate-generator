@@ -134,13 +134,6 @@
                             $template = $mysqli->query("select * from templates where formId='$formId' ");
                             $data = ($template->fetch_all())[0];
 
-                            $user = (($mysqli->query("select username from users where formId='$formId' "))->fetch_all())[0][0];
-
-                            if(count($data)==0){
-                                $_SESSION['errors']['participant_error'] = "Whoops! ☹️ No template found for $pname using formid $formId that belongs to $user";
-                                header("Location: ./error_view.php");
-                            }
-
                             $certImage = $data[1];
 
                             $xname =  $data[2];
