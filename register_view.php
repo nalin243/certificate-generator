@@ -18,9 +18,9 @@
 </head>
 <body>
     <div class="flex page h-screen w-screen">
-        <div class="flex flex-row login-card h-4/6 w-8/12 m-auto ">
+        <div class="flex flex-row login-card h-5/6 w-8/12 m-auto ">
             <div class="flex flex-col h-full w-10/12 ">
-                <div class="flex h-5/6 w-full ">
+                <div class="flex h-4/6 w-full ">
                     <img src="./src/assets/srmlogo.png" class="p-15 mr-auto mb-38 mt-auto ml-10 h-3/6 w-9/12">
                 </div>
                 <div class="h-full w-full">
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="flex flex-col h-full w-full">
-                <div class="flex flex-col login h-full mt-2 w-9/12 m-auto">
+                <div class="flex flex-col login h-5/6 mt-12 w-9/12 m-auto">
                     <div class="flex login-top h-1/6 w-full">
                         <h1 class="m-auto text-md text-white font-bold">Faculty Register</h1>
                     </div>
