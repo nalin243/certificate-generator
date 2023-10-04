@@ -16,8 +16,8 @@
 
     <?php
 
-        require 'session_config.php';
-        require 'env_config.php';
+        require_once 'session_config.php';
+        require_once 'env_config.php';
 
         if($_SESSION['user_username']){
 

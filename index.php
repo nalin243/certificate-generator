@@ -3,9 +3,9 @@
 <head>
     <?php 
         
-        require 'env_config.php';
-        require 'db_config.php';
-        require 'mail_config.php';
+        require_once 'env_config.php';
+        require_once 'db_config.php';
+        require_once 'mail_config.php';
         
         session_start();
 

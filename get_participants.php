@@ -1,8 +1,8 @@
 <?php
     session_start();
     
-    require 'db_config.php';
-    require 'env_config.php';
+    require_once 'db_config.php';
+    require_once 'env_config.php';
 
     define("DEV_MODE",$_ENV['DEV_MODE']);
 

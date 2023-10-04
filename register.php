@@ -1,7 +1,7 @@
 <?php
 
-	require 'session_config.php';
-	require 'db_config.php';
+	require_once 'session_config.php';
+	require_once 'db_config.php';
 
 	if(!empty($_POST)){
 

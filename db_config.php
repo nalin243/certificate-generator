@@ -1,6 +1,6 @@
 <?php
 
-	require 'env_config.php';
+	require_once 'env_config.php';
 
 	define("DBNAME",$_ENV['DB_NAME']);
 	define("DBUSER",$_ENV['DB_USER']);
