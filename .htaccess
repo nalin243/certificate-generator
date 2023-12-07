@@ -1,0 +1,7 @@
+Redirect "/certificate-generator/index.php" "/certificate-generator/src/student_page.php"
+
+Redirect "/certificate-generator/config" "/certificate-generator/src/config_page.php"
+
+Redirect "/certificate-generator/dean" "/certificate-generator/src/dean_page.php"
+
+Redirect "/certificate-generator/register" "/certificate-generator/src/register_page.php"
