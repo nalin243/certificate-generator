@@ -28,12 +28,16 @@
 
             $xname = (double)$_POST['xname'];
             $yname = (double)$_POST['yname'];
+            $namewidth = (double)$_POST['namewidth'];
             $xdate = (double)$_POST['xdate'];
             $ydate = (double)$_POST['ydate'];
+            $datewidth = (double)$_POST['datewidth'];
             $xyear = (double)$_POST['xyear'];
             $yyear = (double)$_POST['yyear'];
+            $yearwidth = (double)$_POST['yearwidth'];
             $xevent = (double)$_POST['xevent'];
             $yevent = (double)$_POST['yevent'];
+            $eventwidth = (double)$_POST['eventwidth'];
 
             $nameFont = $_POST['nameFont'];
             $nameFontSize = (double)$_POST['nameFontSize'];
@@ -82,7 +86,7 @@
                         $deptname = $mysqli->query("select deptname from users where username='$username'");
                         $deptname = ($deptname->fetch_all())[0][0];
 
-                        $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear,xevent,yevent,namefont,namefontsize,namecolor,datefont,datefontsize,datecolor,yearfont,yearfontsize,yearcolor,eventfont,eventfontsize,eventcolor,date,eventname,deptname) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear,$xevent,$yevent,'$nameFont',$nameFontSize,'$nameColor','$dateFont',$dateFontSize,'$dateColor','$yearFont',$yearFontSize,'$yearColor','$eventFont',$eventFontSize,'$eventColor','$date','$eventname','$deptname')");
+                        $mysqli->query("insert into templates(formId,certTemplate,xname,yname,xdate,ydate,xyear,yyear,xevent,yevent,namefont,namefontsize,namecolor,datefont,datefontsize,datecolor,yearfont,yearfontsize,yearcolor,eventfont,eventfontsize,eventcolor,date,eventname,deptname,namewidth,datewidth,yearwidth,eventwidth) values('$formid','$templateFile',$xname,$yname,$xdate,$ydate,$xyear,$yyear,$xevent,$yevent,'$nameFont',$nameFontSize,'$nameColor','$dateFont',$dateFontSize,'$dateColor','$yearFont',$yearFontSize,'$yearColor','$eventFont',$eventFontSize,'$eventColor','$date','$eventname','$deptname',$namewidth,$datewidth,$yearwidth,$eventwidth)");
                     }
                 }
             }
@@ -174,12 +178,16 @@
 
                             <input id="xname" name="xname" type="text" value="" class="live hidden">
                             <input id="yname" name="yname" type="text" value=""  class="live hidden">
+                            <input id="namewidth" name="namewidth" type="text" value="" class="live hidden">
                             <input id="xdate" name="xdate" type="text" value=""  class="live hidden">
                             <input id="ydate" name="ydate" type="text" value=""  class="live hidden">
+                            <input id="datewidth" name="datewidth" type="text" value="" class="live hidden">
                             <input id="xyear" name="xyear" type="text" value=""  class="live hidden">
                             <input id="yyear" name="yyear" type="text" value=""  class="live hidden">
+                            <input id="yearwidth" name="yearwidth" type="text" value="" class="live hidden">
                             <input id="xevent" name="xevent" type="text" value=""  class="live hidden">
                             <input id="yevent" name="yevent" type="text" value=""  class="live hidden">
+                            <input id="eventwidth" name="eventwidth" type="text" value="" class="live hidden">
                             <input id="newimgheight" name="newimgheight" type="text" value=""  class="live hidden">
                             <input id="newimgwidth" name="newimgwidth" type="text" value=""  class="live hidden">
 
@@ -294,6 +302,8 @@
         </div>
     </div>
     <script>
+
+        //Canvas code for interactive rectangle taken from https://medium.com/variance-digital/interactive-rectangular-selection-on-a-responsive-image-761ebe24280c
 
         let nameClicked = dateClicked = eventClicked = yearClicked = false
 
@@ -627,15 +637,19 @@
 
         const xnameElement =  document.getElementById("xname")
         const ynameElement = document.getElementById("yname")
+        const namewidthElement = document.getElementById("namewidth")
 
         const xdateElement =  document.getElementById("xdate")
         const ydateElement = document.getElementById("ydate")
+        const datewidthElement = document.getElementById("datewidth")
 
         const xyearElement =  document.getElementById("xyear")
         const yyearElement = document.getElementById("yyear")
+        const yearwidthElement = document.getElementById("yearwidth")
 
         const xeventElement =  document.getElementById("xevent")
         const yeventElement = document.getElementById("yevent")
+        const eventwidthElement = document.getElementById("eventwidth")
 
         const nameFontElement = document.getElementById("nameFont")
         const nameFontSizeElement = document.getElementById("nameFontSize")
@@ -655,6 +669,7 @@
 
         let rectcenterx = 0
         let rectcentery = 0
+        let rectwidth = 0
 
         const imageElement = document.querySelector(".upload-img")
 
@@ -662,12 +677,16 @@
 
             let xname = xnameElement.value
             let yname = ynameElement.value
+            let namewidth = namewidthElement.value
             let xdate = xdateElement.value
             let ydate = ydateElement.value
+            let datewidth = datewidthElement.value
             let xyear = xyearElement.value
             let yyear = yyearElement.value
+            let yearwidth = yearwidthElement.value
             let xevent = xeventElement.value
             let yevent = yeventElement.value
+            let eventwidth = eventwidthElement.value
 
             const eventname = document.querySelector("#eventname").value
             const date = document.querySelector("#datestring").value
@@ -697,12 +716,16 @@
             formData.append("img", imgFile)
             formData.append("xname",xname)
             formData.append("yname",yname)
+            formData.append("namewidth",namewidth)
             formData.append("xdate",xdate)
             formData.append("ydate",ydate)
+            formData.append("datewidth",datewidth)
             formData.append("xevent",xevent)
             formData.append("yevent",yevent)
+            formData.append("eventwidth",eventwidth)
             formData.append("xyear",xyear)
             formData.append("yyear",yyear)
+            formData.append("yearwidth",yearwidth)
             formData.append("eventname",eventname)
             formData.append("date",date)
             formData.append("nameFont",nameFont)
@@ -786,9 +809,11 @@
             nameUpdated = true
             rectcenterx = ((rect.left+rect.width/2))
             rectcentery = (((rect.top+(rect.top+rect.height))/2))
+            rectwidth = rect.width
 
             xnameElement.value = rectcenterx 
             ynameElement.value = rectcentery
+            namewidthElement.value = rectwidth
 
             nameRect = rect
         }
@@ -797,9 +822,11 @@
             dateUpdated = true
             rectcenterx = ((rect.left+rect.width/2))
             rectcentery = (((rect.top+(rect.top+rect.height))/2))
+            rectwidth = rect.width
 
             xdateElement.value = rectcenterx 
             ydateElement.value = rectcentery
+            datewidthElement.value = rectwidth
 
             dateRect = rect
         }
@@ -807,9 +834,11 @@
         function update_year_coords(){
             rectcenterx = ((rect.left+rect.width/2))
             rectcentery = (((rect.top+(rect.top+rect.height))/2))
+            rectwidth = rect.width
 
             xyearElement.value = rectcenterx 
             yyearElement.value = rectcentery
+            yearwidthElement.value = rectwidth
 
             yearRect = rect
         }
@@ -817,9 +846,11 @@
         function update_event_coords(){
             rectcenterx = ((rect.left+rect.width/2))
             rectcentery = (((rect.top+(rect.top+rect.height))/2))
+            rectwidth = rect.width
 
             xeventElement.value = rectcenterx 
             yeventElement.value = rectcentery
+            eventwidthElement.value = rectwidth
 
             eventRect = rect
         }

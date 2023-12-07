@@ -3,18 +3,29 @@
 	$rootdir = $_SERVER['DOCUMENT_ROOT']; 
     $path = "/certificate-generator/";
 
-    require $rootdir."/certificate-generator/" . 'modules/display_text.php';
+    require $rootdir.$path. 'modules/display_text.php';
 
 	session_start();
 
 	$xname = (double)$_POST['xname'];
 	$yname = (double)$_POST['yname'];
+	$namewidth = (double)$_POST['namewidth'];
+
 	$xdate = (double)$_POST['xdate'];
 	$ydate = (double)$_POST['ydate'];
+	$datewidth = (double)$_POST['datewidth'];
+
+
 	$xevent = (double)$_POST['xevent'];
 	$yevent = (double)$_POST['yevent'];
+	$eventwidth = (double)$_POST['eventwidth'];
+
+
 	$xyear = (double)$_POST['xyear'];
 	$yyear = (double)$_POST['yyear'];
+	$yearwidth = (double)$_POST['yearwidth'];
+
+
 	$eventname = $_POST['eventname'];
 	$date = $_POST['date'];
 
@@ -44,10 +55,10 @@
 			$img = imagecreatefromstring($imgstring);
 			$img = imagescale($img,$imgWidth,$imgHeight);
 
-			displayText($img,"John Doe",$nameFontSize,"../../fonts/$nameFont",$xname,$yname,$nameColor);
-			displayText($img,"III Preview",$yearFontSize,"../../fonts/$yearFont",$xyear,$yyear,$yearColor);
-			displayText($img,$date ? $date : "12-12-12" ,$dateFontSize,"../../fonts/$dateFont",$xdate,$ydate,$dateColor);
-			displayText($img,$eventname ? $eventname : "Preview Event Name",$eventFontSize,"../../fonts/$eventFont",$xevent,$yevent,$eventColor);
+			displayText($img,"John Doe",$nameFontSize,"../../fonts/$nameFont",$xname,$yname,$nameColor,$namewidth);
+			displayText($img,"III Preview",$yearFontSize,"../../fonts/$yearFont",$xyear,$yyear,$yearColor,$yearwidth);
+			displayText($img,$date ? $date : "12-12-12" ,$dateFontSize,"../../fonts/$dateFont",$xdate,$ydate,$dateColor,$datewidth);
+			displayText($img,$eventname ? $eventname : "Preview Event Name",$eventFontSize,"../../fonts/$eventFont",$xevent,$yevent,$eventColor,$eventwidth);
 
 		    ob_start();
 		    imagepng($img);

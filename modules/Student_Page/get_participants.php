@@ -122,7 +122,7 @@
         }catch(Exception $e){
             if(gettype(strpos($e->getMessage(),"Requested entity was not found"))==="integer"){
                 $_SESSION['errors']['form_error'] = "Whoops! ☹️ &nbsp; Incorrect Form ID! &nbsp; :(";
-                header("Location: ../../src/error_page.php");
+                header("Location: "."/certificate-generator"."/src/error_page.php");
             }
         }
     }

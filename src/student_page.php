@@ -21,7 +21,7 @@
 
         if( count( ($mysqli->query("select * from templates"))->fetch_all() ) == 0  ){ //checking if templates exist or not
             $_SESSION['errors']['template_error'] = "Whoops! &nbsp; No templates found! &nbsp; ☹️ ";
-            header("Location: ". $path ."src/error_page.php");
+            header("Location: ". $path ."error_page.php");
         }
 
 
@@ -70,7 +70,7 @@
                     if(gettype(strpos($e->getMessage(),"Invalid address"))==="integer"){
 
                         $_SESSION['errors']['email_error'] = "Whoops! &nbsp; Invalid email address provided. ☹️ &nbsp;  Contact Mayank Mehra!";
-                        header("Location: ". $path ."src/error_page.php");
+                        header("Location: ". $path ."error_page.php");
                     }
                 }
 
@@ -96,12 +96,16 @@
 
                             $xname =  $data[2];
                             $yname =  $data[3];
+                            $namewidth = $data[26];
                             $xdate =  $data[4];
                             $ydate =  $data[5];
+                            $datewidth = $data[27];
                             $xyear =  $data[6];
                             $yyear =  $data[7];
+                            $yearwidth = $data[28];
                             $xevent =  $data[8];
                             $yevent =  $data[9];
+                            $eventwidth = $data[29];
 
                             $nameFont =  $data[10];
                             $nameFontSize =  $data[11];
@@ -124,10 +128,10 @@
 
                             $img = imagecreatefromstring(base64_decode($certImage));
                             
-                            displayText($img,$pname,$nameFontSize,"../fonts/$nameFont",$xname,$yname,$nameColor);
-                            displayText($img,$class,$yearFontSize,"../fonts/$yearFont",$xyear,$yyear,$yearColor);
-                            displayText($img,$date ? $date : "Error" ,$dateFontSize,"../fonts/$dateFont",$xdate,$ydate,$dateColor);
-                            displayText($img,$eventname ? $eventname : "Error",$eventFontSize,"../fonts/$eventFont",$xevent,$yevent,$eventColor);
+                            displayText($img,$pname,$nameFontSize,"../fonts/$nameFont",$xname,$yname,$nameColor,$namewidth);
+                            displayText($img,$class,$yearFontSize,"../fonts/$yearFont",$xyear,$yyear,$yearColor,$yearwidth);
+                            displayText($img,$date ? $date : "Error" ,$dateFontSize,"../fonts/$dateFont",$xdate,$ydate,$dateColor,$datewidth);
+                            displayText($img,$eventname ? $eventname : "Error",$eventFontSize,"../fonts/$eventFont",$xevent,$yevent,$eventColor,$eventwidth);
 
                             ob_start();
                             imagepng($img);

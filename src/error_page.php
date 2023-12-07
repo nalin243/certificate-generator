@@ -28,16 +28,16 @@ foreach($_SESSION as $sessionVar=>$value){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cerification</title>
 
-    <link rel="stylesheet" href="./public/index.css">
+    <link rel="stylesheet" href="../public/index.css">
+    <link rel="stylesheet" href="../public/tailwind.css">
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.tailwindcss.com"></script>    
 </head>
 <body>
     <div class="flex flex-col page h-screen min-w-screen overflow-auto">
         <div id="main-container" class="flex flex-col">
             <div class="flex h-auto w-full mt-14">
-                <img src="./public/assets/srmlogo.png" class=" img p-15 m-auto h-full w-3/12">
+                <img src="../public/assets/srmlogo.png" class=" img p-15 m-auto h-full w-3/12">
             </div>
             <div class ="flex flex-col h-3/6 w-full mt-10">
                 <div class="flex h-3/6 w-full">
