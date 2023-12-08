@@ -1,4 +1,6 @@
 {
+    "name":"certgen/certgen",
+    "description":"Uses the provided templates to allow students to download participation certificates",
     "require": {
         "vlucas/phpdotenv": "^5.5",
         "google/apiclient": "^2.15",
