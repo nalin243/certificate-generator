@@ -47,7 +47,7 @@
                 if(!isset($_SESSION['generatedOTP']))
                     $_SESSION['generatedOTP'] = rand(1000,9999);
 
-                $participantEmail = $results[0][5];
+                $participantEmail = $results[0][5];//Even if a student has participated in multiple events we are for now only focusing on the first one, this has to be changed. 
                 $participantName = $results[0][1];
 
                 $message = "Your OTP for getting participation certificate is ".$_SESSION['generatedOTP'];
@@ -166,6 +166,7 @@
 
     <link rel="stylesheet" href="../public/index.css">
     <link rel="stylesheet" href="../public/tailwind.css">
+    <script src="https://cdn.tailwindcss.com"></script> <!-- For some reason the installed tailwind does not work so this is there -->
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
   
 </head>
