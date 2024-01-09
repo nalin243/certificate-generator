@@ -164,7 +164,8 @@
                     <div id="imgcontainerunique" class="ml-6 flex flex-col h-5/6 w-11/12 pt-10 px-10">
                         <div class="imgcontainer relative flex flex-col cert-drop h-full -mt-10 w-full ">
                                 <img id="preview" src="" class="z-10 upload-img m-auto hidden" />
-                                <canvas class="z-20 absolute inset-0  " id="test" ></canvas>
+                                <canvas class="z-20 absolute inset-0" id="test" ></canvas>
+                                <canvas class="z-10 absolute inset-0 border-8 border-red-900" id="liveview"></canvas>
                                 <label id="custom-file-upload" class="m-auto text-2xl text-gray-400 font-bold">
                                     <input name="template" form="configform" id="custom-file-input" type="file" accept="image/png"/>
                                         Upload File
@@ -307,14 +308,35 @@
 
         let nameClicked = dateClicked = eventClicked = yearClicked = false
 
-        const canvasElement = document.querySelector("#test")
-        const context = canvasElement.getContext("2d")
+        // const canvasElement = document.querySelector("#test")
+        // const context = canvasElement.getContext("2d")
 
-        const imgWidth = document.querySelector("#preview").width
-        const imgHeight = document.querySelector("#preview").height 
+        const canvasLiveView = document.querySelector("#liveview")
+        const contextLiveView = canvasLiveView.getContext("2d")
 
-        canvasElement.width = imgWidth
-        canvasElement.height = imgHeight
+        // const imgWidth = document.querySelector("#preview").width
+        // const imgHeight = document.querySelector("#preview").height 
+
+        // canvasElement.width = imgWidth
+        // canvasElement.height = imgHeight
+
+        // canvasLiveView.width = imgWidth 
+        // canvasLiveView.height = imgHeight
+
+        const shortbaby = new FontFace("shortbaby","url('../fonts/shortbaby.ttf')")
+        const certasans = new FontFace("certasans","url('../fonts/certasans.ttf')")
+        const OpenSansRegular = new FontFace("OpenSans-Regular","url('../fonts/OpenSans-Regular.ttf')")
+        const OpenSansBold = new FontFace("OpenSans-Bold","url('../fonts/OpenSans-Bold.ttf')")
+
+        document.fonts.add(shortbaby)
+        document.fonts.add(certasans)
+        document.fonts.add(OpenSansRegular)
+        document.fonts.add(OpenSansBold)
+
+        var previewText = ""
+
+        var eventname = document.querySelector("#eventname").value
+        var date = document.querySelector("#datestring").value 
 
         var image = document.getElementById('preview');
         var canvas = document.getElementById('test')
@@ -383,16 +405,24 @@
 
         function drawRectInCanvas()
         {
-          var ctx = canvas.getContext("2d");
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.beginPath();
-          ctx.lineWidth = "3";
-          ctx.fillStyle = "rgba(199, 87, 231, 0.09)";
-          ctx.strokeStyle = "#000000";
-          ctx.rect(rect.left, rect.top, rect.width, rect.height);
-          ctx.fill();
-          ctx.stroke();
-          drawHandles();
+          var ctx = canvas.getContext("2d")
+          ctx.clearRect(0, 0, canvas.width, canvas.height)//clear canvas with draggable rectangle
+
+          const contextLiveView = canvasLiveView.getContext("2d")
+
+          contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
+          
+          let textwidth = contextLiveView.measureText(previewText).width
+          contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
+
+          ctx.beginPath()
+          ctx.lineWidth = "3"
+          ctx.fillStyle = "rgba(199, 87, 231, 0.09)"
+          ctx.strokeStyle = "#000000"
+          ctx.rect(rect.left, rect.top, rect.width, rect.height)
+          ctx.fill()
+          ctx.stroke()
+          drawHandles()
           updateHiddenInputs()
         }
         //drawRectInCanvas() connected functions -- END
@@ -427,7 +457,7 @@
           };
         }
 
-        function mouseDown(e) {
+        function mouseDown(e) { 
           var pos = getMousePos(this,e);
           mouseX = pos.x;
           mouseY = pos.y;
@@ -463,20 +493,24 @@
         }
         //mousedown connected functions -- END
 
-        function mouseMove(e) {    
+        function mouseMove(e) {   
 
         //if mouse is moving then check which button has been clicked
         if(nameClicked){
             update_name_coords()
+            previewText = "John Doe"
         }
         if(dateClicked){
             update_date_coords()
+            previewText = date 
         }
         if(eventClicked){
             update_event_coords()
+            previewText = eventname
         }
         if(yearClicked){
             update_year_coords()
+            previewText = "III Preview"
         }
 
 
@@ -557,11 +591,24 @@
         }
 
         function initCanvas(){
-          canvas.height = image.height;
-          canvas.width = image.width;
-          canvas.style.top = image.offsetTop + "px";;
-          canvas.style.left = image.offsetLeft + "px";
-          updateCurrentCanvasRect();
+            canvas.height = image.height;
+            canvas.width = image.width;
+            canvas.style.top = image.offsetTop + "px";;
+            canvas.style.left = image.offsetLeft + "px";
+            updateCurrentCanvasRect();
+
+            canvasLiveView.height = canvas.height
+            canvasLiveView.width = canvas.width
+            canvasLiveView.style.top = image.offsetTop + "px";;
+            canvasLiveView.style.left = image.offsetLeft + "px";
+
+            let previewImage = new Image()
+            previewImage.src = image.src
+
+            previewImage.addEventListener("load", ()=>{
+                contextLiveView.drawImage(previewImage,0,0,image.width,image.height)
+            //     contextLiveView.font = '50px serif'
+          });
         }
 
         function initRect(){
@@ -688,72 +735,108 @@
             let yevent = yeventElement.value
             let eventwidth = eventwidthElement.value
 
-            const eventname = document.querySelector("#eventname").value
-            const date = document.querySelector("#datestring").value
+            eventname = document.querySelector("#eventname").value ? document.querySelector("#eventname").value : "Preview Event"
+            date = document.querySelector("#datestring").value ? document.querySelector("#datestring").value : "12-12-12"
             color = document.querySelector("#color").value
             font = document.querySelector("#font").selectedOptions[0].value
             fontsize = document.querySelector("#fontsize").value
 
-            if(nameClicked)
+            if(nameClicked){
                 update_name_font_data()
-            if(dateClicked)
+                
+                const contextLiveView = canvasLiveView.getContext("2d")
+                contextLiveView.fillStyle = `${nameColorElement.value}`
+                contextLiveView.font = `${nameFontSizeElement.value}px ${nameFontElement.value.split(".")[0]}`
+                contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
+                
+                let textwidth = contextLiveView.measureText(previewText).width
+                contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
+            }
+            if(dateClicked){
                 update_date_font_data()
-            if(eventClicked)
+                previewText = date
+                const contextLiveView = canvasLiveView.getContext("2d")
+                contextLiveView.fillStyle = `${dateColorElement.value}`
+                contextLiveView.font = `${dateFontSizeElement.value}px ${dateFontElement.value.split(".")[0]}`
+                console.log(dateFontSize)
+                contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
+                
+                let textwidth = contextLiveView.measureText(previewText).width//uses this to get offset value for centering
+                contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
+            }
+            if(eventClicked){
                 update_event_font_data()
-            if(yearClicked)
+                previewText = eventname
+                const contextLiveView = canvasLiveView.getContext("2d")
+                contextLiveView.fillStyle = `${eventColorElement.value}`
+                contextLiveView.font = `${eventFontSizeElement.value}px ${eventFontElement.value.split(".")[0]}`
+                contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
+                
+                let textwidth = contextLiveView.measureText(previewText).width
+                contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
+            }
+            if(yearClicked){
                 update_year_font_data()
-
-            const httpRequest = new XMLHttpRequest()
-
-            httpRequest.onreadystatechange = ()=>{
-                if(httpRequest.readyState===4 && httpRequest.status==200){
-                    response = (JSON.parse(httpRequest.responseText))
-                    imageElement.src = `data:image/png;base64,${response[0]}`
-                }
+                const contextLiveView = canvasLiveView.getContext("2d")
+                contextLiveView.fillStyle = `${yearColorElement.value}`
+                contextLiveView.font = `${yearFontSizeElement.value}px ${yearFontElement.value.split(".")[0]}`
+                contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
+                
+                let textwidth = contextLiveView.measureText(previewText).width
+                contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
             }
 
-            const formData = new FormData()
-            formData.append("img", imgFile)
-            formData.append("xname",xname)
-            formData.append("yname",yname)
-            formData.append("namewidth",namewidth)
-            formData.append("xdate",xdate)
-            formData.append("ydate",ydate)
-            formData.append("datewidth",datewidth)
-            formData.append("xevent",xevent)
-            formData.append("yevent",yevent)
-            formData.append("eventwidth",eventwidth)
-            formData.append("xyear",xyear)
-            formData.append("yyear",yyear)
-            formData.append("yearwidth",yearwidth)
-            formData.append("eventname",eventname)
-            formData.append("date",date)
-            formData.append("nameFont",nameFont)
-            formData.append("nameFontSize",nameFontSize)
-            formData.append("nameColor",nameColor)
+            // const httpRequest = new XMLHttpRequest()
 
-            formData.append("dateFont",dateFont)
-            formData.append("dateFontSize",dateFontSize)
-            formData.append("dateColor",dateColor)
+            // httpRequest.onreadystatechange = ()=>{
+            //     if(httpRequest.readyState===4 && httpRequest.status==200){
+            //         response = (JSON.parse(httpRequest.responseText))
+            //         imageElement.src = `data:image/png;base64,${response[0]}`
+            //     }
+            // }
 
-            formData.append("yearFont",yearFont)
-            formData.append("yearFontSize",yearFontSize)
-            formData.append("yearColor",yearColor)
+            // const formData = new FormData()
+            // formData.append("img", imgFile)
+            // formData.append("xname",xname)
+            // formData.append("yname",yname)
+            // formData.append("namewidth",namewidth)
+            // formData.append("xdate",xdate)
+            // formData.append("ydate",ydate)
+            // formData.append("datewidth",datewidth)
+            // formData.append("xevent",xevent)
+            // formData.append("yevent",yevent)
+            // formData.append("eventwidth",eventwidth)
+            // formData.append("xyear",xyear)
+            // formData.append("yyear",yyear)
+            // formData.append("yearwidth",yearwidth)
+            // formData.append("eventname",eventname)
+            // formData.append("date",date)
+            // formData.append("nameFont",nameFont)
+            // formData.append("nameFontSize",nameFontSize)
+            // formData.append("nameColor",nameColor)
 
-            formData.append("eventFont",eventFont)
-            formData.append("eventFontSize",eventFontSize)
-            formData.append("eventColor",eventColor)
+            // formData.append("dateFont",dateFont)
+            // formData.append("dateFontSize",dateFontSize)
+            // formData.append("dateColor",dateColor)
 
-            formData.append("imgHeight",canvas.height)
-            formData.append("imgWidth",canvas.width)
+            // formData.append("yearFont",yearFont)
+            // formData.append("yearFontSize",yearFontSize)
+            // formData.append("yearColor",yearColor)
+
+            // formData.append("eventFont",eventFont)
+            // formData.append("eventFontSize",eventFontSize)
+            // formData.append("eventColor",eventColor)
+
+            // formData.append("imgHeight",canvas.height)
+            // formData.append("imgWidth",canvas.width)
 
             const newimgheightElement = document.getElementById("newimgheight")
             const newimgwidthElement = document.getElementById("newimgwidth")
             newimgheightElement.value = canvas.height 
             newimgwidthElement.value = canvas.width
 
-            httpRequest.open("POST","../modules/Config_Page/live_template.php",true)
-            httpRequest.send(formData)
+            // httpRequest.open("POST","../modules/Config_Page/live_template.php",true)
+            // httpRequest.send(formData)
         }
 
         const liveElements = document.querySelectorAll(".live")

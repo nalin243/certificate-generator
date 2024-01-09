@@ -1,4 +1,15 @@
 
+@font-face {
+  font-family: 'certasans';
+  src:url('../fonts/certasans.ttf');
+}
+
+@font-face {
+  font-family:'shortbaby';
+  src:url('../fonts/shortbaby.ttf');
+}
+
+
 /* !!!SCROLLBAR CSS!!! */
 /* width */
 ::-webkit-scrollbar {
