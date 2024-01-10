@@ -29,12 +29,15 @@
             $xname = (double)$_POST['xname'];
             $yname = (double)$_POST['yname'];
             $namewidth = (double)$_POST['namewidth'];
+
             $xdate = (double)$_POST['xdate'];
             $ydate = (double)$_POST['ydate'];
             $datewidth = (double)$_POST['datewidth'];
+
             $xyear = (double)$_POST['xyear'];
             $yyear = (double)$_POST['yyear'];
             $yearwidth = (double)$_POST['yearwidth'];
+
             $xevent = (double)$_POST['xevent'];
             $yevent = (double)$_POST['yevent'];
             $eventwidth = (double)$_POST['eventwidth'];
@@ -164,8 +167,8 @@
                     <div id="imgcontainerunique" class="ml-6 flex flex-col h-5/6 w-11/12 pt-10 px-10">
                         <div class="imgcontainer relative flex flex-col cert-drop h-full -mt-10 w-full ">
                                 <img id="preview" src="" class="z-10 upload-img m-auto hidden" />
-                                <canvas class="z-20 absolute inset-0" id="test" ></canvas>
-                                <canvas class="z-10 absolute inset-0 border-8 border-red-900" id="liveview"></canvas>
+                                <canvas class="z-30 absolute inset-0" id="test" ></canvas>
+                                <canvas class="z-20 absolute inset-0" id="liveview"></canvas>
                                 <label id="custom-file-upload" class="m-auto text-2xl text-gray-400 font-bold">
                                     <input name="template" form="configform" id="custom-file-input" type="file" accept="image/png"/>
                                         Upload File
@@ -576,8 +579,13 @@
           //make canvas same as image, which may have changed size and position
           canvas.height = image.height;
           canvas.width = image.width;
-          canvas.style.top = image.offsetTop + "px";;
+          canvas.style.top = image.offsetTop + "px";
           canvas.style.left = image.offsetLeft + "px";
+
+          canvasLiveView.height = canvas.height
+          canvasLiveView.width = canvas.width
+          canvasLiveView.style.top = canvas.style.top
+          canvasLiveView.style.left = canvas.style.left
           //compute ratio comparing the NEW canvas rect with the OLD (current)
           var ratio_w = canvas.width / current_canvas_rect.width;
           var ratio_h = canvas.height / current_canvas_rect.height;
@@ -599,23 +607,23 @@
 
             canvasLiveView.height = canvas.height
             canvasLiveView.width = canvas.width
-            canvasLiveView.style.top = image.offsetTop + "px";;
-            canvasLiveView.style.left = image.offsetLeft + "px";
+            canvasLiveView.style.top = canvas.style.top
+            canvasLiveView.style.left = canvas.style.left
 
-            let previewImage = new Image()
-            previewImage.src = image.src
+          //   let previewImage = new Image()
+          //   previewImage.src = image.src
 
-            previewImage.addEventListener("load", ()=>{
-                contextLiveView.drawImage(previewImage,0,0,image.width,image.height)
-            //     contextLiveView.font = '50px serif'
-          });
+          //   previewImage.addEventListener("load", ()=>{
+          //       contextLiveView.drawImage(previewImage,0,0,image.width,image.height)
+          //   //     contextLiveView.font = '50px serif'
+          // });
         }
 
         function initRect(){
           var ratio_w = canvas.width / effective_image_width;
           var ratio_h = canvas.height / effective_image_height;
           //BORDER OF SIZE 6!
-          rect.height = (th_height*ratio_h-450)
+          rect.height = (th_height*ratio_h-520)
           rect.width = (th_width*ratio_w-250)
           rect.top = th_top*ratio_h+10
           rect.left = th_left*ratio_w+10
@@ -640,6 +648,55 @@
         window.addEventListener('resize',repositionCanvas)
                 
         //#######################################################################
+
+        // function live_preview_check(){
+        //      const httpRequest = new XMLHttpRequest()
+
+        //     httpRequest.onreadystatechange = ()=>{
+        //         if(httpRequest.readyState===4 && httpRequest.status==200){
+        //             response = (JSON.parse(httpRequest.responseText))
+        //             imageElement.src = `data:image/png;base64,${response[0]}`
+        //         }
+        //     }
+
+        //     const formData = new FormData()
+        //     formData.append("img", imgFile)
+        //     formData.append("xname",xname)
+        //     formData.append("yname",yname)
+        //     formData.append("namewidth",namewidth)
+        //     formData.append("xdate",xdate)
+        //     formData.append("ydate",ydate)
+        //     formData.append("datewidth",datewidth)
+        //     formData.append("xevent",xevent)
+        //     formData.append("yevent",yevent)
+        //     formData.append("eventwidth",eventwidth)
+        //     formData.append("xyear",xyear)
+        //     formData.append("yyear",yyear)
+        //     formData.append("yearwidth",yearwidth)
+        //     formData.append("eventname",eventname)
+        //     formData.append("date",date)
+        //     formData.append("nameFont",nameFont)
+        //     formData.append("nameFontSize",nameFontSize)
+        //     formData.append("nameColor",nameColor)
+
+        //     formData.append("dateFont",dateFont)
+        //     formData.append("dateFontSize",dateFontSize)
+        //     formData.append("dateColor",dateColor)
+
+        //     formData.append("yearFont",yearFont)
+        //     formData.append("yearFontSize",yearFontSize)
+        //     formData.append("yearColor",yearColor)
+
+        //     formData.append("eventFont",eventFont)
+        //     formData.append("eventFontSize",eventFontSize)
+        //     formData.append("eventColor",eventColor)
+
+        //     formData.append("imgHeight",canvasLiveView.height)
+        //     formData.append("imgWidth",canvasLiveView.width)
+
+        //     httpRequest.open("POST","../modules/Config_Page/live_template.php",true)
+        //     httpRequest.send(formData)
+        // }
 
         var newimgwidth = 0
         var newimgheight = 0
@@ -722,6 +779,10 @@
 
         const liveCallback = function(event){
 
+            console.log(`canvas 1 ${canvas.width} ${canvas.height}`)
+            console.log(`canvas live view ${canvasLiveView.width} ${canvasLiveView.height}`)
+            console.log(`image ${image.width} ${image.height}`)
+
             let xname = xnameElement.value
             let yname = ynameElement.value
             let namewidth = namewidthElement.value
@@ -750,6 +811,7 @@
                 contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
                 
                 let textwidth = contextLiveView.measureText(previewText).width
+                nametextwidthElement.value = textwidth
                 contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
             }
             if(dateClicked){
@@ -758,10 +820,10 @@
                 const contextLiveView = canvasLiveView.getContext("2d")
                 contextLiveView.fillStyle = `${dateColorElement.value}`
                 contextLiveView.font = `${dateFontSizeElement.value}px ${dateFontElement.value.split(".")[0]}`
-                console.log(dateFontSize)
                 contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
                 
                 let textwidth = contextLiveView.measureText(previewText).width//uses this to get offset value for centering
+                datetextwidthElement.value = textwidth
                 contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
             }
             if(eventClicked){
@@ -773,6 +835,7 @@
                 contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
                 
                 let textwidth = contextLiveView.measureText(previewText).width
+                eventtextwidthElement.value = textwidth
                 contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
             }
             if(yearClicked){
@@ -783,60 +846,14 @@
                 contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
                 
                 let textwidth = contextLiveView.measureText(previewText).width
+                yeartextwidthElement.value = textwidth
                 contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
             }
 
-            // const httpRequest = new XMLHttpRequest()
-
-            // httpRequest.onreadystatechange = ()=>{
-            //     if(httpRequest.readyState===4 && httpRequest.status==200){
-            //         response = (JSON.parse(httpRequest.responseText))
-            //         imageElement.src = `data:image/png;base64,${response[0]}`
-            //     }
-            // }
-
-            // const formData = new FormData()
-            // formData.append("img", imgFile)
-            // formData.append("xname",xname)
-            // formData.append("yname",yname)
-            // formData.append("namewidth",namewidth)
-            // formData.append("xdate",xdate)
-            // formData.append("ydate",ydate)
-            // formData.append("datewidth",datewidth)
-            // formData.append("xevent",xevent)
-            // formData.append("yevent",yevent)
-            // formData.append("eventwidth",eventwidth)
-            // formData.append("xyear",xyear)
-            // formData.append("yyear",yyear)
-            // formData.append("yearwidth",yearwidth)
-            // formData.append("eventname",eventname)
-            // formData.append("date",date)
-            // formData.append("nameFont",nameFont)
-            // formData.append("nameFontSize",nameFontSize)
-            // formData.append("nameColor",nameColor)
-
-            // formData.append("dateFont",dateFont)
-            // formData.append("dateFontSize",dateFontSize)
-            // formData.append("dateColor",dateColor)
-
-            // formData.append("yearFont",yearFont)
-            // formData.append("yearFontSize",yearFontSize)
-            // formData.append("yearColor",yearColor)
-
-            // formData.append("eventFont",eventFont)
-            // formData.append("eventFontSize",eventFontSize)
-            // formData.append("eventColor",eventColor)
-
-            // formData.append("imgHeight",canvas.height)
-            // formData.append("imgWidth",canvas.width)
-
             const newimgheightElement = document.getElementById("newimgheight")
             const newimgwidthElement = document.getElementById("newimgwidth")
-            newimgheightElement.value = canvas.height 
-            newimgwidthElement.value = canvas.width
-
-            // httpRequest.open("POST","../modules/Config_Page/live_template.php",true)
-            // httpRequest.send(formData)
+            newimgheightElement.value = canvasLiveView.height 
+            newimgwidthElement.value = canvasLiveView.width
         }
 
         const liveElements = document.querySelectorAll(".live")

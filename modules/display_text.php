@@ -34,8 +34,8 @@
             return $color;
         }
 
-        function displayText($img,$textstring,$fontsize,$fontname,$xcoordinate,$ycoordinate,$hexcolor,$boundingrectwidth){
-            //takes in the gd image object and other parameters and displays text 
+        function displayText($img,$textstring,$fontsize,$fontname,$xcoordinate,$ycoordinate,$hexcolor,$boundingrectwidth,$fontwidth=0){
+            //takes in the gd image object and other parameters and displays text
             while( (getTextWidth($textstring,$fontsize,$fontname,$xcoordinate,$ycoordinate,$boundingrectwidth)) > $boundingrectwidth ){
                 $fontsize = $fontsize - 2;
             }

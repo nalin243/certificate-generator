@@ -97,12 +97,15 @@
                             $xname =  $data[2];
                             $yname =  $data[3];
                             $namewidth = $data[26];
+
                             $xdate =  $data[4];
                             $ydate =  $data[5];
                             $datewidth = $data[27];
+
                             $xyear =  $data[6];
                             $yyear =  $data[7];
                             $yearwidth = $data[28];
+
                             $xevent =  $data[8];
                             $yevent =  $data[9];
                             $eventwidth = $data[29];
@@ -128,10 +131,10 @@
 
                             $img = imagecreatefromstring(base64_decode($certImage));
                             
-                            displayText($img,$pname,$nameFontSize,"../fonts/$nameFont",$xname,$yname,$nameColor,$namewidth);
-                            displayText($img,$class,$yearFontSize,"../fonts/$yearFont",$xyear,$yyear,$yearColor,$yearwidth);
-                            displayText($img,$date ? $date : "Error" ,$dateFontSize,"../fonts/$dateFont",$xdate,$ydate,$dateColor,$datewidth);
-                            displayText($img,$eventname ? $eventname : "Error",$eventFontSize,"../fonts/$eventFont",$xevent,$yevent,$eventColor,$eventwidth);
+                            displayText($img,$pname,$nameFontSize-5,"../fonts/$nameFont",$xname,$yname,$nameColor,$namewidth);
+                            displayText($img,$class,$yearFontSize-5,"../fonts/$yearFont",$xyear,$yyear,$yearColor,$yearwidth);
+                            displayText($img,$date ? $date : "Error" ,$dateFontSize-5,"../fonts/$dateFont",$xdate,$ydate,$dateColor,$datewidth);
+                            displayText($img,$eventname ? $eventname : "Error",$eventFontSize-5,"../fonts/$eventFont",$xevent,$yevent,$eventColor,$eventwidth);
 
                             ob_start();
                             imagepng($img);
