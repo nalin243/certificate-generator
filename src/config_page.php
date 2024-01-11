@@ -310,6 +310,8 @@
         //Canvas code for interactive rectangle taken from https://medium.com/variance-digital/interactive-rectangular-selection-on-a-responsive-image-761ebe24280c
 
         let nameClicked = dateClicked = eventClicked = yearClicked = false
+        let previewImage = new Image()
+        let originalImage = ""
 
         // const canvasElement = document.querySelector("#test")
         // const context = canvasElement.getContext("2d")
@@ -336,7 +338,10 @@
         document.fonts.add(OpenSansRegular)
         document.fonts.add(OpenSansBold)
 
-        var previewText = ""
+        var previewDateText = ""
+        var previewEventText = ""
+        let previewNameText = "John Doe"
+        let previewYearText = "III Preview"
 
         var eventname = document.querySelector("#eventname").value
         var date = document.querySelector("#datestring").value 
@@ -408,25 +413,18 @@
 
         function drawRectInCanvas()
         {
-          var ctx = canvas.getContext("2d")
-          ctx.clearRect(0, 0, canvas.width, canvas.height)//clear canvas with draggable rectangle
+            var ctx = canvas.getContext("2d")
+            ctx.clearRect(0, 0, canvas.width, canvas.height)//clear canvas with draggable rectangle
 
-          const contextLiveView = canvasLiveView.getContext("2d")
-
-          contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
-          
-          let textwidth = contextLiveView.measureText(previewText).width
-          contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
-
-          ctx.beginPath()
-          ctx.lineWidth = "3"
-          ctx.fillStyle = "rgba(199, 87, 231, 0.09)"
-          ctx.strokeStyle = "#000000"
-          ctx.rect(rect.left, rect.top, rect.width, rect.height)
-          ctx.fill()
-          ctx.stroke()
-          drawHandles()
-          updateHiddenInputs()
+              ctx.beginPath()
+              ctx.lineWidth = "3"
+              ctx.fillStyle = "rgba(199, 87, 231, 0.09)"
+              ctx.strokeStyle = "#000000"
+              ctx.rect(rect.left, rect.top, rect.width, rect.height)
+              ctx.fill()
+              ctx.stroke()
+              drawHandles()
+              updateHiddenInputs()
         }
         //drawRectInCanvas() connected functions -- END
 
@@ -501,19 +499,17 @@
         //if mouse is moving then check which button has been clicked
         if(nameClicked){
             update_name_coords()
-            previewText = "John Doe"
         }
         if(dateClicked){
             update_date_coords()
-            previewText = date 
+            previewDateText = date 
         }
         if(eventClicked){
             update_event_coords()
-            previewText = eventname
+            previewEventText = eventname
         }
         if(yearClicked){
             update_year_coords()
-            previewText = "III Preview"
         }
 
 
@@ -586,6 +582,9 @@
           canvasLiveView.width = canvas.width
           canvasLiveView.style.top = canvas.style.top
           canvasLiveView.style.left = canvas.style.left
+
+          // contextLiveView.drawImage(previewImage,0,0,image.width,image.height)
+
           //compute ratio comparing the NEW canvas rect with the OLD (current)
           var ratio_w = canvas.width / current_canvas_rect.width;
           var ratio_h = canvas.height / current_canvas_rect.height;
@@ -610,13 +609,11 @@
             canvasLiveView.style.top = canvas.style.top
             canvasLiveView.style.left = canvas.style.left
 
-          //   let previewImage = new Image()
-          //   previewImage.src = image.src
+            previewImage.src = image.src
 
-          //   previewImage.addEventListener("load", ()=>{
-          //       contextLiveView.drawImage(previewImage,0,0,image.width,image.height)
-          //   //     contextLiveView.font = '50px serif'
-          // });
+            previewImage.addEventListener("load", ()=>{
+                contextLiveView.drawImage(previewImage,0,0,image.width,image.height)
+          });
         }
 
         function initRect(){
@@ -779,9 +776,9 @@
 
         const liveCallback = function(event){
 
-            console.log(`canvas 1 ${canvas.width} ${canvas.height}`)
-            console.log(`canvas live view ${canvasLiveView.width} ${canvasLiveView.height}`)
-            console.log(`image ${image.width} ${image.height}`)
+            const contextLiveView = canvasLiveView.getContext("2d")
+
+            image.src = originalImage
 
             let xname = xnameElement.value
             let yname = ynameElement.value
@@ -810,33 +807,30 @@
                 contextLiveView.font = `${nameFontSizeElement.value}px ${nameFontElement.value.split(".")[0]}`
                 contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
                 
-                let textwidth = contextLiveView.measureText(previewText).width
-                nametextwidthElement.value = textwidth
-                contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
+                let textwidth = contextLiveView.measureText(previewNameText).width
+                contextLiveView.fillText(previewNameText, rectcenterx-(textwidth/2), rectcentery)
             }
             if(dateClicked){
                 update_date_font_data()
-                previewText = date
+                previewDateText = date
                 const contextLiveView = canvasLiveView.getContext("2d")
                 contextLiveView.fillStyle = `${dateColorElement.value}`
                 contextLiveView.font = `${dateFontSizeElement.value}px ${dateFontElement.value.split(".")[0]}`
                 contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
                 
-                let textwidth = contextLiveView.measureText(previewText).width//uses this to get offset value for centering
-                datetextwidthElement.value = textwidth
-                contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
+                let textwidth = contextLiveView.measureText(previewDateText).width//uses this to get offset value for centering
+                contextLiveView.fillText(previewDateText, rectcenterx-(textwidth/2), rectcentery)
             }
             if(eventClicked){
                 update_event_font_data()
-                previewText = eventname
+                previewEventText = eventname
                 const contextLiveView = canvasLiveView.getContext("2d")
                 contextLiveView.fillStyle = `${eventColorElement.value}`
                 contextLiveView.font = `${eventFontSizeElement.value}px ${eventFontElement.value.split(".")[0]}`
                 contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
                 
-                let textwidth = contextLiveView.measureText(previewText).width
-                eventtextwidthElement.value = textwidth
-                contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
+                let textwidth = contextLiveView.measureText(previewEventText).width
+                contextLiveView.fillText(previewEventText, rectcenterx-(textwidth/2), rectcentery)
             }
             if(yearClicked){
                 update_year_font_data()
@@ -845,10 +839,39 @@
                 contextLiveView.font = `${yearFontSizeElement.value}px ${yearFontElement.value.split(".")[0]}`
                 contextLiveView.clearRect(0,0,canvas.width,canvas.height)//clear canvas with text
                 
-                let textwidth = contextLiveView.measureText(previewText).width
-                yeartextwidthElement.value = textwidth
-                contextLiveView.fillText(previewText, rectcenterx-(textwidth/2), rectcentery)
+                let textwidth = contextLiveView.measureText(previewYearText).width
+                contextLiveView.fillText(previewYearText, rectcenterx-(textwidth/2), rectcentery)
             }
+
+
+            var tempImg = document.createElement("img")
+            tempImg.src = originalImage
+
+            if(!(xname == yname == xdate == ydate == xevent == yevent == xyear == yyear)){
+
+                tempImg.addEventListener("load",()=>{
+                    contextLiveView.drawImage(tempImg,0,0,image.width,image.height)
+
+                    contextLiveView.fillStyle = `${nameColorElement.value}`
+                    contextLiveView.font = `${nameFontSizeElement.value}px ${nameFontElement.value.split(".")[0]}`
+                    contextLiveView.fillText(previewNameText, xname-((contextLiveView.measureText(previewNameText).width)/2), yname)
+
+                    contextLiveView.fillStyle = `${dateColorElement.value}`
+                    contextLiveView.font = `${dateFontSizeElement.value}px ${dateFontElement.value.split(".")[0]}`
+                    contextLiveView.fillText(previewDateText, xdate-((contextLiveView.measureText(previewDateText).width)/2), ydate)
+
+                    contextLiveView.fillStyle = `${eventColorElement.value}`
+                    contextLiveView.font = `${eventFontSizeElement.value}px ${eventFontElement.value.split(".")[0]}`
+                    contextLiveView.fillText(previewEventText, xevent-((contextLiveView.measureText(previewEventText).width)/2), yevent)
+
+                    contextLiveView.fillStyle = `${yearColorElement.value}`
+                    contextLiveView.font = `${yearFontSizeElement.value}px ${yearFontElement.value.split(".")[0]}`
+                    contextLiveView.fillText(previewYearText, xyear-((contextLiveView.measureText(previewYearText).width)/2), yyear)
+
+                    image.src = canvasLiveView.toDataURL()
+                })            
+            }    
+        
 
             const newimgheightElement = document.getElementById("newimgheight")
             const newimgwidthElement = document.getElementById("newimgwidth")
@@ -969,6 +992,8 @@
             const objectUrl = URL.createObjectURL(selectedImage)
 
             imgElement.src = objectUrl
+
+            originalImage = objectUrl//preserving the original image
 
             imgElement.onload = ()=>{
                 newimgwidth = imgElement.width 
